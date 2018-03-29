@@ -1,0 +1,63 @@
+tags:
+  gke: true
+
+nginx-ingress:
+  enabled: true
+  rbac:
+    create: true
+  defaultBackend:
+    minAvailable: 2
+    replicaCount: 3
+    nodeSelector:
+      role: presslabs-sys
+    affinity:
+      podAntiAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+        - topologyKey: kubernetes.io/hostname
+          labelSelector:
+            matchLabels:
+              app: nginx-ingress
+              component: default-backend
+  controller:
+    minAvailable: 2
+    replicaCount: 3
+    nodeSelector:
+      role: presslabs-sys
+    resources:
+      requests:
+        cpu: 100m
+        memory: 512Mi
+    kind: DaemonSet
+    publishService:
+      enabled: true
+    service:
+      externalTrafficPolicy: Local
+
+mysql-operator:
+  enabled: true
+  replicaCount: 2
+  nodeSelector:
+    role: presslabs-sys
+  affinity:
+    podAntiAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+      - topologyKey: kubernetes.io/hostname
+        labelSelector:
+          matchLabels:
+            app: mysql-operator
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+  extraArgs:
+    - -v2
+  orchestrator:
+    nodeSelector:
+      role: presslabs-sys
+    resources:
+      requests:
+        cpu: 100m
+        memory: 512Mi
+    antiAffinity: "hard"
+    replicas: 3
+    topologyPassword: change-me-i-m-not-secure

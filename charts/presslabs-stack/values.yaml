@@ -1,0 +1,32 @@
+# Default values for presslabs-stack.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+tags:
+  k8s-on-docker: false
+  minikube: false
+  gke: false
+
+nginx-ingress:
+  # To forcibly enable the ingress controller, set this to true. You should
+  # relay to tags, but you can use this to override them.
+  #
+  # enabled: true
+  controller:
+    stats:
+      enabled: true
+    metrics:
+      enabled: true
+
+mysql-operator: {}
+  # To forcibly enable the mysql operator, set this to true. You should
+  # relay to tags, but you can use this to override them.
+  #
+  # enabled: true
+  #
+
+cert-manager: {}
+  # To forcibly enable the cert manager, set this to true. You should
+  # relay to tags, but you can use this to override them.
+  #
+  # enabled: true
+  #

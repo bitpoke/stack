@@ -1,0 +1,12 @@
+tags:
+  k8s-on-docker: true
+
+mysql-operator:
+  # image: "quay.io/presslabs/mysql-operator:build"
+  # helperImage: quay.io/presslabs/mysql-helper:build
+  extraArgs:
+    - -v2
+  orchestrator:
+    antiAffinity: "soft"
+    replicas: 1
+    topologyPassword: change-me-i-m-not-secure

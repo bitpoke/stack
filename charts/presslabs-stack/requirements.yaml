@@ -1,0 +1,25 @@
+dependencies:
+  - name: nginx-ingress
+    repository: https://kubernetes-charts.storage.googleapis.com/
+    version: ~0.12.0
+    condition: nginx-ingress.enabled
+    tags:
+      - k8s-on-docker
+      # minikube comes with nginx ingress as addon
+      # Use nginx-ingress.enabled=true if you need to install
+
+  - name: mysql-operator
+    repository: https://presslabs.github.io/charts/
+    version: ~0.1.2
+    condition: mysql-operator.enabled
+    tags:
+      - k8s-on-docker
+      - minikube
+
+  - name: cert-manager
+    repository: https://kubernetes-charts.storage.googleapis.com/
+    version: ~0.2.4
+    condition: cert-manager.enabled
+    tags:
+      - k8s-on-docker
+      - minikube
