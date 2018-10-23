@@ -1,0 +1,78 @@
+workspace:
+  base: /go
+  path: src/github.com/presslabs/stack
+
+clone:
+  git:
+    image: plugins/git
+    depth: 100
+    tags: true
+
+pipeline:
+  dependencies:
+    image: golang:1.11
+    commands:
+      - make dependencies
+
+  lint:
+    image: quay.io/presslabs/kluster-toolbox
+    pull: true
+    commands:
+      - helm lint chart/stack
+      - helm dep build chart/stack
+
+  build:
+    image: quay.io/presslabs/kluster-toolbox
+    commands:
+      - make chart
+
+  smoke-test:
+    image: quay.io/presslabs/kluster-toolbox
+    pull: true
+    environment:
+      - HELM_HOST=tiller:44134
+    commands:
+      - kubectl config set-cluster default --server=http://kubernetes:8080
+      - kubectl config set-context default --cluster=default --namespace=default
+      - kubectl config use-context default
+      - dockerize -wait http://kubernetes:8080/healthz -skip-tls-verify -timeout 30s
+      - helm version
+      - helm install -n presslabs --namespace presslabs-sys ./chart/stack
+      - helm ls
+
+  publish:
+    group: publish
+    image: quay.io/presslabs/kluster-toolbox
+    environment:
+      - GH_USER=presslabs-bot
+    commands:
+      - cd chart
+      - helm package stack
+      - CHART="$(basename *.tgz)" ; MESSAGE="Publish $(basename $CHART .tgz)"
+      - /usr/local/bin/gh put --skip-existing -m "$MESSAGE" "$CHART" "presslabs/charts/docs/"
+    secrets:
+      - GH_PASSWORD
+    when:
+      event: tag
+
+services:
+  tiller:
+    environment:
+      - KUBERNETES_MASTER=http://kubernetes:8080
+    image: gcr.io/kubernetes-helm/tiller:v2.11.0
+  kubernetes:
+    image: k8s.gcr.io/hyperkube:v1.10.7
+    command:
+      - kube-apiserver
+      - --cert-dir=/tmp
+      - --etcd-servers=http://etcd:2379
+      - --insecure-port=8080
+      - --insecure-bind-address=0.0.0.0
+      - --secure-port=0
+  etcd:
+    image: quay.io/coreos/etcd:v3.3
+    command:
+      - etcd
+      - --listen-peer-urls=http://localhost:0
+      - --listen-client-urls=http://0.0.0.0:2379,http://0.0.0.0:4001
+      - --advertise-client-urls=http://etcd:2379,http://etcd:4001

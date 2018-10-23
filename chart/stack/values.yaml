@@ -1,0 +1,16 @@
+wordpress-operator:
+  enabled: true
+
+mysql-operator:
+  enabled: true
+  orchestrator:
+    replicas: 1
+
+nginx-ingress:
+  enabled: true
+
+cert-manager:
+  enabled: true
+
+prometheus-operator:
+  enabled: true

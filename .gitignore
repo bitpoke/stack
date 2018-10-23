@@ -33,3 +33,5 @@ Session.vim
 
 # Chart dependencies
 **/charts/*.tgz
+
+/example-*.yaml
