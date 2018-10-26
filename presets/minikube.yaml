@@ -1,0 +1,4 @@
+mysql-operator:
+  orchestrator:
+    antiAffinity: soft
+    replicas: 1
