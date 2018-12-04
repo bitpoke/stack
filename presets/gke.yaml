@@ -1,0 +1,55 @@
+component_default: &component_default
+  resources:
+    requests:
+      memory: "256Mi"
+      cpu: "100m"
+  nodeSelector:
+    "node-role.kubernetes.io/presslabs-sys": ""
+  tolerations:
+    - key: "node-role.kubernetes.io/presslabs-sys"
+      operator: "Exists"
+
+wordpress-operator:
+  <<: *component_default
+
+mysql-operator:
+  <<: *component_default
+  orchestrator:
+    <<: *component_default
+
+nginx-ingress:
+  controller:
+    <<: *component_default
+    replicaCount: 2
+    minAvailable: 1
+    resources:
+      requests:
+        memory: "768Mi"
+        cpu: "500m"
+    nodeSelector:
+      "node-role.kubernetes.io/presslabs-ingress": ""
+    service:
+      externalTrafficPolicy: Local
+
+  defaultBackend:
+    <<: *component_default
+    replicaCount: 2
+    minAvailable: 1
+    nodeSelector:
+      "node-role.kubernetes.io/presslabs-ingress": ""
+
+prometheus-operator:
+  prometheusOperator:
+    <<: *component_default
+  grafana:
+    <<: *component_default
+  prometheus-node-exporter:
+    tolerations:
+      - key: "node-role.kubernetes.io/presslabs-sys"
+        operator: "Exists"
+      - effect: "NoSchedule"
+        operator: "Exists"
+
+
+cert-manager:
+  <<: *component_default
