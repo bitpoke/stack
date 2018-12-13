@@ -1,0 +1,48 @@
+apiVersion: wordpress.presslabs.org/v1alpha1
+kind: Wordpress
+metadata:
+  name: {{ .Release.Name }}
+  labels:
+    app.kubernetes.io/name: wordpress
+    app.kubernetes.io/part-of: wordpress
+    helm.sh/chart: {{ include "wordpress-site.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  {{- if .Values.image }}
+  image: {{ .Values.image.repository }}
+  tag: {{ .Values.image.tag }}
+  imagePullPolicy: {{ .Values.image.pullPolicy }}
+  {{- end }}
+  domains:
+    {{- toYaml .Values.site.domains | nindent 4 }}
+
+  {{- if .Values.code }}
+  code:
+    {{ toYaml .Values.code | nindent 4 }}
+  {{- end }}
+  {{- if .Values.site.enableHTTPS }}
+    tlsSecretRef: {{ .Release.Name }}-tls
+  {{- end }}
+  env:
+    - name: MEMCACHED_DISCOVERY_HOST
+      value: {{ .Release.Name }}-memcached
+    - name: DB_HOST
+      value: {{ .Release.Name }}-mysql-master
+    - name: DB_USER
+      valueFrom:
+        secretKeyRef:
+          name: {{ .Release.Name }}-db
+          key: USER
+    - name: DB_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: {{ .Release.Name }}-db
+          key: PASSWORD
+    - name: DB_NAME
+      valueFrom:
+        secretKeyRef:
+          name: {{ .Release.Name }}-db
+          key: DATABASE
+
