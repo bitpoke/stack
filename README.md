@@ -33,15 +33,27 @@ For GKE is required to have at least three nodes for running components and also
 helm upgrade -i presslabs presslabs/stack --namespace presslabs-sys -f https://raw.githubusercontent.com/presslabs/stack/master/presets/gke.yaml
 ```
 
+## Usage
+
+### Deploying a site
+```
+helm upgrade -i mysite presslabs/wordpress-site --set 'site.domains[0]=www.example.com'
+```
+
 ## Roadmap
 
-### 0.1
-- [x] Helm installable stack
-- [ ] Run sites on minikube/docker for mac/docker for windows
-- [ ] Run sites on Google Cloud
-- [ ] Provide default grafana dashboards for monitoring
-
 ### 0.2
+- [x] Helm installable stack
+- [x] Helm chart for deploying a site
+- [ ] Run sites on minikube/docker for mac/docker for windows
+- [x] Run sites on Google Cloud
+- [x] Support for [bedrock](https://roots.io/bedrock/) - check out the [demo repo](https://github.com/presslabs/wordpress-bedrock-demo)
+
+### 0.3
+- [ ] Provide default grafana dashboards for monitoring
+- [ ] Add support for auto-scaling
+- [ ] Run sites on DigitalOcean
+
+### 0.4
 - [ ] Run sites on AWS
 - [ ] Run sites on Microsoft Azure
-- [ ] Run sites on DigitalOcean's upcoming managed Kubernetes service
