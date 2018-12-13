@@ -1,5 +1,5 @@
-# stack
-Presslabs serverless platform for managing WordPress on Kubernetes
+# Presslabs Stack
+Open-Source WordPress Infrastructure on Kubernetes
 
 ## Components
 
@@ -9,7 +9,7 @@ Presslabs serverless platform for managing WordPress on Kubernetes
 * [Nginx Controller](https://github.com/kubernetes/ingress-nginx) & [Cert Manager](https://github.com/jetstack/cert-manager)
 
 ## Project status
-The project is in it's alpha state and active development is happening in component's repositories. We are very close on having viable integrations for Google Cloud and for Minikube/Docker on Mac/Docker on Windows.
+The project is in it's alpha state and active development is happening in component's repositories. The stack currently runs on Google Cloud Kubernetes Engine and we are very close on having viable deployment for Minikube/Docker on Mac/Docker on Windows.
 
 ## Installation
 
