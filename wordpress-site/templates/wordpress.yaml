@@ -1,7 +1,7 @@
 apiVersion: wordpress.presslabs.org/v1alpha1
 kind: Wordpress
 metadata:
-  name: {{ .Release.Name }}
+  name: {{ include "wordpress-site.fullname" . }}
   labels:
     app.kubernetes.io/name: wordpress
     app.kubernetes.io/part-of: wordpress
@@ -24,27 +24,27 @@ spec:
   {{- end }}
 
   {{- if .Values.site.enableHTTPS }}
-  tlsSecretRef: {{ .Release.Name }}-tls
+  tlsSecretRef: {{ include "wordpress-site.fullname" . }}-tls
   {{- end }}
 
   env:
     - name: MEMCACHED_DISCOVERY_HOST
-      value: {{ .Release.Name }}-memcached
+      value: {{ include "wordpress-site.fullname" . }}-memcached
     - name: DB_HOST
-      value: {{ .Release.Name }}-mysql-master
+      value: {{ include "wordpress-site.fullname" . }}-mysql-master
     - name: DB_USER
       valueFrom:
         secretKeyRef:
-          name: {{ .Release.Name }}-db
+          name: {{ include "wordpress-site.fullname" . }}-db
           key: USER
     - name: DB_PASSWORD
       valueFrom:
         secretKeyRef:
-          name: {{ .Release.Name }}-db
+          name: {{ include "wordpress-site.fullname" . }}-db
           key: PASSWORD
     - name: DB_NAME
       valueFrom:
         secretKeyRef:
-          name: {{ .Release.Name }}-db
+          name: {{ include "wordpress-site.fullname" . }}-db
           key: DATABASE
 
