@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: {{ .Release.Name }}-memcached
+  name: {{ include "wordpress-site.fullname" . }}-memcached
   labels:
     app.kubernetes.io/name: memcached
     app.kubernetes.io/component: cache
@@ -17,7 +17,7 @@ spec:
       app.kubernetes.io/instance: {{ .Release.Name }}
       app.kubernetes.io/name: memcached
       app.kubernetes.io/part-of: wordpress
-  serviceName: {{ .Release.Name }}-memcached
+  serviceName: {{ include "wordpress-site.fullname" . }}-memcached
   template:
     metadata:
       labels:
