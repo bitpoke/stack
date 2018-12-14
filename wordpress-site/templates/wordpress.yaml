@@ -17,12 +17,34 @@ spec:
   {{- end }}
   domains:
     {{- toYaml .Values.site.domains | nindent 4 }}
-
   {{- if .Values.code }}
   code:
-    {{ toYaml .Values.code | nindent 4 }}
+    {{- if .Values.code.readOnly }}readOnly: true{{ end }}
+    {{- if .Values.code.contentSubPath }}contentSubPath: {{ .Values.code.contentSubPath }}{{ end }}
+    {{- if .Values.code.git }}
+    git:
+      repository: {{ required "A valid code.git.repository is required!" .Values.code.git.repository }}
+      reference: {{ default "master" .Values.code.git.reference }}
+      env:
+        - name: SSH_RSA_PRIVATE_KEY
+          valueFrom:
+            secretKeyRef:
+              name: {{ include "wordpress-site.fullname" . }}
+              key: id_rsa
+    {{- end }}
   {{- end }}
-
+  {{- if and .Values.media .Values.media.gcs }}
+  media:
+    gcs:
+      bucket: {{ .Values.media.gcs.bucket }}
+      prefix: {{ default "" .Values.media.gcs.prefix }}
+      env:
+        - name: GOOGLE_CREDENTIALS
+          valueFrom:
+            secretKeyRef:
+              name: {{ include "wordpress-site.fullname" . }}
+              key: google_application_credentials.json
+  {{- end }}
   env:
     - name: MEMCACHED_DISCOVERY_HOST
       value: {{ include "wordpress-site.fullname" . }}-memcached
