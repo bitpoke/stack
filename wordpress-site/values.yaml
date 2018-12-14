@@ -12,7 +12,6 @@ replicaCount: 1
 
 site:
   domains: []
-  enableHTTPS: true
   env: []
   envFrom: []
 
