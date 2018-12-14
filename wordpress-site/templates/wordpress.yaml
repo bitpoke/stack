@@ -23,10 +23,6 @@ spec:
     {{ toYaml .Values.code | nindent 4 }}
   {{- end }}
 
-  {{- if .Values.site.enableHTTPS }}
-  tlsSecretRef: {{ include "wordpress-site.fullname" . }}-tls
-  {{- end }}
-
   env:
     - name: MEMCACHED_DISCOVERY_HOST
       value: {{ include "wordpress-site.fullname" . }}-memcached
