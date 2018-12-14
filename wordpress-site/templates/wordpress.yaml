@@ -13,7 +13,7 @@ spec:
   {{- if .Values.image }}
   image: {{ .Values.image.repository }}
   tag: {{ .Values.image.tag }}
-  imagePullPolicy: {{ .Values.image.pullPolicy }}
+  imagePullPolicy: {{ default "IfNotPresent" .Values.image.pullPolicy }}
   {{- end }}
   domains:
     {{- toYaml .Values.site.domains | nindent 4 }}
@@ -65,4 +65,5 @@ spec:
         secretKeyRef:
           name: {{ include "wordpress-site.fullname" . }}-db
           key: DATABASE
-
+  ingressAnnotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: "10m"
