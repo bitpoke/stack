@@ -22,9 +22,11 @@ spec:
   code:
     {{ toYaml .Values.code | nindent 4 }}
   {{- end }}
+
   {{- if .Values.site.enableHTTPS }}
-    tlsSecretRef: {{ .Release.Name }}-tls
+  tlsSecretRef: {{ .Release.Name }}-tls
   {{- end }}
+
   env:
     - name: MEMCACHED_DISCOVERY_HOST
       value: {{ .Release.Name }}-memcached
