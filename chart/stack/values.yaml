@@ -8,6 +8,13 @@ mysql-operator:
 
 nginx-ingress:
   enabled: true
+  controller:
+    config:
+      custom-http-errors: 400,401,403,404,415,500,502,503,504
+  defaultBackend:
+    image:
+      repository: quay.io/presslabs/default-backend
+      tag: latest
 
 cert-manager:
   enabled: true
