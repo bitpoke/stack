@@ -21,7 +21,7 @@ pipeline:
       - helm lint chart/stack
       - helm dep build chart/stack
 
-  build:
+  build-chart:
     image: quay.io/presslabs/kluster-toolbox
     commands:
       - make chart
@@ -40,7 +40,37 @@ pipeline:
       - helm install -n presslabs --namespace presslabs-sys ./chart/stack
       - helm ls
 
-  publish:
+  publish-default-backend:
+    group: publish
+    image: plugins/docker
+    registry: quay.io
+    repo: quay.io/presslabs/default-backend
+    dockerfile: Dockerfile.default-backend
+    tags: [ "latest" ]
+    username: presslabs+drone
+    secrets:
+      - source: QUAY_TOKEN
+        target: DOCKER_PASSWORD
+    when:
+      branch: master
+      event: push
+
+  publish-default-backend:
+    group: publish
+    image: plugins/docker
+    registry: quay.io
+    repo: quay.io/presslabs/default-backend
+    dockerfile: Dockerfile.default-backend
+    tags: [ "${DRONE_TAG}" ]
+    username: presslabs+drone
+    secrets:
+      - source: QUAY_TOKEN
+        target: DOCKER_PASSWORD
+    when:
+      event: tag
+
+
+  publish-chart:
     group: publish
     image: quay.io/presslabs/kluster-toolbox
     environment:
