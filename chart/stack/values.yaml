@@ -15,6 +15,7 @@ nginx-ingress:
     image:
       repository: quay.io/presslabs/default-backend
       tag: latest
+      pullPolicy: Always
 
 cert-manager:
   enabled: true
