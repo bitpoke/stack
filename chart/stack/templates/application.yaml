@@ -43,6 +43,7 @@ spec:
       url: https://presslabs.com/stack
     - description: Presslabs Stack Github
       url: https://github.com/presslabs/stack
+    notes: {{ include (print $.Template.BasePath "/_DOCS.md") . | quote }}
   info:
   - name: Ingress IP
     type: Reference
