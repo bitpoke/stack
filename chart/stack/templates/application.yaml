@@ -1,5 +1,4 @@
 {{ $grafana := index .Values "prometheus-operator" "grafana" }}
-{{- if .Capabilities.APIVersions.Has "app.k8s.io/v1beta1" }}
 apiVersion: app.k8s.io/v1beta1
 kind: Application
 metadata:
@@ -45,6 +44,11 @@ spec:
     - description: Presslabs Stack Github
       url: https://github.com/presslabs/stack
   info:
+  - name: Ingress IP
+    type: Reference
+    valueFrom:
+      serviceRef:
+        name: {{ .Release.Name }}-nginx-ingress-controller
   {{- if $grafana.ingress.enabled }}
   - name: Grafana UI URL
     value: http://{{ index $grafana.ingress.hosts 0 }}
@@ -68,4 +72,3 @@ spec:
       secretKeyRef:
         name: {{ .Release.Name }}-grafana
         key: admin-password
-{{- end }}
