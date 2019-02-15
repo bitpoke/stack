@@ -16,6 +16,8 @@ nginx-ingress:
   controller:
     config:
       custom-http-errors: 400,401,403,404,415,500,502,503,504
+    publishService:
+      enabled: true
   defaultBackend:
     image:
       repository: quay.io/presslabs/default-backend
