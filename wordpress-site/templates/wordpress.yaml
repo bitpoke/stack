@@ -66,13 +66,17 @@ spec:
         secretKeyRef:
           name: {{ include "wordpress-site.fullname" . }}-db
           key: DATABASE
+  {{- if .Values.site.env }}
     {{- toYaml .Values.site.env | nindent 4 }}
-  {{ if .Values.site.envFrom }}
+  {{- end }}
+  {{- if .Values.site.envFrom }}
   envFrom:
     {{- toYaml .Values.site.envFrom | nindent 4 }}
   {{- end }}
+  {{- if .Values.site.resources }}
   resources:
-    {{ toYaml .Values.site.resources | nindent 4 }}
+    {{- toYaml .Values.site.resources | nindent 4 }}
+  {{- end }}
   affinity:
     nodeAffinity:
       preferredDuringSchedulingIgnoredDuringExecution:
