@@ -15,6 +15,11 @@ site:
   env: []
   envFrom: []
 
+tls: {}
+  # issuerKind: ClusterIssuer
+  # issuerName: stack-default
+  # acmeChallengeType: http01
+
 code:
   # when true, the code is mounted read-only inside the runtime container
   readOnly: false
