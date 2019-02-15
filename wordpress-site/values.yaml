@@ -15,13 +15,13 @@ site:
   env: []
   envFrom: []
 
-code: {}
+code:
   # when true, the code is mounted read-only inside the runtime container
-  # readOnly: true
+  readOnly: false
 
   # the path, within the code volume (git repo), where the 'wp-content' is
   # available
-  # contentSubPath: wp-content/
+  contentSubPath: wp-content/
 
   #  git:
   #    repository: git@github.com/presslabs/wordpress-basic-demo
