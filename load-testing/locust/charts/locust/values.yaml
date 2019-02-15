@@ -1,0 +1,30 @@
+image:
+  repository: docker.io/peterevans/locust
+  tag: 1.2.1
+  pullPolicy: IfNotPresent
+
+config:
+  mode: distributed
+  target: ""
+  locustfile: locustfile.py
+
+master:
+  service:
+    type: ClusterIP
+    externalPort: 8089
+    internalPort: 8089
+    nodePort: 0
+  resources:
+    limits:
+      cpu: 100m
+      memory: 128Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
+
+worker:
+  replicaCount: 1
+  resources:
+    requests:
+      cpu: 1
+      memory: 3Gi

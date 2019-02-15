@@ -1,0 +1,57 @@
+{{- if not (eq .Values.config.mode "standalone") }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "locust.workerName" . }}
+  labels:
+    app.kubernetes.io/name: locust-worker
+    app.kubernetes.io/part-of: locust
+    helm.sh/chart: {{ include "locust.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  replicas: {{ default 2 .Values.worker.replicaCount }}
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: {{ default 1 .Values.worker.maxSurge }}
+      maxUnavailable: {{ default 1 .Values.worker.maxUnavailable }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: locust-worker
+      app.kubernetes.io/instance: {{ .Release.Name }}
+      app.kubernetes.io/part-of: locust
+  template:
+    metadata:
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+        helm.sh/release-revision: {{ .Release.Revision | quote }}
+      labels:
+        app.kubernetes.io/name: locust-worker
+        app.kubernetes.io/instance: {{ .Release.Name }}
+        app.kubernetes.io/part-of: locust
+    spec:
+      containers:
+      - name: locust
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        volumeMounts:
+          - name: locust-tasks
+            mountPath: /locust-tasks/
+        env:
+        - name: LOCUST_MODE
+          value: "slave"
+        - name: LOCUST_TARGET_HOST
+          value: {{ required "A valid .config.target url is required!" .Values.config.target }}
+        - name: LOCUST_MASTER
+          value: {{ include "locust.fullname" . }}
+        - name: LOCUST_LOCUSTFILE_PATH
+          value: /locust-tasks/{{ .Values.config.locustfile }}
+        resources:
+{{ toYaml .Values.worker.resources | indent 10 }}
+      restartPolicy: Always
+      volumes:
+      - name: "locust-tasks"
+        configMap:
+          name: {{ include "locust.fullname" . }}
+{{- end }}

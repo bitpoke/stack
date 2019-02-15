@@ -1,0 +1,74 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "locust.fullname" . }}
+  labels:
+    app.kubernetes.io/name: locust-master
+    app.kubernetes.io/part-of: locust
+    helm.sh/chart: {{ include "locust.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: locust-master
+      app.kubernetes.io/instance: {{ .Release.Name }}
+      app.kubernetes.io/part-of: locust
+  template:
+    metadata:
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+      labels:
+        app.kubernetes.io/name: locust-master
+        app.kubernetes.io/instance: {{ .Release.Name }}
+        app.kubernetes.io/part-of: locust
+    spec:
+      containers:
+      - name: locust
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        env:
+        {{- if eq .Values.config.mode "standalone" }}
+        - name: LOCUST_MODE
+          value: "standalone"
+        {{- else }}
+        - name: LOCUST_MODE
+          value: "master"
+        {{- end }}
+        - name: LOCUST_TARGET_HOST
+          value: {{ required "A valid .config.target url is required!" .Values.config.target }}
+        - name: LOCUST_LOCUSTFILE_PATH
+          value: /locust-tasks/{{ .Values.config.locustfile }}
+        ports:
+        - containerPort: {{ .Values.master.service.internalPort }}
+          name: http
+          protocol: TCP
+        - containerPort: 5557
+          name: master-p1
+          protocol: TCP
+        - containerPort: 5558
+          name: master-p2
+          protocol: TCP
+        volumeMounts:
+          - name: locust-tasks
+            mountPath: /locust-tasks/
+        livenessProbe:
+          periodSeconds: 30
+          httpGet:
+            path: /
+            port: {{ .Values.master.service.internalPort }}
+        readinessProbe:
+          periodSeconds: 30
+          httpGet:
+            path: /
+            port: {{ .Values.master.service.internalPort }}
+        resources:
+{{ toYaml .Values.worker.resources | indent 10 }}
+      restartPolicy: Always
+      volumes:
+      - name: "locust-tasks"
+        configMap:
+          name: {{ include "locust.fullname" . }}
