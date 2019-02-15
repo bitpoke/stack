@@ -66,6 +66,13 @@ spec:
         secretKeyRef:
           name: {{ include "wordpress-site.fullname" . }}-db
           key: DATABASE
+    {{- toYaml .Values.site.env | nindent 4 }}
+  {{ if .Values.site.envFrom }}
+  envFrom:
+    {{- toYaml .Values.site.envFrom | nindent 4 }}
+  {{- end }}
+  resources:
+    {{ toYaml .Values.site.resources | nindent 4 }}
   ingressAnnotations:
     nginx.ingress.kubernetes.io/proxy-body-size: "10m"
     {{- if eq "ClusterIssuer" (default "ClusterIssuer" .Values.tls.issuerKind) }}
