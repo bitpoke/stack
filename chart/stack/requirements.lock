@@ -4,7 +4,7 @@ dependencies:
   version: 0.2.4
 - name: wordpress-operator
   repository: https://presslabs.github.io/charts/
-  version: v0.2.7
+  version: v0.2.8
 - name: nginx-ingress
   repository: https://kubernetes-charts.storage.googleapis.com/
   version: 1.3.0
@@ -13,6 +13,6 @@ dependencies:
   version: v0.6.0
 - name: prometheus-operator
   repository: https://kubernetes-charts.storage.googleapis.com/
-  version: 2.2.0
-digest: sha256:c35748ee7c19ac8f669ad53db33316a568bfad167d4e22ecb8230e043c8dee18
-generated: 2019-02-14T23:52:27.273565+02:00
+  version: 2.2.1
+digest: sha256:70fb9629d4725c02b49eec6a961383d095d9c802b6d7dd88e26c7acf4594e521
+generated: 2019-02-15T18:05:17.78593+02:00
