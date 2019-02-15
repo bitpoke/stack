@@ -22,7 +22,7 @@ helm repo update
 
 ### Minikube/Docker for Mac
 ```
-helm upgrade -i presslabs presslabs/stack --namespace presslabs-sys -f https://raw.githubusercontent.com/presslabs/stack/master/presets/minikube.yaml
+helm upgrade -i stack presslabs/stack --namespace presslabs-stack -f https://raw.githubusercontent.com/presslabs/stack/master/presets/minikube.yaml
 ```
 
 ### GKE
@@ -30,7 +30,7 @@ helm upgrade -i presslabs presslabs/stack --namespace presslabs-sys -f https://r
 For GKE is required to have at least three nodes for running components and also have some room for deploying a site. For testing out and playground `g1-small` should suffice.
 
 ```
-helm upgrade -i presslabs presslabs/stack --namespace presslabs-sys -f https://raw.githubusercontent.com/presslabs/stack/master/presets/gke.yaml
+helm upgrade -i stack presslabs/stack --namespace presslabs-stack -f https://raw.githubusercontent.com/presslabs/stack/master/presets/gke.yaml
 ```
 
 ## Usage
