@@ -50,6 +50,20 @@ spec:
     valueFrom:
       serviceRef:
         name: {{ .Release.Name }}-nginx-ingress-controller
+  {{- if .Values.letsencrypt.enabled }}
+  - name: Ingress Let's Encrypt configured email
+    value: {{ .Values.letsencrypt.email }}
+  - name: Ingress Let's Encrypt configured URL
+    value: {{ .Values.letsencrypt.server }}
+  {{- else }}
+  - name: Ingress Certificate Authority
+    type: Reference
+    valueFrom:
+      type: SecretKeyRef
+      secretKeyRef:
+        name: {{ template "stack.fullname" . }}-ingress-default
+        key: ca.crt
+  {{- end }}
   {{- if $grafana.ingress.enabled }}
   - name: Grafana UI URL
     value: http://{{ index $grafana.ingress.hosts 0 }}

@@ -1,3 +1,8 @@
+letsencrypt:
+  enabled: false
+  email: ""
+  server: "https://acme-v02.api.letsencrypt.org/directory"
+
 wordpress-operator:
   enabled: true
 
