@@ -19,11 +19,11 @@ spec:
     {{- toYaml .Values.site.domains | nindent 4 }}
   {{- if .Values.code }}
   code:
-    {{- if .Values.code.readOnly }}readOnly: true{{ end }}
-    {{- if .Values.code.contentSubPath }}contentSubPath: {{ .Values.code.contentSubPath }}{{ end }}
+    readOnly: {{ .Values.code.readOnly }}
+    contentSubPath: {{ .Values.code.contentSubPath }}
     {{- if .Values.code.git }}
     git:
-      repository: {{ required "A valid code.git.repository is required!" .Values.code.git.repository }}
+      repository: {{ required "A valid code.git.repository is required!" .Values.code.git.repository | quote }}
       reference: {{ default "master" .Values.code.git.reference }}
       env:
         - name: SSH_RSA_PRIVATE_KEY
