@@ -6,7 +6,7 @@ dependencies:
 
   - name: wordpress-operator
     repository: https://presslabs.github.io/charts/
-    version: ~0.2.8
+    version: ~0.2.9
     condition: wordpress-operator.enabled
 
   - name: nginx-ingress
