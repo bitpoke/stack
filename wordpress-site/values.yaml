@@ -39,6 +39,7 @@ media: {}
   #    prefix: mysite/
 
 mysql:
+  mysqlConf: {}
   replicaCount: 1
 
 memcached:
