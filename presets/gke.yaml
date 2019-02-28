@@ -27,7 +27,7 @@ nginx-ingress:
         memory: "768Mi"
         cpu: "500m"
     nodeSelector:
-      "node-role.kubernetes.io/presslabs-ingress": ""
+      "node-role.kubernetes.io/presslabs-sys": ""
     service:
       externalTrafficPolicy: Local
 
@@ -36,7 +36,7 @@ nginx-ingress:
     replicaCount: 2
     minAvailable: 1
     nodeSelector:
-      "node-role.kubernetes.io/presslabs-ingress": ""
+      "node-role.kubernetes.io/presslabs-sys": ""
 
 prometheus-operator:
   prometheusOperator:
