@@ -1,5 +1,5 @@
 #!/bin/bash
-: ${VARIABLE:="presslabs/stack"}
+: ${CHART:="presslabs/stack"}
 : ${PRESET:="gke"}
 : ${PRESETS_LOCATION:="https://raw.githubusercontent.com/presslabs/stack/master/presets"}
 
