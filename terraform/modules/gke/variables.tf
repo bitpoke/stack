@@ -15,11 +15,6 @@ variable "system_node_type" {
   default = "n1-standard-2"
 }
 
-variable "ingress_node_type" {
-  type    = "string"
-  default = "n1-standard-2"
-}
-
 variable "database_node_type" {
   type    = "string"
   default = "n1-standard-2"
