@@ -1,3 +1,28 @@
+resource "aws_iam_policy" "stack-ClusterAutoscaler" {
+  name        = "${var.cluster_name}-autoscaler"
+  description = "Allow access to ASGs for cluster-autoscaler"
+
+  policy = <<POLICY
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "autoscaling:DescribeAutoScalingGroups",
+                "autoscaling:DescribeAutoScalingInstances",
+                "autoscaling:DescribeLaunchConfigurations",
+                "autoscaling:DescribeTags",
+                "autoscaling:SetDesiredCapacity",
+                "autoscaling:TerminateInstanceInAutoScalingGroup"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+POLICY
+}
+
 resource "aws_iam_role" "master" {
   name = "${var.cluster_name}-master"
 
@@ -58,6 +83,11 @@ resource "aws_iam_role_policy_attachment" "stack-node-AmazonEKS_CNI_Policy" {
 
 resource "aws_iam_role_policy_attachment" "stack-node-AmazonEC2ContainerRegistryReadOnly" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
+  role       = "${aws_iam_role.node.name}"
+}
+
+resource "aws_iam_role_policy_attachment" "stack-node-ClusterAutoscaler" {
+  policy_arn = "${aws_iam_policy.stack-ClusterAutoscaler.arn}"
   role       = "${aws_iam_role.node.name}"
 }
 
