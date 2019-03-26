@@ -39,6 +39,8 @@ code:
 media: {}
   #  Store media library in a Google Cloud Storage bucket
   #  gcs:
+  #    # google cloud project
+  #    project: staging
   #    # bucket name
   #    bucket: calins-wordpress-runtime-playground
   #    # use a prefix inside the bucket to store the media files
