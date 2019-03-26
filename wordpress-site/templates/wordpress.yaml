@@ -38,13 +38,17 @@ spec:
   media:
     gcs:
       bucket: {{ .Values.media.gcs.bucket }}
+      {{- if .Values.media.gcs.prefix }}
       prefix: {{ default "" .Values.media.gcs.prefix }}
+      {{- end }}
       env:
         - name: GOOGLE_CREDENTIALS
           valueFrom:
             secretKeyRef:
               name: {{ include "wordpress-site.fullname" . }}
               key: google_application_credentials.json
+        - name: GOOGLE_PROJECT_ID
+          value: {{ .Values.media.gcs.project }}
   {{- end }}
   env:
     - name: MEMCACHED_DISCOVERY_HOST
