@@ -37,10 +37,8 @@ spec:
   {{- if and .Values.media .Values.media.gcs }}
   media:
     gcs:
-      bucket: {{ .Values.media.gcs.bucket }}
-      {{- if .Values.media.gcs.prefix }}
-      prefix: {{ default "" .Values.media.gcs.prefix }}
-      {{- end }}
+      bucket: {{ required "A valid media.gcs.bucket is required!" .Values.media.gcs.bucket | quote }}
+      prefix: {{ default "" .Values.media.gcs.prefix | quote }}
       env:
         - name: GOOGLE_CREDENTIALS
           valueFrom:
@@ -48,7 +46,7 @@ spec:
               name: {{ include "wordpress-site.fullname" . }}
               key: google_application_credentials.json
         - name: GOOGLE_PROJECT_ID
-          value: {{ .Values.media.gcs.project }}
+          value: {{ required "A valid media.gcs.project is required!" .Values.media.gcs.project | quote }}
   {{- end }}
   env:
     - name: MEMCACHED_DISCOVERY_HOST

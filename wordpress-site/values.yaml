@@ -45,6 +45,8 @@ media: {}
   #    bucket: calins-wordpress-runtime-playground
   #    # use a prefix inside the bucket to store the media files
   #    prefix: mysite/
+  #    # credentials to access Google Cloud Storage
+  #    google_credentials: >
 
 mysql:
   mysqlConf: {}
