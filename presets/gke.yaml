@@ -45,11 +45,7 @@ prometheus-operator:
     <<: *component_default
   prometheus-node-exporter:
     tolerations:
-      - key: "CriticalAddonsOnly"
-        operator: "Exists"
-      - effect: "NoSchedule"
-        operator: "Exists"
-
+      - operator: "Exists"
 
 cert-manager:
   <<: *component_default
