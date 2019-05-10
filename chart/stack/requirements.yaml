@@ -6,20 +6,20 @@ dependencies:
 
   - name: wordpress-operator
     repository: https://presslabs.github.io/charts/
-    version: ~0.3.0
+    version: ~0.3.1
     condition: wordpress-operator.enabled
 
   - name: nginx-ingress
     repository: https://kubernetes-charts.storage.googleapis.com/
-    version: ~1.4.0
+    version: ~1.6.0
     condition: nginx-ingress.enabled
 
   - name: cert-manager
     repository: https://kubernetes-charts.storage.googleapis.com/
-    version: ~0.6.6
+    version: ~0.6.7
     condition: cert-manager.enabled
 
   - name: prometheus-operator
     repository: https://kubernetes-charts.storage.googleapis.com/
-    version: ~5.0.0
+    version: ~5.7.0
     condition: prometheus-operator.enabled
