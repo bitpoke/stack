@@ -10,16 +10,20 @@ clone:
 
 pipeline:
   dependencies:
-    image: golang:1.11
+    pull: true
+    image: quay.io/presslabs/bfc:latest
+    environment:
+      - GOPATH=/go/
     commands:
       - make dependencies
 
   lint:
-    image: quay.io/presslabs/kluster-toolbox
-    pull: true
+    image: quay.io/presslabs/bfc:latest
+    environment:
+      - GOPATH=/go/
     commands:
       - helm repo add jetstack https://charts.jetstack.io
-      - helm lint chart/stack
+      - make lint
       - helm dep build chart/stack
 
   build-chart:
@@ -40,6 +44,13 @@ pipeline:
       - helm version
       - helm install -n presslabs --namespace presslabs-sys ./chart/stack
       - helm ls
+
+  git-webhook:
+    image: quay.io/presslabs/bfc:latest
+    environment:
+      - GOPATH=/go/
+    commands:
+      - make -C git-webhook test
 
   publish-default-backend:
     group: publish

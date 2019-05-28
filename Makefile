@@ -16,8 +16,14 @@ chart:
 
 lint:
 	helm lint chart/stack
+	make -C git-webhook lint
 
 dependencies:
 	test -d $(BINDIR) || mkdir $(BINDIR)
+    # install ginkgo
+	GOBIN=$(BINDIR) go install ./vendor/github.com/onsi/ginkgo/ginkgo
+	# install golangci-lint
+	curl -sfL https://install.goreleaser.com/github.com/golangci/golangci-lint.sh | bash -s -- -b $(BINDIR) v1.16.0
+	# install yq
 	curl -sfL https://github.com/mikefarah/yq/releases/download/2.1.1/yq_$(OS)_$(ARCH) -o $(BINDIR)/yq
 	chmod +x $(BINDIR)/yq
