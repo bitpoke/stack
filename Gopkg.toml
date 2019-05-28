@@ -1,3 +1,36 @@
 required = [
     "github.com/gobuffalo/packr/v2/packr2",
 ]
+
+[prune]
+  go-tests = true
+
+[[constraint]]
+name="sigs.k8s.io/controller-runtime"
+version="v0.1.10"
+
+[[constraint]]
+name="github.com/presslabs/wordpress-operator"
+branch="master"
+
+[[constraint]]
+name="k8s.io/api"
+version="kubernetes-1.13.1"
+
+[[constraint]]
+name="k8s.io/apiextensions-apiserver"
+version="kubernetes-1.13.1"
+
+[[constraint]]
+name="k8s.io/apimachinery"
+version="kubernetes-1.13.1"
+
+[[constraint]]
+name="k8s.io/client-go"
+version="kubernetes-1.13.1"
+
+# For dependency below: Refer to issue https://github.com/golang/dep/issues/1799
+[[override]]
+name = "gopkg.in/fsnotify.v1"
+source = "https://github.com/fsnotify/fsnotify.git"
+version="v1.4.7"
