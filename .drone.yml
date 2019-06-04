@@ -18,6 +18,7 @@ pipeline:
     image: quay.io/presslabs/kluster-toolbox
     pull: true
     commands:
+      - helm repo add jetstack https://charts.jetstack.io
       - helm lint chart/stack
       - helm dep build chart/stack
 
