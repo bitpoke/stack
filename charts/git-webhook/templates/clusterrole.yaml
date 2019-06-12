@@ -1,0 +1,15 @@
+{{- if .Values.rbac.create }}
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRole
+metadata:
+  name: {{ template "git-webhook.fullname" . }}
+  labels:
+    app: {{ template "git-webhook.name" . }}
+    chart: {{ template "git-webhook.chart" . }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+rules:
+- apiGroups:      ['wordpress.presslabs.org']
+  resources:      ['wordpresses', 'wordpresses/status']
+  verbs:          ['get', 'list',  'watch', 'update']
+{{- end }}

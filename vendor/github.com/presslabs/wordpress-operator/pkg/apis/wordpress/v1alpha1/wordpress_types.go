@@ -46,25 +46,6 @@ type WordpressCondition struct {
 	Message string `json:"message"`
 }
 
-const (
-	// WordpressConditionProvisioning states if a given Wordpress is still provisioning.
-	WordpressConditionProvisioning WordpressConditionType = "Provisioning"
-	// WordpressConditionError states if a given Wordpress has encountered an error.
-	WordpressConditionError WordpressConditionType = "Error"
-	// WordpressConditionRunning states if a given Wordpress is running.
-	WordpressConditionRunning WordpressConditionType = "Running"
-
-	// ProvisionInProgress is the reason associated to the Provisioning condition for when
-	// the Wordpress provisioning is ongoing
-	ProvisionInProgress string = "ProvisionInProgress"
-	// ProvisionFailed is the reason associated to the Provisioning condition for when
-	// the Wordpress provisioning has failed
-	ProvisionFailed string = "ProvisionFailed"
-	// ProvisionSuccessful is the reason associated to the Provisioning condition for when
-	// the Wordpress provisioning has been successful
-	ProvisionSuccessful string = "ProvisionSuccessful"
-)
-
 // WordpressSpec defines the desired state of Wordpress
 type WordpressSpec struct {
 	// Number of desired web pods. This is a pointer to distinguish between
@@ -106,6 +87,9 @@ type WordpressSpec struct {
 	// Volumes defines additional volumes to get injected into web and cli pods
 	// +optional
 	Volumes []corev1.Volume `json:"volumes,omitempty"`
+	// WordpressBootstrapSpec specifies credentials used to install wordpress, on the first run.
+	// +optional
+	WordpressBootstrapSpec *WordpressBootstrapSpec `json:"bootstrap,omitempty"`
 	// VolumeMountsSpec defines additional mounts which get injected into web
 	// and cli pods.
 	// +optional
@@ -197,14 +181,13 @@ type GCSVolumeSource struct {
 type CodeVolumeSpec struct {
 	// ReadOnly specifies if the volume should be mounted read-only inside the
 	// wordpress runtime container
-	ReadOnly bool
+	ReadOnly bool `json:"readOnly,omitempty"`
 	// MountPath spechfies where should the code volume be mounted.
 	// Defaults to /var/www/site/web/wp-content
 	// +optional
 	MountPath string `json:"mountPath,omitempty"`
 	// ContentSubPath specifies where within the code volumes, the wp-content
 	// folder resides.
-	// Defaults to wp-content/
 	// +optional
 	ContentSubPath string `json:"contentSubPath,omitempty"`
 	// GitDir specifies the git repo to use for code cloning. It has the highest
@@ -222,8 +205,7 @@ type CodeVolumeSpec struct {
 	EmptyDir *corev1.EmptyDirVolumeSource `json:"emptyDir,omitempty"`
 }
 
-// MediaVolumeSpec is the desired spec for mounting code into the wordpress
-// runtime container
+// MediaVolumeSpec is the desired spec for handling media files at runtime
 type MediaVolumeSpec struct {
 	// ReadOnly specifies if the volume should be mounted read-only inside the
 	// wordpress runtime container
@@ -248,6 +230,20 @@ type MediaVolumeSpec struct {
 	// EmptyDir to use if no HostPath is specified
 	// +optional
 	EmptyDir *corev1.EmptyDirVolumeSource `json:"emptyDir,omitempty"`
+}
+
+// WordpressBootstrapSpec requires defining at least
+// `WORDPRESS_BOOSTRAP_USER` and `WORDPRESS_BOOTSTRAP_PASSWORD` env variables.
+// `WORDPRESS_BOOSTRAP_EMAIL` and `WORDPRESS_BOOTSTRAP_TITLE` are also used if provided.
+type WordpressBootstrapSpec struct {
+	// Env defines environment variables for bootstrapping WordPress
+	// +optional
+	// +patchMergeKey=name
+	// +patchStrategy=merge
+	Env []corev1.EnvVar `json:"env,omitempty" patchStrategy:"merge" patchMergeKey:"name"`
+	// EnvFrom defines envFrom's which get passed into wordpress bootstrapper
+	// +optional
+	EnvFrom []corev1.EnvFromSource `json:"envFrom,omitempty"`
 }
 
 // WordpressStatus defines the observed state of Wordpress

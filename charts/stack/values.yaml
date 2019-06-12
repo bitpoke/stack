@@ -31,3 +31,6 @@ cert-manager:
 
 prometheus-operator:
   enabled: true
+
+git-webhook:
+  enabled: false

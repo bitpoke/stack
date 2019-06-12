@@ -1,0 +1,19 @@
+{{- if .Values.rbac.create -}}
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRoleBinding
+metadata:
+  name: {{ template "git-webhook.fullname" . }}
+  labels:
+    app: {{ template "git-webhook.name" . }}
+    chart: {{ template "git-webhook.chart" . }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: {{ template "git-webhook.fullname" . }}
+subjects:
+- kind: ServiceAccount
+  name: {{ template "git-webhook.serviceAccountName" . }}
+  namespace: {{ .Release.Namespace }}
+{{- end -}}
