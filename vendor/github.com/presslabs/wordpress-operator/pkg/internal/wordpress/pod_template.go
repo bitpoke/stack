@@ -28,7 +28,6 @@ const (
 	InternalHTTPPort = 8080
 	gitCloneImage    = "docker.io/library/buildpack-deps:stretch-scm"
 	rcloneImage      = "quay.io/presslabs/rclone@sha256:4436a1e2d471236eafac605b24a66f5f18910b6f9cde505db065506208f73f96"
-	mediaHTTPPort    = 8090
 	mediaFTPPort     = 2121
 	codeVolumeName   = "code"
 	mediaVolumeName  = "media"
@@ -64,8 +63,29 @@ cd "$SRC_DIR"
 git checkout -B "$GIT_CLONE_REF" "$GIT_CLONE_REF"
 `
 
+const installWPCmd = `wp core install \
+--title="${WORDPRESS_BOOTSTRAP_TITLE:-Demo site}" \
+--url="%s" \
+--admin_user="${WORDPRESS_BOOTSTRAP_USER}" \
+--admin_password="${WORDPRESS_BOOTSTRAP_PASSWORD}" \
+--admin_email="${WORDPRESS_BOOTSTRAP_EMAIL:-%s}" \
+--skip-email`
+
 var (
 	wwwDataUserID int64 = 33
+)
+
+var (
+	s3EnvVars = map[string]string{
+		"AWS_ACCESS_KEY_ID":     "AWS_ACCESS_KEY_ID",
+		"AWS_SECRET_ACCESS_KEY": "AWS_SECRET_ACCESS_KEY",
+		"AWS_CONFIG_FILE":       "AWS_CONFIG_FILE",
+		"ENDPOINT":              "S3_ENDPOINT",
+	}
+	gcsEnvVars = map[string]string{
+		"GOOGLE_CREDENTIALS":             "GOOGLE_CREDENTIALS",
+		"GOOGLE_APPLICATION_CREDENTIALS": "GOOGLE_APPLICATION_CREDENTIALS",
+	}
 )
 
 func (wp *Wordpress) image() string {
@@ -75,6 +95,54 @@ func (wp *Wordpress) image() string {
 func (wp *Wordpress) hasExternalMedia() bool {
 	return wp.Spec.MediaVolumeSpec != nil &&
 		(wp.Spec.MediaVolumeSpec.S3VolumeSource != nil || wp.Spec.MediaVolumeSpec.GCSVolumeSource != nil)
+}
+
+func (wp *Wordpress) mediaEnv() []corev1.EnvVar {
+	out := []corev1.EnvVar{}
+
+	if wp.Spec.MediaVolumeSpec == nil {
+		return out
+	}
+
+	if wp.hasExternalMedia() {
+		out = append([]corev1.EnvVar{
+			{
+				Name:  "UPLOADS_FTP_HOST",
+				Value: fmt.Sprintf("127.0.0.1:%d", mediaFTPPort),
+			},
+		})
+	}
+
+	if wp.Spec.MediaVolumeSpec.S3VolumeSource != nil {
+		for _, env := range wp.Spec.MediaVolumeSpec.S3VolumeSource.Env {
+			if name, ok := s3EnvVars[env.Name]; ok {
+				_env := env.DeepCopy()
+				_env.Name = name
+				out = append(out, *_env)
+			}
+		}
+	}
+
+	if wp.Spec.MediaVolumeSpec.GCSVolumeSource != nil {
+		out = append(out, corev1.EnvVar{
+			Name:  "MEDIA_BUCKET",
+			Value: fmt.Sprintf("gs://%s", wp.Spec.MediaVolumeSpec.GCSVolumeSource.Bucket),
+		})
+		out = append(out, corev1.EnvVar{
+			Name:  "MEDIA_BUCKET_PREFIX",
+			Value: wp.Spec.MediaVolumeSpec.GCSVolumeSource.PathPrefix,
+		})
+		for _, env := range wp.Spec.MediaVolumeSpec.GCSVolumeSource.Env {
+			if name, ok := gcsEnvVars[env.Name]; ok {
+				_env := env.DeepCopy()
+				_env.Name = name
+				out = append(out, *_env)
+			}
+		}
+	}
+
+	return out
+
 }
 
 func (wp *Wordpress) env() []corev1.EnvVar {
@@ -94,18 +162,7 @@ func (wp *Wordpress) env() []corev1.EnvVar {
 		},
 	}, wp.Spec.Env...)
 
-	if wp.hasExternalMedia() {
-		out = append([]corev1.EnvVar{
-			{
-				Name:  "UPLOADS_FTP_HOST",
-				Value: fmt.Sprintf("127.0.0.1:%d", mediaFTPPort),
-			},
-			{
-				Name:  "UPLOADS_HTTP_PROXY",
-				Value: fmt.Sprintf("127.0.0.1:%d", mediaHTTPPort),
-			},
-		}, out...)
-	}
+	out = append(out, wp.mediaEnv()...)
 
 	return out
 }
@@ -296,6 +353,32 @@ func (wp *Wordpress) rcloneContainer(name string, args []string) corev1.Containe
 	}
 }
 
+func (wp *Wordpress) installWPContainer() []corev1.Container {
+	if wp.Spec.WordpressBootstrapSpec == nil {
+		return []corev1.Container{}
+	}
+
+	scheme := "http"
+	if len(wp.Spec.TLSSecretRef) > 0 {
+		scheme = "https"
+	}
+	url := fmt.Sprintf("%s://%s/", scheme, wp.Spec.Domains[0])
+
+	defaultEmail := fmt.Sprintf("ping@%s", wp.Spec.Domains[0])
+	installCmd := []string{"/bin/bash", "-c", fmt.Sprintf(installWPCmd, url, defaultEmail)}
+
+	return []corev1.Container{
+		{
+			Name:         "install-wp",
+			Image:        wp.image(),
+			Args:         installCmd,
+			VolumeMounts: wp.volumeMounts(),
+			Env:          wp.env(),
+			EnvFrom:      wp.envFrom(),
+		},
+	}
+}
+
 func (wp *Wordpress) mediaContainers() []corev1.Container {
 	if !wp.hasExternalMedia() {
 		return []corev1.Container{}
@@ -312,23 +395,15 @@ func (wp *Wordpress) mediaContainers() []corev1.Container {
 		fmt.Sprintf("--addr=0.0.0.0:%d", mediaFTPPort),
 	}
 
-	// rclone-http
-	// rclone serve http --dir-cache-time 0
-	// HTTP is used only to read media and the caching will be done in another layer. Also, because some upstreams are
-	// eventually consistent, we don't want to cache stale responses.
-	httpCmd := []string{
-		"serve", "http", "-vvv", "--dir-cache-time", "0", "$(RCLONE_STREAM)/",
-		fmt.Sprintf("--addr=0.0.0.0:%d", mediaHTTPPort),
-	}
-
 	return []corev1.Container{
 		wp.rcloneContainer("rclone-ftp", ftpCmd),
-		wp.rcloneContainer("rclone-http", httpCmd),
 	}
 }
 
 func (wp *Wordpress) initContainers() []corev1.Container {
 	containers := []corev1.Container{}
+
+	containers = append(containers, wp.installWPContainer()...)
 
 	if wp.hasExternalMedia() {
 		// rclone-init-ftp

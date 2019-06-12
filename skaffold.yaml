@@ -2,9 +2,12 @@ apiVersion: skaffold/v1beta11
 kind: Config
 build:
   artifacts:
-  - image: quay.io/presslabs/default-backend
-    docker:
-      dockerfile: Dockerfile.default-backend
+    - image: quay.io/presslabs/default-backend
+      docker:
+        dockerfile: Dockerfile.default-backend
+    - image: quay.io/presslabs/git-webhook
+      docker:
+        dockerfile: Dockerfile.git-webhook
   tagPolicy:
     sha256: {}
 deploy:
@@ -14,7 +17,8 @@ deploy:
       chartPath: chart/stack
       values:
         nginx-ingress.defaultBackend.image: quay.io/presslabs/default-backend
-      namespace: presslabs-sys
+        git-webhook.image: quay.io/presslabs/git-webhook
+      namespace: presslabs-stack
       setValues:
         cert-manager.enabled: true
         mysql-operator.enabled: true

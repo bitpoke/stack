@@ -44,6 +44,23 @@ spec:
             affinity:
               description: If specified, the pod's scheduling constraints
               type: object
+            bootstrap:
+              description: WordpressBootstrapSpec specifies credentials used to install
+                wordpress, on the first run.
+              properties:
+                env:
+                  description: Env defines environment variables for bootstrapping
+                    WordPress +patchMergeKey=name +patchStrategy=merge
+                  items:
+                    type: object
+                  type: array
+                envFrom:
+                  description: EnvFrom defines envFrom's which get passed into wordpress
+                    bootstrapper
+                  items:
+                    type: object
+                  type: array
+              type: object
             code:
               description: CodeVolumeSpec specifies how the site's code gets mounted
                 into the container. If not specified, a code volume won't get mounted
@@ -51,7 +68,7 @@ spec:
               properties:
                 contentSubPath:
                   description: ContentSubPath specifies where within the code volumes,
-                    the wp-content folder resides. Defaults to wp-content/
+                    the wp-content folder resides.
                   type: string
                 emptyDir:
                   description: EmptyDir to use if no HostPath is specified
@@ -96,6 +113,10 @@ spec:
                 persistentVolumeClaim:
                   description: PersistentVolumeClaim to use if no GitDir is specified
                   type: object
+                readOnly:
+                  description: ReadOnly specifies if the volume should be mounted
+                    read-only inside the wordpress runtime container
+                  type: boolean
               type: object
             domains:
               description: Domains for which this this site answers. The first item

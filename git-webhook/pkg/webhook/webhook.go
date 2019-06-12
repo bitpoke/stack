@@ -18,20 +18,21 @@ package webhook
 
 import (
 	"context"
-	"fmt"
-	"k8s.io/apimachinery/pkg/fields"
-	"k8s.io/apimachinery/pkg/runtime"
 	"net/http"
 	"os"
 	"strings"
 
+	"k8s.io/apimachinery/pkg/fields"
+	"k8s.io/apimachinery/pkg/runtime"
+
 	"github.com/drone/go-scm/scm"
 	"github.com/drone/go-scm/scm/driver/github"
 	"github.com/go-logr/logr"
-	"github.com/presslabs/stack/git-webhook/pkg/webhook/git"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/manager"
 	logf "sigs.k8s.io/controller-runtime/pkg/runtime/log"
+
+	"github.com/presslabs/stack/git-webhook/pkg/webhook/git"
 
 	wordpressv1alpha1 "github.com/presslabs/wordpress-operator/pkg/apis/wordpress/v1alpha1"
 )
@@ -103,7 +104,6 @@ func NewServer(mgr manager.Manager, addr string) (*Server, error) {
 }
 
 func (s *Server) Start(stop <-chan struct{}) error {
-	fmt.Println("webhook starting!!!")
 	s.Log.Info("webhook server is listening", "address", s.Addr)
 
 	if err := s.ListenAndServe(); err != http.ErrServerClosed {

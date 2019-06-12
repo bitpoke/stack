@@ -472,12 +472,12 @@
   version = "v0.1.13"
 
 [[projects]]
-  branch = "master"
-  digest = "1:4ab63c90f5fb7c9284e81a4bedbb521c0663cd36939e74d06770d39441a85b9d"
+  digest = "1:89ea9ed476d30f99eb681535eb60049da52920c1ba713f20a3b2be68c7bc516b"
   name = "github.com/presslabs/wordpress-operator"
   packages = ["pkg/apis/wordpress/v1alpha1"]
   pruneopts = "T"
-  revision = "59502df0115066adcf5fe1a21af5509f8fd44788"
+  revision = "1b1a24758ca7c79347b190b8da49058819a8856e"
+  version = "v0.3.4"
 
 [[projects]]
   digest = "1:3b5729e3fc486abc6fc16ce026331c3d196e788c3b973081ecf5d28ae3e1050d"
@@ -1031,12 +1031,15 @@
     "github.com/gobuffalo/packr/v2/packr2",
     "github.com/onsi/ginkgo",
     "github.com/onsi/gomega",
+    "github.com/pkg/errors",
     "github.com/presslabs/controller-util/log",
     "github.com/presslabs/wordpress-operator/pkg/apis/wordpress/v1alpha1",
     "github.com/prometheus/client_golang/prometheus",
     "github.com/prometheus/client_golang/prometheus/promhttp",
-    "golang.org/x/net/context",
     "k8s.io/apimachinery/pkg/apis/meta/v1",
+    "k8s.io/apimachinery/pkg/fields",
+    "k8s.io/apimachinery/pkg/runtime",
+    "k8s.io/client-go/kubernetes/scheme",
     "k8s.io/client-go/plugin/pkg/client/auth/gcp",
     "k8s.io/client-go/rest",
     "sigs.k8s.io/controller-runtime/pkg/client",

@@ -74,7 +74,16 @@ spec:
     # persistentVolumeClaim: {}
     # hostPath: {}
     # emptyDir: {}
-
+  bootstrap: # wordpress install config
+    env:
+      - name: WORDPRESS_BOOTSTRAP_USER
+        valueFrom:
+          secretKeyRef: mysite
+          key: USER
+      - name: WORDPRESS_BOOTSTRAP_PASSWORD
+        valueFrom:
+          secretKeyRef: mysite
+          key: PASSWORD
   # extra volumes for the Wordpress container
   volumes: []
   # extra volume mounts for the Wordpress container
