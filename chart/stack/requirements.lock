@@ -1,7 +1,7 @@
 dependencies:
 - name: mysql-operator
   repository: https://presslabs.github.io/charts/
-  version: 0.2.9
+  version: 0.2.10
 - name: wordpress-operator
   repository: https://presslabs.github.io/charts/
   version: v0.3.4
@@ -14,5 +14,5 @@ dependencies:
 - name: prometheus-operator
   repository: https://kubernetes-charts.storage.googleapis.com/
   version: 5.12.3
-digest: sha256:91f72efe8bbf3e56a8388c488df3e58d3d262ed53afa915228690a18ef0dd47c
-generated: 2019-06-13T13:21:05.039878+03:00
+digest: sha256:aab0e0067e744945a4c39fd2bf58dee81330bd4852ff63f93844d7126c1317e2
+generated: 2019-06-13T15:03:54.224796+03:00
