@@ -2,4 +2,8 @@ Presslabs stack has been successfully installed.
 
 Create your first site by running:
 
-  # helm install -n mysite presslabs/wordpress-site --set domains[0]=www.mysite.com
+  # helm install -n mysite presslabs/wordpress-site --set site.domains[0]=www.mysite.com
+
+Then point your DNS to the Ingres IP. You can find the ingress IP by running:
+
+  # kubectl get ingress mysite -o jsonpath='{.status.loadBalancer.ingress[*].ip}{"\n"}'
