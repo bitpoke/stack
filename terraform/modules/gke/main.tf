@@ -13,7 +13,7 @@ resource "google_container_cluster" "cluster" {
 
   initial_node_count = 1
 
-  ip_allocation_policy = {
+  ip_allocation_policy {
     create_subnetwork = true
   }
 
@@ -45,12 +45,12 @@ resource "google_container_node_pool" "system" {
   region             = "${var.region}"
   initial_node_count = 1
 
-  autoscaling = {
+  autoscaling {
     min_node_count = 1
     max_node_count = 3
   }
 
-  management = {
+  management {
     auto_repair  = true
     auto_upgrade = true
   }
@@ -74,15 +74,13 @@ resource "google_container_node_pool" "system" {
       "node-role.kubernetes.io/presslabs-sys" = ""
     }
 
-    taint = [
-      {
+    taint {
         key    = "CriticalAddonsOnly"
         value  = "true"
         effect = "PREFER_NO_SCHEDULE"
-      },
-    ]
+    }
 
-    workload_metadata_config = {
+    workload_metadata_config {
       node_metadata = "SECURE"
     }
   }
@@ -95,12 +93,12 @@ resource "google_container_node_pool" "database" {
   region             = "${var.region}"
   initial_node_count = 0
 
-  autoscaling = {
+  autoscaling {
     min_node_count = 0
     max_node_count = 3
   }
 
-  management = {
+  management {
     auto_repair  = true
     auto_upgrade = true
   }
@@ -126,7 +124,7 @@ resource "google_container_node_pool" "database" {
       "node-role.kubernetes.io/memcached" = ""
     }
 
-    workload_metadata_config = {
+    workload_metadata_config {
       node_metadata = "SECURE"
     }
   }
@@ -144,12 +142,12 @@ resource "google_container_node_pool" "wordpress_preemptible" {
   region             = "${var.region}"
   initial_node_count = 0
 
-  autoscaling = {
+  autoscaling {
     min_node_count = 0
     max_node_count = 5
   }
 
-  management = {
+  management {
     auto_repair  = true
     auto_upgrade = true
   }
@@ -173,15 +171,13 @@ resource "google_container_node_pool" "wordpress_preemptible" {
       "node-role.kubernetes.io/wordpress" = ""
     }
 
-    taint = [
-      {
-        key    = "cloud.google.com/gke-preemptible"
-        value  = "true"
-        effect = "NO_SCHEDULE"
-      },
-    ]
+    taint {
+      key    = "cloud.google.com/gke-preemptible"
+      value  = "true"
+      effect = "NO_SCHEDULE"
+    }
 
-    workload_metadata_config = {
+    workload_metadata_config {
       node_metadata = "SECURE"
     }
   }
@@ -194,12 +190,12 @@ resource "google_container_node_pool" "wordpress" {
   region             = "${var.region}"
   initial_node_count = 0
 
-  autoscaling = {
+  autoscaling {
     min_node_count = 0
     max_node_count = 5
   }
 
-  management = {
+  management {
     auto_repair  = true
     auto_upgrade = true
   }
@@ -223,7 +219,7 @@ resource "google_container_node_pool" "wordpress" {
       "node-role.kubernetes.io/wordpress" = ""
     }
 
-    workload_metadata_config = {
+    workload_metadata_config {
       node_metadata = "SECURE"
     }
   }
