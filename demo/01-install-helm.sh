@@ -10,4 +10,6 @@ kubectl create clusterrolebinding tiller \
 helm init --service-account tiller \
     --history-max 10 \
     --override 'spec.template.spec.containers[0].command'='{/tiller,--storage=secret}' \
+    --override 'spec.template.spec.tolerations[0].key'='CriticalAddonsOnly' \
+    --override 'spec.template.spec.tolerations[0].operator'='Exists' \
     --wait
