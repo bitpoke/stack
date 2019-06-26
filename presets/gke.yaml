@@ -43,9 +43,15 @@ prometheus-operator:
     <<: *component_default
   grafana:
     <<: *component_default
+  kube-state-metrics:
+    <<: *component_default
   prometheus-node-exporter:
     tolerations:
       - operator: "Exists"
 
 cert-manager:
   <<: *component_default
+  cainjector:
+    <<: *component_default
+  webhook:
+    <<: *component_default
