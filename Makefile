@@ -9,12 +9,12 @@ PATH := $(BINDIR):$(PATH)
 SHELL := env 'PATH=$(PATH)' /bin/sh
 
 .PHONY: charts
-charts: chart-stack chart-wordpress-site
-	yq w -i $(CHARTDIR)/values.yaml nginx-ingress.defaultBackend.image.tag "$(APP_VERSION)"
-
-chart-%:
-	yq w -i $(CHARTDIR)/$*/Chart.yaml version "$(APP_VERSION)"
-	yq w -i $(CHARTDIR)/$*/Chart.yaml appVersion "$(APP_VERSION)"
+charts:
+	yq w -i $(CHARTDIR)/stack/Chart.yaml version "$(APP_VERSION)"
+	yq w -i $(CHARTDIR)/stack/Chart.yaml appVersion "$(APP_VERSION)"
+	yq w -i $(CHARTDIR)/stack/values.yaml nginx-ingress.defaultBackend.image.tag "$(APP_VERSION)"
+	yq w -i $(CHARTDIR)/wordpress-site/Chart.yaml version "$(APP_VERSION)"
+	yq w -i $(CHARTDIR)/wordpress-site/Chart.yaml appVersion "$(APP_VERSION)"
 
 lint:
 	helm lint charts/stack

@@ -12,7 +12,7 @@ deploy:
     releases:
       - name: presslabs-stack
         namespace: presslabs-sys
-        chartPath: chart/stack
+        chartPath: charts/stack
         values:
           nginx-ingress.defaultBackend.image: quay.io/presslabs/default-backend
         setValues:
