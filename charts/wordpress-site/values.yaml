@@ -16,6 +16,12 @@ site:
   env: []
   envFrom: []
   resources: {}
+  # to automatically install wordpress
+  # bootstrap:
+    # title: Demo site
+    # email: ping@<your domain name>
+    # user:
+    # password:
 
 tls: {}
   # issuerKind: ClusterIssuer

@@ -35,6 +35,7 @@ spec:
             secretKeyRef:
               name: {{ include "wordpress-site.fullname" . }}
               key: id_rsa
+              optional: true
     {{- end }}
   {{- end }}
   {{- if and .Values.media .Values.media.gcs }}
@@ -82,6 +83,14 @@ spec:
   resources:
     {{- toYaml .Values.site.resources | nindent 4 }}
   {{- end }}
+
+  {{- if .Values.site.bootstrap }}
+  bootstrap:
+    envFrom:
+      - secretRef:
+          name: {{ include "wordpress-site.fullname" . }}-bootstrap
+  {{- end }}
+
   affinity:
     nodeAffinity:
       preferredDuringSchedulingIgnoredDuringExecution:
