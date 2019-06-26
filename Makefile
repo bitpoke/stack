@@ -1,6 +1,6 @@
 APP_VERSION ?= $(shell git describe --abbrev=5 --dirty --tags --always)
 BINDIR ?= $(PWD)/bin
-CHARTDIR ?= $(PWD)/chart/stack
+CHARTDIR ?= $(PWD)/charts
 
 OS ?= $(shell uname -s | tr '[:upper:]' '[:lower:]')
 ARCH ?= amd64
@@ -8,14 +8,18 @@ ARCH ?= amd64
 PATH := $(BINDIR):$(PATH)
 SHELL := env 'PATH=$(PATH)' /bin/sh
 
-.PHONY: chart
-chart:
-	yq w -i $(CHARTDIR)/Chart.yaml version "$(APP_VERSION)"
-	yq w -i $(CHARTDIR)/Chart.yaml appVersion "$(APP_VERSION)"
+.PHONY: charts
+charts: chart-stack chart-wordpress-site
 	yq w -i $(CHARTDIR)/values.yaml nginx-ingress.defaultBackend.image.tag "$(APP_VERSION)"
 
+chart-%:
+	yq w -i $(CHARTDIR)/$*/Chart.yaml version "$(APP_VERSION)"
+	yq w -i $(CHARTDIR)/$*/Chart.yaml appVersion "$(APP_VERSION)"
+
 lint:
-	helm lint chart/stack
+	helm lint charts/stack
+	helm lint charts/wordpress-site --set 'site.domains[0]=example.com'
+	helm dep build charts/wordpress-site
 	make -C git-webhook lint
 
 dependencies:
