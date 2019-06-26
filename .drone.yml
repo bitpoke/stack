@@ -24,12 +24,12 @@ pipeline:
     commands:
       - helm repo add jetstack https://charts.jetstack.io
       - make lint
-      - helm dep build chart/stack
+      - helm dep build charts/stack
 
-  build-chart:
+  build-charts:
     image: quay.io/presslabs/kluster-toolbox
     commands:
-      - make chart
+      - make charts
 
   smoke-test:
     image: quay.io/presslabs/kluster-toolbox
@@ -42,7 +42,8 @@ pipeline:
       - kubectl config use-context default
       - dockerize -wait http://kubernetes:8080/healthz -skip-tls-verify -timeout 30s
       - helm version
-      - helm install -n presslabs --namespace presslabs-sys ./chart/stack
+      - helm install -n presslabs --namespace presslabs-sys ./charts/stack
+      - helm install -n mysite ./charts/wordpress-site --set 'site.domains[0]=example.com'
       - helm ls
 
   git-webhook:
@@ -81,16 +82,30 @@ pipeline:
     when:
       event: tag
 
-
-  publish-chart:
+  publish-stack-chart:
     group: publish
     image: quay.io/presslabs/kluster-toolbox
     environment:
       - GH_USER=presslabs-bot
     commands:
-      - cd chart
+      - cd charts
       - helm package stack
-      - CHART="$(basename *.tgz)" ; MESSAGE="Publish $(basename $CHART .tgz)"
+      - CHART="$(basename stack*.tgz)" ; MESSAGE="Publish $(basename $CHART .tgz)"
+      - /usr/local/bin/gh put --skip-existing -m "$MESSAGE" "$CHART" "presslabs/charts/docs/"
+    secrets:
+      - GH_PASSWORD
+    when:
+      event: tag
+
+  publish-wordpress-chart:
+    group: publish
+    image: quay.io/presslabs/kluster-toolbox
+    environment:
+      - GH_USER=presslabs-bot
+    commands:
+      - cd charts
+      - helm package wordpress-site
+      - CHART="$(basename wordpress-site*.tgz)" ; MESSAGE="Publish $(basename $CHART .tgz)"
       - /usr/local/bin/gh put --skip-existing -m "$MESSAGE" "$CHART" "presslabs/charts/docs/"
     secrets:
       - GH_PASSWORD
