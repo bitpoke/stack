@@ -13,6 +13,8 @@ The project is in it's alpha state and active development is happening in compon
 
 ## Installation
 
+Tiller needs to be initialized in your Kubernetes cluster, eg run `helm init`
+
 Add presslabs helm chart repos:
 
 ```
