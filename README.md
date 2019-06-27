@@ -21,6 +21,7 @@ helm repo update
 ```
 
 ### Minikube/Docker for Mac
+Ensure a larger Minikube with eg, `minikube start --cpus 4 --memory 8192` to provide a working local environment.
 ```
 helm upgrade -i stack presslabs/stack --namespace presslabs-stack -f https://raw.githubusercontent.com/presslabs/stack/master/presets/minikube.yaml
 ```
