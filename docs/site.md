@@ -33,3 +33,20 @@ Rclone uses the `GOOGLE_CREDENTIALS` service account key, in order to access the
 ##### Read a file
 
 In order to read a file from GCS, we experimented with rclone, that was used to serve images via HTTP. Unfortunately, because it was to slow, we replaced it with a custom nginx and Lua implementation. This implementation is fast, but it has the drawback that works only on GCS. Also, is embedded in [stack-wordpress](https://github.com/presslabs/stack-wordpress) runtime, meaning that if you want to use this feature in your custom image, you'll need to base your image on [wordpress-runtime](https://quay.io/repository/presslabs/wordpress-runtime) container.
+
+## Code
+
+Stack will always start a Docker image that will run the actual code. The code can be deployed using Git, [pvc](https://kubernetes.io/docs/concepts/storage/persistent-volumes/), [hostPath](https://kubernetes.io/docs/concepts/storage/volumes/#hostpath) or 
+simple [emptyDir](https://kubernetes.io/docs/concepts/storage/volumes/#emptydir). Another option will be to just build the image yourself and don't specify any code options. Using this, you can run what you've bundle in the image and Stack will not interfere.
+
+
+In order to fully take advantage of all Stack features, we recommend two ways of deploying your code:
+  * Git
+  * Docker image
+  
+### Git
+
+In order to deploy a site using Git, you'll need to define:
+  * `spec.code.git.repository` - valid Git repository origin. It supports http, https, git and ssh protocol.
+  * `spec.code.git.reference` - reference to deploy. It can be a commit, branch or tag. Default: `master`
+If the code is not public, you'll need also to add `SSH_RSA_PRIVATE_KEY` to `spec.code.git.env` as an environment variable. You can store it into a secret, as specified in the [wordpress-site](https://github.com/presslabs/stack/blob/master/charts/wordpress-site/templates/wordpress.yaml#L26) chart.
