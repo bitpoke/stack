@@ -50,3 +50,11 @@ In order to deploy a site using Git, you'll need to define:
   * `spec.code.git.repository` - valid Git repository origin. It supports http, https, git and ssh protocol.
   * `spec.code.git.reference` - reference to deploy. It can be a commit, branch or tag. Default: `master`
 If the code is not public, you'll need also to add `SSH_RSA_PRIVATE_KEY` to `spec.code.git.env` as an environment variable. You can store it into a secret, as specified in the [wordpress-site](https://github.com/presslabs/stack/blob/master/charts/wordpress-site/templates/wordpress.yaml#L26) chart.
+
+Your code is going to be cloned via an init container, into a volume mount. That volume mount is going to be used by the WordPress container, in order to run the code. By default, if not specified, the WordPress-Operator will use a default Docker image, that starts from [stack-wordpress](https://github.com/presslabs/stack-wordpress/blob/5.2-branch/Dockerfile).
+
+From that volume, only `contentSubPath` will actually run, which is usually the `wp-content` directory, but it can be called as you like.
+
+### Docker image
+
+You can run a custom image, bundled with your own code and dependencies. The only thing you need to specify is `code: {}`. In this way, it won't mount any code from other sources. 
