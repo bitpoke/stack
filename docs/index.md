@@ -5,7 +5,7 @@ Those operators are cloud agonistic, meaning that Stack can run on any Kubernete
 
 All the components of Stack can be viewed in the picture above 
 
-![](https://www.presslabs.com/wp-content/themes/presslabs/dest/img/stack@4x.png)
+![stack-architecture](stack.png)
 
 It has a control plane made up of:
 
