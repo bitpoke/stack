@@ -1,10 +1,11 @@
 resource "google_container_cluster" "cluster" {
   provider = "google-beta"
+  project  = "${var.project}"
 
   name   = "${var.cluster_name}"
   region = "${var.region}"
 
-  additional_zones = "${var.zones}"
+  additional_zones = "${length(var.zones) > 0 ? var.zones : null}"
 
   # We can't create a cluster with no node pool defined, but we want to only use
   # separately managed node pools. So we create the smallest possible default
@@ -40,6 +41,7 @@ resource "google_container_cluster" "cluster" {
 
 resource "google_container_node_pool" "system" {
   provider           = "google-beta"
+  project            = "${var.project}"
   name               = "system"
   cluster            = "${google_container_cluster.cluster.name}"
   region             = "${var.region}"
@@ -75,9 +77,9 @@ resource "google_container_node_pool" "system" {
     }
 
     taint {
-        key    = "CriticalAddonsOnly"
-        value  = "true"
-        effect = "PREFER_NO_SCHEDULE"
+      key    = "CriticalAddonsOnly"
+      value  = "true"
+      effect = "${var.system_node_taint_effect}"
     }
 
     workload_metadata_config {
@@ -88,6 +90,7 @@ resource "google_container_node_pool" "system" {
 
 resource "google_container_node_pool" "database" {
   provider           = "google-beta"
+  project            = "${var.project}"
   name               = "database"
   cluster            = "${google_container_cluster.cluster.name}"
   region             = "${var.region}"
@@ -130,8 +133,52 @@ resource "google_container_node_pool" "database" {
   }
 }
 
+resource "google_container_node_pool" "wordpress" {
+  provider           = "google-beta"
+  project            = "${var.project}"
+  name               = "wordpress"
+  cluster            = "${google_container_cluster.cluster.name}"
+  region             = "${var.region}"
+  initial_node_count = 0
+
+  autoscaling {
+    min_node_count = 0
+    max_node_count = 5
+  }
+
+  management {
+    auto_repair  = true
+    auto_upgrade = true
+  }
+
+  node_config {
+    machine_type = "${var.wordpress_node_type}"
+    preemptible  = "${var.preemptible}"
+    disk_size_gb = 100
+    image_type   = "COS"
+
+    oauth_scopes = [
+      "https://www.googleapis.com/auth/compute.readonly",
+      "https://www.googleapis.com/auth/devstorage.read_only",
+      "https://www.googleapis.com/auth/logging.write",
+      "https://www.googleapis.com/auth/trace.append",
+      "https://www.googleapis.com/auth/monitoring",
+      "https://www.googleapis.com/auth/servicecontrol",
+    ]
+
+    labels = {
+      "node-role.kubernetes.io/wordpress" = ""
+    }
+
+    workload_metadata_config {
+      node_metadata = "SECURE"
+    }
+  }
+}
+
 resource "google_container_node_pool" "wordpress_preemptible" {
   provider = "google-beta"
+  project  = "${var.project}"
 
   # create preemptible-specific group only if we don't want the entire cluster to be preemptible
   # (eg. for dev)
@@ -175,48 +222,6 @@ resource "google_container_node_pool" "wordpress_preemptible" {
       key    = "cloud.google.com/gke-preemptible"
       value  = "true"
       effect = "NO_SCHEDULE"
-    }
-
-    workload_metadata_config {
-      node_metadata = "SECURE"
-    }
-  }
-}
-
-resource "google_container_node_pool" "wordpress" {
-  provider           = "google-beta"
-  name               = "wordpress"
-  cluster            = "${google_container_cluster.cluster.name}"
-  region             = "${var.region}"
-  initial_node_count = 0
-
-  autoscaling {
-    min_node_count = 0
-    max_node_count = 5
-  }
-
-  management {
-    auto_repair  = true
-    auto_upgrade = true
-  }
-
-  node_config {
-    machine_type = "${var.wordpress_node_type}"
-    preemptible  = "${var.preemptible}"
-    disk_size_gb = 100
-    image_type   = "COS"
-
-    oauth_scopes = [
-      "https://www.googleapis.com/auth/compute.readonly",
-      "https://www.googleapis.com/auth/devstorage.read_only",
-      "https://www.googleapis.com/auth/logging.write",
-      "https://www.googleapis.com/auth/trace.append",
-      "https://www.googleapis.com/auth/monitoring",
-      "https://www.googleapis.com/auth/servicecontrol",
-    ]
-
-    labels = {
-      "node-role.kubernetes.io/wordpress" = ""
     }
 
     workload_metadata_config {

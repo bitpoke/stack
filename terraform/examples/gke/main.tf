@@ -50,6 +50,7 @@ variable "wordpress_node_type" {
 module "stack" {
   source              = "../../modules/gke"
   cluster_name        = "${var.cluster_name}"
+  project             = "${var.project}"
   region              = "${var.region}"
   zones               = "${var.zones}"
   preemptible         = "${var.preemptible}"
