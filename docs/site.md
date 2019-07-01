@@ -65,7 +65,7 @@ This Docker image needs to contain everything already bundled that's going to be
 
 `wordpress-runtime` contains a custom Nginx built for serving static images from GCS buckets, PHP-FPM already configured for Nginx and a minimal or debugging set of PHP [extensions](https://github.com/presslabs/stack-wordpress/tree/5.2-branch/hack/docker/build-scripts) (see `php-extensions.*.yaml`).
 
-You can tune almost every part of the configuration
+You can tune almost every part of the configuration. We recommend using this container as a starting point.
 
 #### Environment variables
 * `DOCUMENT_ROOT` (default to `/var/www/html`)
