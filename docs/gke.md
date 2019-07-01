@@ -11,7 +11,7 @@ Those scripts allow you to create a new cluster with 4 node pools, pre-configure
 - `system`, used by the control plane to host all operators pods. Those nodes don't need heavy resources.
 - `database`, MySQL related nodes. You can tweak the MySQL performance by using nodes with faster IO and maybe bigger memory for the query cache, depending on the use-case.
 - `wordpress` is used to host pods that run the PHP code with helper containers for serving media files via buckets.
-- `wordpress-preemptible` is the same as the `wordpress` pool, but it has the `"[cloud.google.com/gke-preemptible](http://cloud.google.com/gke-preemptible)"` taint. Because of that, you can use preemptible machines for development sites, lowering the entire costs of the cluster.
+- `wordpress-preemptible` is the same as the `wordpress` pool, but it has the `cloud.google.com/gke-preemptible` taint. Because of that, you can use preemptible machines for development sites, lowering the entire costs of the cluster.
 
 In order to continue with terraform, you'll need some pre-requirements:
 
@@ -34,11 +34,11 @@ The initial node count is going to be 1 and the cluster will have the horizontal
 
 ### system node pool
 
-The `system` node pool is going to have the initial node count set to 1, but it has autoscaling active, with a minimum node count of 1 to a maxim of 3 nodes. It spawns nodes with 50Gb storage and "COS" images (Container-Optimized OS from Google). Those nodes can be configured as preemptible, if the `preemptible` variable is set to `true`. As labels, it sets only one called `[node-role.kubernetes.io/presslabs-sys](http://node-role.kubernetes.io/presslabs-sys)`. One interesting part about this node pool is that it has a taint called `CriticalAddonsOnly`. You can read more about taints and toleration [here](https://cloud.google.com/kubernetes-engine/docs/how-to/node-taints). It's advised to have non-preemptible machines for this node-pool in production, but it doesn't require having resource heavy machines.
+The `system` node pool is going to have the initial node count set to 1, but it has autoscaling active, with a minimum node count of 1 to a maxim of 3 nodes. It spawns nodes with 50Gb storage and "COS" images (Container-Optimized OS from Google). Those nodes can be configured as preemptible, if the `preemptible` variable is set to `true`. As labels, it sets only one called `node-role.kubernetes.io/presslabs-sys`. One interesting part about this node pool is that it has a taint called `CriticalAddonsOnly`. You can read more about taints and toleration [here](https://cloud.google.com/kubernetes-engine/docs/how-to/node-taints). It's advised to have non-preemptible machines for this node-pool in production, but it doesn't require having resource heavy machines.
 
 ### database node pool
 
-Next one is the `database` node pool. Is similar to the `system` node pool, the only differences are in initial node count, which is 0, and labels which are `[node-role.kubernetes.io/database](http://node-role.kubernetes.io/database)`, `n[ode-role.kubernetes.io/mysql](http://ode-role.kubernetes.io/mysql)` and `[node-role.kubernetes.io/memcached](http://node-role.kubernetes.io/memcached)`. As you can see, the Memcached instance is close to the database, but this can be updated.
+Next one is the `database` node pool. Is similar to the `system` node pool, the only differences are in initial node count, which is 0, and labels which are `node-role.kubernetes.io/database`, `node-role.kubernetes.io/mysql` and `node-role.kubernetes.io/memcached`. As you can see, the Memcached instance is close to the database, but this can be updated.
 
 ### wordpress node pool
 
@@ -82,9 +82,9 @@ Next, just apply the configuration you set
 
     terraform apply -var-file="cluster.tfvars"
 
-Now that the cluster is up and running, you'll need to install helm tiller. For that, stack offers some bash scripts that are located under the `demo` directory `[https://github.com/presslabs/stack/tree/master/demo](https://github.com/presslabs/stack/tree/master/demo)`.
+Now that the cluster is up and running, you'll need to install helm tiller. For that, stack offers some bash scripts that are located under the [demo](https://github.com/presslabs/stack/tree/master/demo) directory.
 
-`[01-install-helm.sh](http://01-install-helm.sh/)` creates a `tiller` service account, it binds the `cluster-admin` role to it and is initializing the tiller.
+[01-install-helm.sh](https://github.com/presslabs/stack/blob/master/demo/01-install-helm.sh) creates a `tiller` service account, it binds the `cluster-admin` role to it and is initializing the tiller.
 
     kubectl --namespace kube-system create sa tiller
     kubectl create clusterrolebinding tiller \
@@ -95,7 +95,7 @@ Now that the cluster is up and running, you'll need to install helm tiller. For 
         --override 'spec.template.spec.containers[0].command'='{/tiller,--storage=secret}' \
         --wait
 
-`[02-install-presslabs-stack.sh](http://02-install-presslabs-stack.sh/)` is actually going to install the Stack, via `helm`. 
+[02-install-presslabs-stack.sh](https://github.com/presslabs/stack/blob/master/demo/02-install-presslabs-stack.sh) is actually going to install the Stack, via `helm`. 
 
 First, we'll need a `presslabs-stack` namespace
 
