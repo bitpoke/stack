@@ -17,7 +17,7 @@ nginx-ingress:
   enabled: true
   controller:
     config:
-      custom-http-errors: 400,401,403,404,415,500,502,503,504
+      custom-http-errors: 502,503,504
     publishService:
       enabled: true
   defaultBackend:
