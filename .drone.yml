@@ -61,25 +61,24 @@ pipeline:
       - yarn config set cache-folder .yarn-cache
       - yarn install --pure-lockfile
       - yarn algolia
-      - rm -rf /go/src/github.com/presslabs/stack/site/wp-content/root/docs
-      - mkdir /go/src/github.com/presslabs/stack/site/wp-content/root/docs
+      - rm -rf /go/src/github.com/presslabs/stack/site/wp-content/root/docs/stack
+      - mkdir /go/src/github.com/presslabs/stack/site/wp-content/root/docs/stack
       - cp -a /go/src/github.com/presslabs/stack/public/* /go/src/github.com/presslabs/stack/site/wp-content/root/docs/stack/
       - ls -la /go/src/github.com/presslabs/stack/site/wp-content/root/docs/stack
 
-  deploy:  # deploy to production
-    image: appleboy/drone-git-push
-    branch: prod
-    commit: true
-    commit.author.name: "Igor Debot"
-    commit.author.email: "bot@presslabs.com"
-    path: /go/src/github.com/presslabs/stack/site
-    commit_message: >
-                    [docs] ${DRONE_COMMIT_MESSAGE}
-    remote: https://github.com/presslabs/presslabs.com
-    netrc.username: presslabs-bot
+  deploy:
+    image: quay.io/presslabs/kluster-toolbox
+    commands:
+      - /usr/local/bin/setup-github-credentials.sh
+      - cd /go/src/github.com/presslabs/stack/site
+      - git checkout prod
+      - git add .
+      - git commit -m "[docs] ${DRONE_COMMIT_MESSAGE}"
+      - git push origin prod
+    environment:
+      - GH_USER=presslabs-bot
     secrets:
-      - source: GH_TOKEN
-        target: DRONE_NETRC_PASSWORD
+      - GH_PASSWORD
 
   dependencies:
     pull: true
