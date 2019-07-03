@@ -63,7 +63,7 @@ pipeline:
       - yarn algolia
       - rm -rf /go/src/github.com/presslabs/stack/site/wp-content/root/docs
       - mkdir /go/src/github.com/presslabs/stack/site/wp-content/root/docs
-      - cp -a /go/src/github.com/presslabs/stack/docs/public/* /go/src/github.com/presslabs/stack/site/wp-content/root/docs/
+      - cp -a /go/src/github.com/presslabs/stack/public/* /go/src/github.com/presslabs/stack/site/wp-content/root/docs/
       - ls -la /go/src/github.com/presslabs/stack/site/wp-content/root/docs
 
   deploy:  # deploy to production
