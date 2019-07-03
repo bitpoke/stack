@@ -9,6 +9,7 @@ replicaCount: 1
 #   repository: nginx
 #   tag: stable
 #   pullPolicy: IfNotPresent
+#   imagePullSecrets: ImagePullSecretName
 
 site:
   domains: []

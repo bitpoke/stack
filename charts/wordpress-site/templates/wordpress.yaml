@@ -14,6 +14,9 @@ spec:
   image: {{ .Values.image.repository }}
   tag: {{ .Values.image.tag }}
   imagePullPolicy: {{ default "IfNotPresent" .Values.image.pullPolicy }}
+  {{- if .Values.image.imagePullSecrets }}
+  imagePullSecrets: {{ .Values.image.imagePullSecrets }}
+  {{- end }}
   {{- end }}
   domains:
     {{- toYaml .Values.site.domains | nindent 4 }}
