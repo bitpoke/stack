@@ -28,7 +28,7 @@ $ composer remove roots/wordpress
 $ composer require presslabs-stack/wordpress ^5.2.2
 ```
 
-`roots/bedrock` offers a standard structure and allows you to work with composer, thus imposing some best practices.
+`roots/bedrock` offers a standard structure and allows you to work with the composer, thus imposing some best practices.
 You can install/uninstall plugins and themes via composer, autoload and other goodies.
 
 To install certain plugins or themes, you just need to
@@ -43,7 +43,7 @@ $ wp stack init
 $ docker pull quay.io/presslabs/wordpres-runtime:5.2-7.3.4-latest
 ```
 
-`wp stack init` is going to create a `Dockerfile` (used to build your runnig container on Kubernetes), `skaffold.yaml` (used to
+`wp stack init` is going to create a `Dockerfile` (used to build your running container on Kubernetes), `skaffold.yaml` (used to
 store configuration for deployments and builds) and a `chart/` directory (the place where your site configuration stays).
 
 If you want to add custom extensions, libraries or binaries, you can do it by editing that generated `Dockerfile`.
@@ -60,7 +60,7 @@ Beside a `Dockerfile`, it also creates a `skaffold.yaml` (which contains deploym
 
 Via `skaffold dev --cleanup=false`, you can build the image having your local code bundled with your custom dependencies. After
 the build was made, `skaffold` will try to deploy the `chart/wordpress-site/` to your development context (default).
-`--cleanup=false` ensure that the deployment will not be deleted, so the state of your application (like database, memecache etc)
+`--cleanup=false` ensure that the deployment will not be deleted, so the state of your application (like database, Memcache, etc)
 will be preserved between code updates.
 
 ```console
@@ -86,11 +86,11 @@ $ kubectl get secret dev-wclondon-2019-db -o yaml
 ```
 
 You'll need the `USER` and `PASSWORD` secret. Those are base64 encoded and in order to decode them you can `echo <USER-CONTENT>
-| base64 -D`. Since you have the credentials and the port forwarded, you just have to connect using your favourite client.
+| base64 -D`. Since you have the credentials and the port forwarded, you just have to connect using your favorite client.
 
 ### Uploads import
 
-We recommend using buckets to handle media files and in order to import all those media files, we recommend using [rclone](https://rclone.org/). You'll just need to config your service account and your're ready to go.
+We recommend using buckets to handle media files and in order to import all those media files, we recommend using [rclone](https://rclone.org/). You'll just need to config your service account and you're ready to go.
 ```console
 $ rclone -v sync uploads gcs:<bucketname>/<directory>/
 ```
