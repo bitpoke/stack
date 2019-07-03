@@ -53,7 +53,7 @@ pipeline:
 
   search:
     image: node:10.13.0
-    secrets: [ ALGOLIA_APP_ID, ALGOLIA_ADMIN_KEY, ALGOLIA_INDEX_NAME, ALGOLIA_INDEX_FILE ]
+    secrets: [ ALGOLIA_APP_ID, ALGOLIA_ADMIN_KEY, ALGOLIA_INDEX_NAME, ALGOLIA_SEARCH_KEY, ALGOLIA_INDEX_FILE ]
     commands:
       - node -v
       - npm -v
