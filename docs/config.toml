@@ -1,0 +1,96 @@
+baseURL = "https://www.presslabs.com/docs/"
+languageCode = "en-us"
+title = "Stack Documentation"
+summaryLength = 15
+metaDataFormat = "yaml"
+theme = "docs"
+enableRobotsTXT = true
+enableGitInfo = true
+pygmentsCodeFences = true
+pygmentsOptions = ""
+pygmentsUseClasses = true
+pygmentsUseClassic = false
+pygmentsStyle = "github"
+
+[params]
+  site_url = "https://www.presslabs.com/"
+  legal_url = "https://www.presslabs.com/legal"
+  breadcrumbs_root = "Stack DOCS"
+  quick_start = true
+  quick_start_link = "getting-started/"
+  logo_text = "DOCS"
+  search_placeholder = "Search docs"
+  footer_menu = true
+  footer_menu_title = "DOCUMENTATION"
+  title = "Welcome to Stack Documentation!"
+  description = "Here you can find Presslabs Stack's documentation, the first open-source serverless hosting platform that bridges two major technologies: WordPress and Kubernetes."
+  release = "3.0.0"
+  # debug = true
+  algolia_search = true
+  algolia_appId = "0TS6NFHDBC"
+  algolia_apiKey = "099bffdf3b4a6ea94ddbea10f73dd15a"
+  algolia_indexName = "Stack Docs"
+  algolia_currentLanguageOnly = true
+  images = ["images/docs-2019.jpg"]
+
+[params.algolia]
+  vars = ["title", "description", "summary", "content", "date", "lastmod", "permalink", "text", "lvl0", "lvl1", "url"]
+  params = ["categories", "keywords"]
+
+[blackfriday]
+  angledQuotes = true
+  extensions = ["hardLineBreak"]
+  sourceRelativeLinks = true
+  fractions = false
+  plainIDAnchors = true
+
+[outputFormats.Algolia]
+  baseName = "algolia"
+  isPlainText = true
+  mediaType = "application/json"
+  notAlternative = true
+
+[outputs]
+  home = [ "HTML", "RSS", "Algolia" ]
+
+[taxonomies]
+  category = "categories"
+
+[related]
+  threshold = 80
+  includeNewer = true
+  toLower = false
+
+[[related.indices]]
+  name = "keywords"
+  weight = 150
+
+[[menu.global]]
+  name = "About Stack"
+  weight = 1
+  identifier = "index"
+  url = "/about-stack/"
+
+[[menu.global]]
+  name = "Install on GKE"
+  weight = 2
+  identifier = "gke"
+  url = "/install-stack-on-gke/"
+
+[[menu.global]]
+  name = "Install on Minikube"
+  weight = 3
+  identifier = "minikube"
+  url = "/install-stack-on-minikube/"
+
+[[menu.global]]
+  name = "Running Wordpress on Kubernetes"
+  weight = 4
+  identifier = "site"
+  url = "/running-wordpress-on-kubernetes/"
+
+[[menu.global]]
+  name = "Develop and deploy on Stack"
+  weight = 5
+  identifier = "deploy-on-stack"
+  url = "/deploy-wordpress-on-stack/"

@@ -1,0 +1,89 @@
+workspace:
+  base: /drone
+  path: docs
+
+branches: master
+
+clone:
+  docs:
+    group: clone
+    image: plugins/git
+    recursive: false
+
+  theme:
+    group: clone
+    image: alpine/git
+    commands:
+      - git clone https://github.com/presslabs/hugo-docs-theme /drone/theme
+      - cd /drone/theme
+      - git checkout prod
+      - git pull origin prod
+      - mkdir /drone/tmp/
+      - rm -rf /drone/docs/README.md
+      - mv /drone/docs/* /drone/tmp/
+      - mkdir /drone/docs/content
+      - mv /drone/tmp/* /drone/docs/content
+      - mv /drone/docs/content/config.toml /drone/docs/
+      - mkdir /drone/docs/themes
+      - mkdir /drone/docs/data
+      - mv ./docs /drone/docs/themes/
+      - cp ./assets.json /drone/docs/data/
+      - cp ./package.json /drone/docs/
+    when:
+      branch: master
+      event: push
+
+  site:
+    group: clone
+    image: alpine/git
+    commands:
+      - git clone https://github.com/presslabs/presslabs.com /drone/site
+      - cd /drone/site
+      - git checkout prod
+      - git pull origin prod
+    when:
+      branch: master
+      event: push
+
+pipeline:
+  build:
+    image: desero/hugo:latest
+    environment:
+      - HUGO_ENV=production
+    secrets: [ ALGOLIA_APP_ID, ALGOLIA_ADMIN_KEY, ALGOLIA_INDEX_NAME ]
+    when:
+      branch: master
+      event: push
+
+  search:
+    image: node:10.13.0
+    secrets: [ ALGOLIA_APP_ID, ALGOLIA_ADMIN_KEY, ALGOLIA_INDEX_NAME, ALGOLIA_INDEX_FILE ]
+    commands:
+      - node -v
+      - npm -v
+      - yarn --version
+      - yarn config set cache-folder .yarn-cache
+      - yarn install --pure-lockfile
+      - yarn algolia
+      - rm -rf /drone/site/wp-content/root/docs
+      - mkdir /drone/site/wp-content/root/docs
+      - cp -a /drone/docs/public/* /drone/site/wp-content/root/docs/
+      - ls -la /drone/site/wp-content/root/docs
+
+  deploy:  # deploy to production
+    image: appleboy/drone-git-push
+    branch: prod
+    commit: true
+    commit.author.name: "Igor Debot"
+    commit.author.email: "bot@presslabs.com"
+    path: /drone/site
+    commit_message: >
+                    [docs] ${DRONE_COMMIT_MESSAGE}
+    remote: https://github.com/presslabs/presslabs.com
+    netrc.username: presslabs-bot
+    secrets:
+      - source: GH_TOKEN
+        target: DRONE_NETRC_PASSWORD
+    when:
+      branch: master
+      event: push
