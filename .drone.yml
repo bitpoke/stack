@@ -63,8 +63,8 @@ pipeline:
       - yarn algolia
       - rm -rf /go/src/github.com/presslabs/stack/site/wp-content/root/docs
       - mkdir /go/src/github.com/presslabs/stack/site/wp-content/root/docs
-      - cp -a /go/src/github.com/presslabs/stack/public/* /go/src/github.com/presslabs/stack/site/wp-content/root/docs/
-      - ls -la /go/src/github.com/presslabs/stack/site/wp-content/root/docs
+      - cp -a /go/src/github.com/presslabs/stack/public/* /go/src/github.com/presslabs/stack/site/wp-content/root/docs/stack/
+      - ls -la /go/src/github.com/presslabs/stack/site/wp-content/root/docs/stack
 
   deploy:  # deploy to production
     image: appleboy/drone-git-push
@@ -72,7 +72,7 @@ pipeline:
     commit: true
     commit.author.name: "Igor Debot"
     commit.author.email: "bot@presslabs.com"
-    path: /drone/site
+    path: /go/src/github.com/presslabs/stack/site
     commit_message: >
                     [docs] ${DRONE_COMMIT_MESSAGE}
     remote: https://github.com/presslabs/presslabs.com
