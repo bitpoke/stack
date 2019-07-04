@@ -1,3 +1,15 @@
+---
+title: Running WordPress on Stack
+linktitle: Running Wordpress on Kubernetes
+description: "Here you can find Presslabs Stack's documentation, the first open-source serverless hosting platform that bridges two major technologies: WordPress and Kubernetes."
+categories: ['stack']
+keywords: ['stack']
+weight: 1
+draft: false
+aliases: []
+slug: 'running-wordpress-on-kubernetes'
+---
+
 # Running WordPress on Stack
 
 A good reference about how a WordPress site looks on Stack is the [WordPress Spec](https://github.com/presslabs/wordpress-operator#deploying-a-wordpress-site).
@@ -11,17 +23,17 @@ Those domains are syncing in the ingress controller. Also, certmanager will bund
 ## Media
 Uploads are hard to manage in WordPress because they tend to be big and use a lot of computation power to generate different size.
 We found that we can scale them by using buckets (Google Compute Storage / S3 etc). You also can use other, more traditional ways of
-storing and serving media files, via [pvc](https://kubernetes.io/docs/concepts/storage/persistent-volumes/), [hostPath](https://kubernetes.io/docs/concepts/storage/volumes/#hostpath) or 
+storing and serving media files, via [pvc](https://kubernetes.io/docs/concepts/storage/persistent-volumes/), [hostPath](https://kubernetes.io/docs/concepts/storage/volumes/#hostpath) or
 simple [emptyDir](https://kubernetes.io/docs/concepts/storage/volumes/#emptydir).
 
 ### Buckets
 
 For now, we support only GCS, but contributions are welcome in order to extend support for S3 as well.
-Handling media can be split into two main parts: writing and reading. All of them include some sort of trickery, in order to 
+Handling media can be split into two main parts: writing and reading. All of them include some sort of trickery, in order to
 increase performance or to allow for better testing.
 In all situation, we'll need some sort of authorization. This is achieved using a [Google Service Account](https://cloud.google.com/iam/docs/service-accounts).
 This account can be provided as an environment variable, named `GOOGLE_CREDENTIALS`, having its value stored in a secret.
-You can check [wordpress-chart](https://github.com/presslabs/wordpress-chart/blob/master/charts/wordpress-site/templates/wordpress.yaml#L45) or 
+You can check [wordpress-chart](https://github.com/presslabs/wordpress-chart/blob/master/charts/wordpress-site/templates/wordpress.yaml#L45) or
 the [spec itself](https://github.com/presslabs/wordpress-operator/blob/master/README.md).
 
 ##### Upload a file
@@ -36,7 +48,7 @@ In order to read a file from GCS, we experimented with rclone, that was used to 
 
 ## Code
 
-Stack will always start a Docker image that will run the actual code. The code can be deployed using Git, [pvc](https://kubernetes.io/docs/concepts/storage/persistent-volumes/), [hostPath](https://kubernetes.io/docs/concepts/storage/volumes/#hostpath) or 
+Stack will always start a Docker image that will run the actual code. The code can be deployed using Git, [pvc](https://kubernetes.io/docs/concepts/storage/persistent-volumes/), [hostPath](https://kubernetes.io/docs/concepts/storage/volumes/#hostpath) or
 simple [emptyDir](https://kubernetes.io/docs/concepts/storage/volumes/#emptydir). Another option will be to just build the image yourself and don't specify any code options. Using this, you can run what you've bundle in the image and Stack will not interfere.
 
 
@@ -59,7 +71,7 @@ From that volume, only `contentSubPath` will actually run, which is usually the 
 
 ### Docker image
 
-You can run a custom image, bundled with your own code and dependencies. The only thing you need to specify is `code: {}`. In this way, it won't mount any code from other sources. 
+You can run a custom image, bundled with your own code and dependencies. The only thing you need to specify is `code: {}`. In this way, it won't mount any code from other sources.
 
 This Docker image needs to contain everything already bundled that's going to be enough to run your site. We recommend starting from [wordpress-runtime](quay.io/presslabs/wordpress-runtime:5.2-7.3.4-r151), that's built from [stack-wordpress](https://github.com/presslabs/stack-wordpress).
 

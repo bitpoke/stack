@@ -2,8 +2,8 @@
 title: Welcome to Stack Docs!
 linktitle: Stack Docs
 description: "Here you can find Presslabs Stack's documentation, the first open-source serverless hosting platform that bridges two major technologies: WordPress and Kubernetes."
-categories: ['intro']
-keywords: ['stack']
+categories: ['stack']
+keywords: ['stack', 'docs', 'wordpress', 'kubernetes']
 weight: 1
 draft: false
 aliases: []

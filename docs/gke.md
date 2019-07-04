@@ -1,10 +1,22 @@
+---
+title: How to install Stack on GKE
+linktitle: Install on GKE
+description: "Here you can find Presslabs Stack's documentation, the first open-source serverless hosting platform that bridges two major technologies: WordPress and Kubernetes."
+categories: ['stack']
+keywords: ['GKE', 'stack', 'cluster']
+weight: 1
+draft: false
+aliases: []
+slug: 'install-stack-on-gke'
+---
+
 # How to install Stack on GKE?
 
 Right now, GKE is the most tested Kubernetes environment for Stack. Keep in mind that for now, Kubernetes 1.13.6 and 1.14.2 are not supported because of [https://github.com/presslabs/stack/issues/23](https://github.com/presslabs/stack/issues/23).
 
 ### Cluster description
 
-If you want to move quickly, you can use the predefined terraform scripts from [terraform](https://github.com/presslabs/stack/tree/master/terraform/examples/gke). 
+If you want to move quickly, you can use the predefined terraform scripts from [terraform](https://github.com/presslabs/stack/tree/master/terraform/examples/gke).
 
 Those scripts allow you to create a new cluster with 4 node pools, pre-configured with the labels and taints:
 
@@ -63,17 +75,17 @@ We'll then need to initialize terraform's modules and install `google-beta` plug
 Next, create a new values file. Let's call it `cluster.tfvars`.
 
     project = "ureactor"
-    
+
     cluster_name = "staging"
-    
+
     preemptible = true
-    
+
     system_node_type = "n1-standard-4"
-    
+
     database_node_type = "n1-standard-4"
-    
+
     wordpress_node_type = "n1-standard-4"
-    
+
     zones = ["europe-west3-a"]
 
 You can see a list with all variables you can update in [main.tf](https://github.com/presslabs/stack/blob/master/terraform/examples/gke/main.tf)
@@ -95,7 +107,7 @@ Now that the cluster is up and running, you'll need to install helm tiller. For 
         --override 'spec.template.spec.containers[0].command'='{/tiller,--storage=secret}' \
         --wait
 
-[02-install-presslabs-stack.sh](https://github.com/presslabs/stack/blob/master/demo/02-install-presslabs-stack.sh) is actually going to install the Stack, via `helm`. 
+[02-install-presslabs-stack.sh](https://github.com/presslabs/stack/blob/master/demo/02-install-presslabs-stack.sh) is actually going to install the Stack, via `helm`.
 
 First, we'll need a `presslabs-stack` namespace
 

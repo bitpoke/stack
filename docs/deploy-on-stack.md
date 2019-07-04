@@ -1,3 +1,15 @@
+---
+title: Develop and Deploy on Stack
+linktitle: Develop and Deploy on Stack
+description: "Here you can find Presslabs Stack's documentation, the first open-source serverless hosting platform that bridges two major technologies: WordPress and Kubernetes."
+categories: ['stack']
+keywords: ['develop', 'deploy', 'stack']
+weight: 1
+draft: false
+aliases: []
+slug: 'deploy-wordpress-on-stack'
+---
+
 # Develop and Deploy on Stack
 
 Right now, because of [wordpress-operator](http://github.com/presslabs/wordpress-operator), deploying a site is coupled
@@ -78,7 +90,7 @@ $ kubectl get pods
 $ kubectl port-forward <release>-mysql-0 3306
 ```
 
-Furthermore, you'll need to connect to it via a user and password. All database related credentials are stored in the 
+Furthermore, you'll need to connect to it via a user and password. All database related credentials are stored in the
 `<release>-db` secret.
 
 ```console
