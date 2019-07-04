@@ -9,7 +9,7 @@ toc: true
 slug: 'about-stack'
 ---
 
-## What is presslabs/stack ?
+## What is presslabs/stack?
 
 Stack is a collection of Kubernetes operators that are used to manage and operator WordPress on top of Kubernets.
 Those operators are cloud agonistic, meaning that Stack can run on any Kubernetes cluster.

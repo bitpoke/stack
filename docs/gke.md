@@ -97,7 +97,7 @@ zones = ["europe-west3-a"]
 
 You can see a list with all variables you can update in [main.tf](https://github.com/presslabs/stack/blob/master/terraform/examples/gke/main.tf)
 
-Next, just apply the configuration you set
+Next, just apply the configuration you set:
 
 ``` shell
 terraform apply -var-file="cluster.tfvars"
