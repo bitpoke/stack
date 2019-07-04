@@ -5,8 +5,12 @@ description: "Here you can find Presslabs Stack's documentation, the first open-
 categories: ['stack']
 keywords: ['stack']
 aliases: []
+weight: 1
+draft: false
+aliases: []
 toc: true
-slug: 'running-wordpress-on-kubernetes'
+related: true
+slug: 'running-wordpress-on-kubernetes/'
 ---
 
 ## Running WordPress on Stack

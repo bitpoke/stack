@@ -5,7 +5,11 @@ description: "Here you can find Presslabs Stack's documentation, the first open-
 categories: ['stack']
 keywords: ['presslabs', 'stack']
 aliases: []
+weight: 1
+draft: false
+aliases: []
 toc: true
+related: true
 slug: 'about-stack'
 ---
 
