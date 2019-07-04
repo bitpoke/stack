@@ -35,8 +35,10 @@ In order to continue with terraform, you'll need some pre-requirements:
 
 Moving forward, let's clone the repository:
 
-    git clone git@github.com:presslabs/stack.git
-    ls -la stack/
+``` shell
+git clone git@github.com:presslabs/stack.git
+ls -la stack/
+```
 
 In `stack/`, you'll find a directory called `terraform` which contains some terraform modules and some example. It's highly recommended to check the modules itself, but I can give you a summary.
 
@@ -64,68 +66,86 @@ In order to cut your costs, you may want to create sites one preemptible machine
 
 In order to create a new cluster, first, you'll need to authorize your self, via gcloud cli.
 
-    gcloud auth login
-    gcloud auth application-default login
+``` shell
+gcloud auth login
+gcloud auth application-default login
+```
 
 We'll then need to initialize terraform's modules and install `google-beta` plugin.
 
-    cd stack/terraform/examples/gke
-    terraform init
+``` shell
+cd stack/terraform/examples/gke
+terraform init
+```
 
 Next, create a new values file. Let's call it `cluster.tfvars`.
 
-    project = "ureactor"
+``` js
+project = "ureactor"
 
-    cluster_name = "staging"
+cluster_name = "staging"
 
-    preemptible = true
+preemptible = true
 
-    system_node_type = "n1-standard-4"
+system_node_type = "n1-standard-4"
 
-    database_node_type = "n1-standard-4"
+database_node_type = "n1-standard-4"
 
-    wordpress_node_type = "n1-standard-4"
+wordpress_node_type = "n1-standard-4"
 
-    zones = ["europe-west3-a"]
+zones = ["europe-west3-a"]
+```
 
 You can see a list with all variables you can update in [main.tf](https://github.com/presslabs/stack/blob/master/terraform/examples/gke/main.tf)
 
 Next, just apply the configuration you set
 
-    terraform apply -var-file="cluster.tfvars"
+``` shell
+terraform apply -var-file="cluster.tfvars"
+```
 
 Now that the cluster is up and running, you'll need to install helm tiller. For that, stack offers some bash scripts that are located under the [demo](https://github.com/presslabs/stack/tree/master/demo) directory.
 
 [01-install-helm.sh](https://github.com/presslabs/stack/blob/master/demo/01-install-helm.sh) creates a `tiller` service account, it binds the `cluster-admin` role to it and is initializing the tiller.
 
-    kubectl --namespace kube-system create sa tiller
-    kubectl create clusterrolebinding tiller \
-        --clusterrole cluster-admin \
-        --serviceaccount=kube-system:tiller
-    helm init --service-account tiller \
-        --history-max 10 \
-        --override 'spec.template.spec.containers[0].command'='{/tiller,--storage=secret}' \
-        --wait
+``` shell
+kubectl --namespace kube-system create sa tiller
+kubectl create clusterrolebinding tiller \
+    --clusterrole cluster-admin \
+    --serviceaccount=kube-system:tiller
+helm init --service-account tiller \
+    --history-max 10 \
+    --override 'spec.template.spec.containers[0].command'='{/tiller,--storage=secret}' \
+    --wait
+```
 
 [02-install-presslabs-stack.sh](https://github.com/presslabs/stack/blob/master/demo/02-install-presslabs-stack.sh) is actually going to install the Stack, via `helm`.
 
 First, we'll need a `presslabs-stack` namespace
 
-    kubectl create ns presslabs-stack
+``` shell
+kubectl create ns presslabs-stack
+```
 
 For that namespace, we'll need to disable validation, in order to allow cert-manager to do its job
 
-    kubectl label namespace presslabs-stack certmanager.k8s.io/disable-validation=true
+``` shell
+kubectl label namespace presslabs-stack certmanager.k8s.io/disable-validation=true
+```
 
 Next, add presslabs's chart repository and update helm sources
 
-    helm repo add presslabs https://presslabs.github.io/charts
-    helm repo update
+``` shell
+helm repo add presslabs https://presslabs.github.io/charts
+helm repo update
+```
 
 In the end, you can just install `presslabs/stack` chart with some presets values from [gke.yaml](https://github.com/presslabs/stack/blob/master/presets/gke.yaml).
 
-    helm upgrade -i stack presslabs/stack --namespace presslabs-stack \
-        -f "https://raw.githubusercontent.com/presslabs/stack/master/presets/gke.yaml"
+``` shell
+helm upgrade -i stack presslabs/stack --namespace presslabs-stack \
+    -f "https://raw.githubusercontent.com/presslabs/stack/master/presets/gke.yaml"
+```
 
 Those presets will request basic resources for each component: `256Mi` RAM and `100m` CPU.
 
