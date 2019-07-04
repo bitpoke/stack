@@ -4,8 +4,6 @@ linktitle: About Stack
 description: "Here you can find Presslabs Stack's documentation, the first open-source serverless hosting platform that bridges two major technologies: WordPress and Kubernetes."
 categories: ['stack']
 keywords: ['presslabs', 'stack']
-weight: 1
-draft: false
 aliases: []
 slug: 'about-stack'
 ---

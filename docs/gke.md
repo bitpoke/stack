@@ -4,8 +4,6 @@ linktitle: Install on GKE
 description: "Here you can find Presslabs Stack's documentation, the first open-source serverless hosting platform that bridges two major technologies: WordPress and Kubernetes."
 categories: ['stack']
 keywords: ['GKE', 'stack', 'cluster']
-weight: 1
-draft: false
 aliases: []
 slug: 'install-stack-on-gke'
 ---
@@ -80,7 +78,7 @@ terraform init
 
 Next, create a new values file. Let's call it `cluster.tfvars`.
 
-``` js
+``` shell
 project = "ureactor"
 
 cluster_name = "staging"
