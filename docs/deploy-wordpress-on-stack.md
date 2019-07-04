@@ -1,16 +1,14 @@
 ---
-title: Develop and Deploy on Stack
-linktitle: Develop and Deploy on Stack
+title: Develop and deploy on Stack
+linktitle: Develop and deploy
 description: "Here you can find Presslabs Stack's documentation, the first open-source serverless hosting platform that bridges two major technologies: WordPress and Kubernetes."
-categories: ['stack']
-keywords: ['develop', 'deploy', 'stack']
-aliases: []
-weight: 1
+categories: []
+keywords: ['stack', 'docs', 'wordpress', 'kubernetes']
 draft: false
 aliases: []
+slug: deploy-wordpress-on-stack
 toc: true
 related: true
-slug: 'deploy-wordpress-on-stack'
 ---
 
 ## Develop and Deploy on Stack

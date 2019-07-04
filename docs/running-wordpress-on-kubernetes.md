@@ -1,16 +1,14 @@
 ---
-title: Running WordPress on Stack
+title: Wordpress on Kubernetes
 linktitle: Running Wordpress on Kubernetes
 description: "Here you can find Presslabs Stack's documentation, the first open-source serverless hosting platform that bridges two major technologies: WordPress and Kubernetes."
-categories: ['stack']
-keywords: ['stack']
-aliases: []
-weight: 1
+categories: []
+keywords: ['stack', 'docs', 'wordpress', 'kubernetes']
 draft: false
 aliases: []
+slug: running-wordpress-on-kubernetes
 toc: true
 related: true
-slug: 'running-wordpress-on-kubernetes/'
 ---
 
 ## Running WordPress on Stack
@@ -67,7 +65,7 @@ In order to fully take advantage of all Stack features, we recommend two ways of
 - Git
 - Docker image
 
-You also can use a certain custom Docker image and a git reference to deploy. In this way, you'll be able to install custom libraries and binary, replace Nginx or PHP-FPM and run you versioned code.
+You also can use a certain custom Docker image and a git reference to deploy. In this way, you'll be able to install custom libraries and binary, replace `Nginx` or `PHP-FPM` and run you versioned code.
 
 ### Git
 

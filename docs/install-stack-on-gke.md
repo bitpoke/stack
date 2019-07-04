@@ -1,16 +1,14 @@
 ---
-title: How to install Stack on GKE
+title: Install on GKE
 linktitle: Install on GKE
 description: "Here you can find Presslabs Stack's documentation, the first open-source serverless hosting platform that bridges two major technologies: WordPress and Kubernetes."
-categories: ['stack']
-keywords: ['GKE', 'stack', 'cluster']
-aliases: []
-weight: 1
+categories: []
+keywords: ['stack', 'docs', 'wordpress', 'kubernetes']
 draft: false
 aliases: []
+slug: install-stack-on-gke
 toc: true
 related: true
-slug: 'install-stack-on-gke'
 ---
 
 ## How to install Stack on GKE?
