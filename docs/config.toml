@@ -67,19 +67,24 @@ pygmentsStyle = "github"
 [[menu.docs]]
   name = "About Stack"
   url = "/about-stack/"
+  weight = 1
 
 [[menu.docs]]
   name = "Install on GKE"
   url = "/install-stack-on-gke/"
+  weight = 2
 
 [[menu.docs]]
   name = "Install on Minikube"
   url = "/install-stack-on-minikube/"
+  weight = 3
 
 [[menu.docs]]
   name = "Running Wordpress on Kubernetes"
   url = "/running-wordpress-on-kubernetes/"
+  weight = 4
 
 [[menu.docs]]
   name = "Develop and deploy on Stack"
   url = "/deploy-wordpress-on-stack/"
+  weight = 5
