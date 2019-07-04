@@ -18,7 +18,7 @@ Those operators are cloud agonistic, meaning that Stack can run on any Kubernete
 
 All the components of Stack can be viewed in the picture above
 
-![stack-architecture](stack.png)
+![stack-architecture](./images/stack.png)
 
 It has a control plane made up of:
 
