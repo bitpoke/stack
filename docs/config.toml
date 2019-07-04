@@ -1,8 +1,7 @@
 baseURL = "https://www.presslabs.com/docs/stack/"
-languageCode = "en-us"
 title = "Stack Documentation"
 summaryLength = 15
-metaDataFormat = "yaml"
+metaDataFormat = "toml"
 theme = "docs"
 enableRobotsTXT = true
 enableGitInfo = true
@@ -67,30 +66,20 @@ pygmentsStyle = "github"
 
 [[menu.docs]]
   name = "About Stack"
-  weight = 1
-  identifier = "index"
-  url = "about-stack/"
+  url = "/about-stack/"
 
 [[menu.docs]]
   name = "Install on GKE"
-  weight = 2
-  identifier = "gke"
-  url = "install-stack-on-gke/"
+  url = "/install-stack-on-gke/"
 
 [[menu.docs]]
   name = "Install on Minikube"
-  weight = 3
-  identifier = "minikube"
-  url = "install-stack-on-minikube/"
+  url = "/install-stack-on-minikube/"
 
 [[menu.docs]]
   name = "Running Wordpress on Kubernetes"
-  weight = 4
-  identifier = "site"
-  url = "running-wordpress-on-kubernetes/"
+  url = "/running-wordpress-on-kubernetes/"
 
 [[menu.docs]]
   name = "Develop and deploy on Stack"
-  weight = 5
-  identifier = "deploy-on-stack"
-  url = "deploy-wordpress-on-stack/"
+  url = "/deploy-wordpress-on-stack/"
