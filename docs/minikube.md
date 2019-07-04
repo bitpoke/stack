@@ -7,6 +7,7 @@ keywords: ['stack']
 weight: 1
 draft: false
 aliases: []
+slug: 'install-stack-on-minikube'
 ---
 
 # How to install stack on Minikube?
