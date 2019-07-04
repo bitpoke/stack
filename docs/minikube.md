@@ -1,3 +1,14 @@
+---
+title: How to install stack on Minikube
+linktitle: Install on Minikube
+description: "Here you can find Presslabs Stack's documentation, the first open-source serverless hosting platform that bridges two major technologies: WordPress and Kubernetes."
+categories: ['stack']
+keywords: ['stack']
+weight: 1
+draft: false
+aliases: []
+---
+
 # How to install stack on Minikube?
 
 Installing Stack on Minikube is no difference from installing it on another Kubernetes cluster.

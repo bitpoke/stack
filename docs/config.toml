@@ -1,4 +1,4 @@
-baseURL = "https://www.presslabs.com/docs/"
+baseURL = "https://www.presslabs.com/docs/stack/"
 languageCode = "en-us"
 title = "Stack Documentation"
 summaryLength = 15
