@@ -65,31 +65,31 @@ pygmentsStyle = "github"
   name = "keywords"
   weight = 150
 
-[[menu.global]]
+[[menu.docs]]
   name = "About Stack"
   weight = 1
   identifier = "index"
   url = "/about-stack/"
 
-[[menu.global]]
+[[menu.docs]]
   name = "Install on GKE"
   weight = 2
   identifier = "gke"
   url = "/install-stack-on-gke/"
 
-[[menu.global]]
+[[menu.docs]]
   name = "Install on Minikube"
   weight = 3
   identifier = "minikube"
   url = "/install-stack-on-minikube/"
 
-[[menu.global]]
+[[menu.docs]]
   name = "Running Wordpress on Kubernetes"
   weight = 4
   identifier = "site"
   url = "/running-wordpress-on-kubernetes/"
 
-[[menu.global]]
+[[menu.docs]]
   name = "Develop and deploy on Stack"
   weight = 5
   identifier = "deploy-on-stack"
