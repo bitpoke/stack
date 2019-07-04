@@ -8,7 +8,7 @@ aliases: []
 slug: 'deploy-wordpress-on-stack'
 ---
 
-# Develop and Deploy on Stack
+## Develop and Deploy on Stack
 
 Right now, because of [wordpress-operator](http://github.com/presslabs/wordpress-operator), deploying a site is coupled
 with [stack-wordpress](https://github.com/presslabs/stack-wordpress).

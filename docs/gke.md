@@ -8,7 +8,7 @@ aliases: []
 slug: 'install-stack-on-gke'
 ---
 
-# How to install Stack on GKE?
+## How to install Stack on GKE?
 
 Right now, GKE is the most tested Kubernetes environment for Stack. Keep in mind that for now, Kubernetes 1.13.6 and 1.14.2 are not supported because of [https://github.com/presslabs/stack/issues/23](https://github.com/presslabs/stack/issues/23).
 

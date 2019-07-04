@@ -8,7 +8,7 @@ aliases: []
 slug: 'install-stack-on-minikube'
 ---
 
-# How to install stack on Minikube?
+## How to install stack on Minikube?
 
 Installing Stack on Minikube is no difference from installing it on another Kubernetes cluster.
 We recommend to start Minikube with a little bit more resources `minikube start --cpus 4 --memory 8192`.

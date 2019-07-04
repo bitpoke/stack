@@ -8,13 +8,13 @@ aliases: []
 slug: 'running-wordpress-on-kubernetes'
 ---
 
-# Running WordPress on Stack
+## Running WordPress on Stack
 
 A good reference about how a WordPress site looks on Stack is the [WordPress Spec](https://github.com/presslabs/wordpress-operator#deploying-a-wordpress-site).
 
 There are multiple parts that make a site running on Stack, and we'll describe them.
 
-## Domains
+### Domains
 
 Each site needs to have at least one domain. When a request comes to the nginx ingress, it'll get routed to the appropriate pods, based on the `Host` header.
 
@@ -22,7 +22,7 @@ Even if you can have multiple domains answering to the same site, you still need
 
 Those domains are syncing in the ingress controller. Also, certmanager will bundle those domains into one single certificate.
 
-## Media
+### Media
 
 Uploads are hard to manage in WordPress because they tend to be big and use a lot of computation power to generate different size.
 We found that we can scale them by using buckets (Google Compute Storage / S3 etc). You also can use other, more traditional ways of
@@ -42,13 +42,13 @@ You can check [wordpress-chart](https://github.com/presslabs/wordpress-chart/blo
 
 the [spec itself](https://github.com/presslabs/wordpress-operator/blob/master/README.md).
 
-##### Upload a file
+### Upload a file
 
 In order to upload a file on GCS, we start [rclone](https://rclone.org/) as an FTP server, in a different container, but in the same pod as the WordPress runtime. We choose rclone because is fast, well tested, can cache reads and writes (it increase performance when generating new thumbnails) and is an abstract way of connecting to multiple storage providers, since you need to talk only FTP. PHP knows how to talk FTP, natively, via stream wrappers, so you don't need to manage any connections.
 
 Rclone uses the `GOOGLE_CREDENTIALS` service account key, in order to access the bucket.
 
-##### Read a file
+### Read a file
 
 In order to read a file from GCS, we experimented with rclone, that was used to serve images via HTTP. Unfortunately, because it was to slow, we replaced it with a custom nginx and Lua implementation. This implementation is fast, but it has the drawback that works only on GCS. Also, is embedded in [stack-wordpress](https://github.com/presslabs/stack-wordpress) runtime, meaning that if you want to use this feature in your custom image, you'll need to base your image on [wordpress-runtime](https://quay.io/repository/presslabs/wordpress-runtime) container.
 
@@ -87,7 +87,7 @@ This Docker image needs to contain everything already bundled that's going to be
 
 You can tune almost every part of the configuration. We recommend using this container as a starting point.
 
-#### Environment variables
+### Environment variables
 
 - `DOCUMENT_ROOT` (default to `/var/www/html`)
 - `MAX_BODY_SIZE` (default to `10`) - the size in megabytes for the maximum
