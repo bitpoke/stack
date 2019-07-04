@@ -4,8 +4,6 @@ linktitle: Running Wordpress on Kubernetes
 description: "Here you can find Presslabs Stack's documentation, the first open-source serverless hosting platform that bridges two major technologies: WordPress and Kubernetes."
 categories: ['stack']
 keywords: ['stack']
-weight: 1
-draft: false
 aliases: []
 slug: 'running-wordpress-on-kubernetes'
 ---
