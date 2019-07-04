@@ -16,6 +16,7 @@ Right now, because of [wordpress-operator](http://github.com/presslabs/wordpress
 with [stack-wordpress](https://github.com/presslabs/stack-wordpress).
 
 [stack-wordpress](https://github.com/presslabs/stack-wordpress) offers two main components:
+
   * customized WordPress with a custom object cache and an uploads wrapper over FTP (in order to allow uploads for buckets).
   * a base Docker image as runtime with Nginx (that can serve images from buckets), PHP-FPM and some minimal PHP extensions.
 
@@ -33,7 +34,7 @@ with [stack-wordpress](https://github.com/presslabs/stack-wordpress).
 
 We'll start from [roots/bedrock](https://github.com/roots/bedrock), via `composer`:
 
-```console
+``` shell
 $ composer create-project roots/bedrock migrate
 $ cd migrate
 $ composer remove roots/wordpress
@@ -44,13 +45,13 @@ $ composer require presslabs-stack/wordpress ^5.2.2
 You can install/uninstall plugins and themes via composer, autoload and other goodies.
 
 To install certain plugins or themes, you just need to
-```console
+``` shell
 $ composer require wpackagist-plugin/debug-bar
 ```
 
 Now, your source code is stored locally and in order to deploy it on your Kubernetes cluster, you'll need `skaffold`.
 
-```console
+``` shell
 $ wp stack init
 $ docker pull quay.io/presslabs/wordpres-runtime:5.2-7.3.4-latest
 ```
@@ -60,6 +61,7 @@ store configuration for deployments and builds) and a `chart/` directory (the pl
 
 If you want to add custom extensions, libraries or binaries, you can do it by editing that generated `Dockerfile`.
 When you run `wp stack init`, you will need to provide:
+
     * a Docker registry, accessible by the Stack. You can configure `ImagePullSecrets` on the `Wordpress` resource (`chart/wordpress-site/`) to handle image pulls from external sources.
     * a development domain. `*.localstack.pl` will always point to `localhost`, so you can run Stack on `docker-for-mac`,
        `docker-for-windows` or `minikube` and develop locally.
@@ -75,7 +77,7 @@ the build was made, `skaffold` will try to deploy the `chart/wordpress-site/` to
 `--cleanup=false` ensure that the deployment will not be deleted, so the state of your application (like database, Memcache, etc)
 will be preserved between code updates.
 
-```console
+``` shell
 $ composer require rarst/laps
 ```
 
@@ -85,7 +87,8 @@ development cluster.
 ### Database import
 
 In order to import the database, you'll need to `port-forward` MySQL's port.
-```console
+
+``` shell
 $ kubectl get pods
 $ kubectl port-forward <release>-mysql-0 3306
 ```
@@ -93,7 +96,7 @@ $ kubectl port-forward <release>-mysql-0 3306
 Furthermore, you'll need to connect to it via a user and password. All database related credentials are stored in the
 `<release>-db` secret.
 
-```console
+``` shell
 $ kubectl get secret dev-wclondon-2019-db -o yaml
 ```
 
@@ -103,7 +106,8 @@ You'll need the `USER` and `PASSWORD` secret. Those are base64 encoded and in or
 ### Uploads import
 
 We recommend using buckets to handle media files and in order to import all those media files, we recommend using [rclone](https://rclone.org/). You'll just need to config your service account and you're ready to go.
-```console
+
+``` shell
 $ rclone -v sync uploads gcs:<bucketname>/<directory>/
 ```
 
