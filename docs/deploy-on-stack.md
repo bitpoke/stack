@@ -43,6 +43,7 @@ $ composer require presslabs-stack/wordpress ^5.2.2
 You can install/uninstall plugins and themes via composer, autoload and other goodies.
 
 To install certain plugins or themes, you just need to
+
 ``` shell
 $ composer require wpackagist-plugin/debug-bar
 ```
@@ -60,11 +61,11 @@ store configuration for deployments and builds) and a `chart/` directory (the pl
 If you want to add custom extensions, libraries or binaries, you can do it by editing that generated `Dockerfile`.
 When you run `wp stack init`, you will need to provide:
 
-    * a Docker registry, accessible by the Stack. You can configure `ImagePullSecrets` on the `Wordpress` resource (`chart/wordpress-site/`) to handle image pulls from external sources.
-    * a development domain. `*.localstack.pl` will always point to `localhost`, so you can run Stack on `docker-for-mac`,
-       `docker-for-windows` or `minikube` and develop locally.
-    * a production domain.
-    * production kubeconfig, used by `skaffold` when deploying to production.
+- a Docker registry, accessible by the Stack. You can configure `ImagePullSecrets` on the `Wordpress` resource (`chart/wordpress-site/`) to handle image pulls from external sources.
+- a development domain. `*.localstack.pl` will always point to `localhost`, so you can run Stack on `docker-for-mac`,
+   `docker-for-windows` or `minikube` and develop locally.
+- a production domain.
+- production kubeconfig, used by `skaffold` when deploying to production.
 
 Beside a `Dockerfile`, it also creates a `skaffold.yaml` (which contains deployment configurations), downloads and unarchive
 [wordpress-site](https://github.com/presslabs/stack/tree/master/charts/wordpress-site) chart and creates a default

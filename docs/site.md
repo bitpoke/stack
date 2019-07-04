@@ -58,8 +58,9 @@ Stack will always start a Docker image that will run the actual code. The code c
 simple [emptyDir](https://kubernetes.io/docs/concepts/storage/volumes/#emptydir). Another option will be to just build the image yourself and don't specify any code options. Using this, you can run what you've bundle in the image and Stack will not interfere.
 
 In order to fully take advantage of all Stack features, we recommend two ways of deploying your code:
-  * Git
-  * Docker image
+
+- Git
+- Docker image
 
 You also can use a certain custom Docker image and a git reference to deploy. In this way, you'll be able to install custom libraries and binary, replace Nginx or PHP-FPM and run you versioned code.
 
@@ -67,8 +68,8 @@ You also can use a certain custom Docker image and a git reference to deploy. In
 
 In order to deploy a site using Git, you'll need to define:
 
-  * `spec.code.git.repository` - valid Git repository origin. It supports http, https, git and ssh protocol.
-  * `spec.code.git.reference` - reference to deploy. It can be a commit, branch or tag. Default: `master`
+- `spec.code.git.repository` - valid Git repository origin. It supports http, https, git and ssh protocol.
+- `spec.code.git.reference` - reference to deploy. It can be a commit, branch or tag. Default: `master`
 
 If the code is not public, you'll need also to add `SSH_RSA_PRIVATE_KEY` to `spec.code.git.env` as an environment variable. You can store it into a secret, as specified in the [wordpress-site](https://github.com/presslabs/stack/blob/master/charts/wordpress-site/templates/wordpress.yaml#L26) chart.
 
@@ -88,47 +89,47 @@ You can tune almost every part of the configuration. We recommend using this con
 
 #### Environment variables
 
-* `DOCUMENT_ROOT` (default to `/var/www/html`)
-* `MAX_BODY_SIZE` (default to `10`) - the size in megabytes for the maximum
+- `DOCUMENT_ROOT` (default to `/var/www/html`)
+- `MAX_BODY_SIZE` (default to `10`) - the size in megabytes for the maximum
   client request body size.  (this controls nginx `client_max_body_size` and
   php
   `upload_max_filesize` and `post_max_size`)
-* `NGINX_ACCESS_LOG` (default to `off`) - where to write nginx's access log
-* `NGINX_ERROR_LOG` (default to `/dev/stderr`) - where to write nginx's error
+- `NGINX_ACCESS_LOG` (default to `off`) - where to write nginx's access log
+- `NGINX_ERROR_LOG` (default to `/dev/stderr`) - where to write nginx's error
   log
-* `NGINX_STATUS_PATH` (default to `/nginx-status`) - where to expose nginx's
+- `NGINX_STATUS_PATH` (default to `/nginx-status`) - where to expose nginx's
   status
-* `PHP_ACCESS_LOG_FORMAT` (default to `%R - %u %t \"%m %r\" %s`) - see
+- `PHP_ACCESS_LOG_FORMAT` (default to `%R - %u %t \"%m %r\" %s`) - see
   http://php.net/manual/ro/install.fpm.configuration.php for more options
-* `PHP_ACCESS_LOG` (default to `/var/log/stdout`) - where to write php's
+- `PHP_ACCESS_LOG` (default to `/var/log/stdout`) - where to write php's
   access log. Can be set to `off` to disable it entirely.
-* `PHP_LIMIT_EXTENSIONS` (default to `.php`) - space separated list of file
+- `PHP_LIMIT_EXTENSIONS` (default to `.php`) - space separated list of file
   extensions for which to allow execution of php code
-* `PHP_MAX_CHILDREN` (default to `5`)
-* `PHP_MAX_REQUESTS` (default to `500`)
-* `PHP_MAX_SPARE_SERVERS` (default to `PHP_MAX_CHILDREN / 2 + 1`)
-* `PHP_MIN_SPARE_SERVERS` (default to `PHP_MAX_CHILDREN / 3`)
-* `PHP_START_SERVERS` (default to `(PHP_MAX_SPARE_SERVERS - PHP_MIN_SPARE_SERVERS) / 2 + PHP_MIN_SPARE_SERVERS`)
-* `PHP_MEMORY_LIMIT` (default to `128`). PHP request memory limit in megabytes
-* `PHP_PING_PATH` (default to `/ping`)
-* `PHP_PM` (default to `dynamic`) - can be set to `dynamic`, `static`,
+- `PHP_MAX_CHILDREN` (default to `5`)
+- `PHP_MAX_REQUESTS` (default to `500`)
+- `PHP_MAX_SPARE_SERVERS` (default to `PHP_MAX_CHILDREN / 2 + 1`)
+- `PHP_MIN_SPARE_SERVERS` (default to `PHP_MAX_CHILDREN / 3`)
+- `PHP_START_SERVERS` (default to `(PHP_MAX_SPARE_SERVERS - PHP_MIN_SPARE_SERVERS) / 2 + PHP_MIN_SPARE_SERVERS`)
+- `PHP_MEMORY_LIMIT` (default to `128`). PHP request memory limit in megabytes
+- `PHP_PING_PATH` (default to `/ping`)
+- `PHP_PM` (default to `dynamic`) - can be set to `dynamic`, `static`,
   `ondemand`
-* `PHP_PROCESS_IDLE_TIMEOUT` (default to `10`) - time in seconds to wait until
+- `PHP_PROCESS_IDLE_TIMEOUT` (default to `10`) - time in seconds to wait until
   killing an idle worker (used only when `PHP_PM` is set to `ondemand`)
-* `PHP_REQUEST_TIMEOUT` (default to `30`) - Time in seconds for serving a
+- `PHP_REQUEST_TIMEOUT` (default to `30`) - Time in seconds for serving a
   single request. PHP `max_execution_time` is set to this value and can only
   be set to a lower value. If set to a higher one, the request will still be
   killed after this timeout.
-* `PHP_SLOW_REQUEST_TIMEOUT` (default to `0`) - Time in seconds after which a
+- `PHP_SLOW_REQUEST_TIMEOUT` (default to `0`) - Time in seconds after which a
   request is logged as slow. Set to `0` to disable slow logging.
-* `PHP_STATUS_PATH` (default to `/php-status`)
-* `PHP_WORKER_CLEAR_ENV` (default to `no`) - whenever to clear the env for php
+- `PHP_STATUS_PATH` (default to `/php-status`)
+- `PHP_WORKER_CLEAR_ENV` (default to `no`) - whenever to clear the env for php
   workers
-* `SERVER_NAME` (default to `_`)
-* `SMTP_HOST` (default to `localhost`)
-* `SMTP_USER`
-* `SMTP_PASS`
-* `SMTP_PORT` (default to `587`)
-* `SMTP_TLS` (default to `yes`)
-* `WORKER_GROUP` (default to `www-data`)
-* `WORKER_USER` (default to `www-data`)
+- `SERVER_NAME` (default to `_`)
+- `SMTP_HOST` (default to `localhost`)
+- `SMTP_USER`
+- `SMTP_PASS`
+- `SMTP_PORT` (default to `587`)
+- `SMTP_TLS` (default to `yes`)
+- `WORKER_GROUP` (default to `www-data`)
+- `WORKER_USER` (default to `www-data`)
