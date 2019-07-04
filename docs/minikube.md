@@ -5,6 +5,7 @@ description: "Here you can find Presslabs Stack's documentation, the first open-
 categories: ['stack']
 keywords: ['stack']
 aliases: []
+toc: true
 slug: 'install-stack-on-minikube'
 ---
 
