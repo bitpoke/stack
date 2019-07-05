@@ -80,7 +80,7 @@ pygmentsStyle = "github"
   weight = 3
 
 [[menu.docs]]
-  name = "Running Wordpress on Kubernetes"
+  name = "Running WordPress on Kubernetes"
   url = "/running-wordpress-on-kubernetes/"
   weight = 4
 
