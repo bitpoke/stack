@@ -82,6 +82,35 @@ pipeline:
     when:
       event: tag
 
+  publish-git-webhook:
+    group: publish
+    image: plugins/docker
+    registry: quay.io
+    repo: quay.io/presslabs/git-webhook
+    dockerfile: Dockerfile.git-webhook
+    tags: [ "latest" ]
+    username: presslabs+drone
+    secrets:
+      - source: QUAY_TOKEN
+        target: DOCKER_PASSWORD
+    when:
+      branch: master
+      event: push
+
+  publish-git-webhook:
+    group: publish
+    image: plugins/docker
+    registry: quay.io
+    repo: quay.io/presslabs/git-webhook
+    dockerfile: Dockerfile.git-webhook
+    tags: [ "${DRONE_TAG}" ]
+    username: presslabs+drone
+    secrets:
+      - source: QUAY_TOKEN
+        target: DOCKER_PASSWORD
+    when:
+      event: tag
+
   publish-stack-chart:
     group: publish
     image: quay.io/presslabs/kluster-toolbox
