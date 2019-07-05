@@ -66,6 +66,9 @@ func NewServer(mgr manager.Manager, addr string) (*Server, error) {
 	s.Mux = http.NewServeMux()
 	s.Server.Handler = s.Mux
 
+	s.Mux.HandleFunc("/healthz", func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusOK)
+	})
 	s.Mux.HandleFunc("/github", s.githubWebhook)
 
 	err := s.IndexField(
