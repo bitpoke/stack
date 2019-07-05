@@ -73,8 +73,7 @@ pipeline:
       - cd /go/src/github.com/presslabs/stack/site
       - git checkout prod
       - git add .
-      - git commit -m "[docs] ${DRONE_COMMIT_MESSAGE}"
-      - git push origin prod
+      - (git commit -m "[docs] ${DRONE_COMMIT_MESSAGE}" && git push origin prod) || true
     environment:
       - GH_USER=presslabs-bot
     secrets:
@@ -124,7 +123,7 @@ pipeline:
     commands:
       - make -C git-webhook test
 
-  publish-default-backend:
+  publish-default-backend-branch:
     group: publish
     image: plugins/docker
     registry: quay.io
@@ -139,7 +138,7 @@ pipeline:
       branch: master
       event: push
 
-  publish-default-backend:
+  publish-default-backend-tag:
     group: publish
     image: plugins/docker
     registry: quay.io
