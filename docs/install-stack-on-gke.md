@@ -1,7 +1,7 @@
 ---
-title: Install on GKE
-linktitle: Install on GKE
-description: "Here you can find Presslabs Stack's documentation, the first open-source serverless hosting platform that bridges two major technologies: WordPress and Kubernetes."
+title: How to install Stack on GKE
+linktitle: How to install Stack on GKE
+description: "Right now, GKE is the most tested Kubernetes environment for Stack."
 categories: []
 keywords: ['stack', 'docs', 'wordpress', 'kubernetes']
 draft: false
@@ -11,22 +11,20 @@ toc: true
 related: true
 ---
 
-## How to install Stack on GKE?
+Keep in mind that for now, Kubernetes 1.13.6 and 1.14.2 are not supported because of [https://github.com/presslabs/stack/issues/23](https://github.com/presslabs/stack/issues/23).
 
-Right now, GKE is the most tested Kubernetes environment for Stack. Keep in mind that for now, Kubernetes 1.13.6 and 1.14.2 are not supported because of [https://github.com/presslabs/stack/issues/23](https://github.com/presslabs/stack/issues/23).
-
-### Cluster description
+## Cluster description
 
 If you want to move quickly, you can use the predefined terraform scripts from [terraform](https://github.com/presslabs/stack/tree/master/terraform/examples/gke).
 
-Those scripts allow you to create a new cluster with 4 node pools, pre-configured with the labels and taints:
+These scripts allow you to create a new cluster with 4 node pools, pre-configured with the labels and taints:
 
 - `system`, used by the control plane to host all operators pods. Those nodes don't need heavy resources.
 - `database`, MySQL related nodes. You can tweak the MySQL performance by using nodes with faster IO and maybe bigger memory for the query cache, depending on the use-case.
 - `wordpress` is used to host pods that run the PHP code with helper containers for serving media files via buckets.
 - `wordpress-preemptible` is the same as the `wordpress` pool, but it has the `cloud.google.com/gke-preemptible` taint. Because of that, you can use preemptible machines for development sites, lowering the entire costs of the cluster.
 
-In order to continue with terraform, you'll need some pre-requirements:
+In order to continue with terraform, you'll need some prerequisites:
 
 - `Terraform v0.12.1`
 - `gcloud`
@@ -41,11 +39,14 @@ git clone git@github.com:presslabs/stack.git
 ls -la stack/
 ```
 
-In `stack/`, you'll find a directory called `terraform` which contains some terraform modules and some example. It's highly recommended to check the modules itself, but I can give you a summary.
+In `stack/`, you'll find a directory called `terraform` which contains some terraform modules and some examples. It's highly recommended to check the modules yourself, but here is a summary.
 
 In order to create a cluster, you'll need to specify a name, region, and at least a zone.
 
-The initial node count is going to be 1 and the cluster will have the horizontal pod autoscaling addon active, but HTTP load balancing add-on is going to be inactive.
+The initial node count is going to be 1 and the cluster will have the `Horizontal Pod Autoscaler` add-on active, but the `HTTP Load Balancing` add-on is going to be inactive.
+
+## Node pools details
+Here are more details about the 4 pre-configured node pools.
 
 ### system node pool
 
@@ -61,11 +62,11 @@ This node pool is used to run the PHP and rclone workloads. You may want to have
 
 ### wordpress-preemtible node pool
 
-In order to cut your costs, you may want to create sites one preemptible machine. They are short-lived instances, 80% cheaper than normal VMs, but they don't have a guaranteed lifespan (Google may need them if their workload is high or if they are up for more than 24h). This node pool is suitable for development or low-traffic instances.
+In order to cut your costs, you may want to create sites on preemptible machines. They are short-lived instances, 80% cheaper than normal VMs, but they don't have a guaranteed lifespan (Google may need them if their workload is high or if they are up for more than 24h). This node pool is suitable for development or low-traffic instances.
 
 ## Create a new cluster
 
-In order to create a new cluster, first, you'll need to authorize your self, via gcloud cli.
+In order to create a new cluster, first, you'll need to authorize yourself, via gcloud cli.
 
 ``` shell
 gcloud auth login
@@ -105,9 +106,11 @@ Next, just apply the configuration you set:
 terraform apply -var-file="cluster.tfvars"
 ```
 
-Now that the cluster is up and running, you'll need to install helm tiller. For that, stack offers some bash scripts that are located under the [demo](https://github.com/presslabs/stack/tree/master/demo) directory.
+Now that the cluster is up and running, you'll need to install helm tiller and the Presslabs Stack. For that, Stack offers some bash scripts that are located under the [demo](https://github.com/presslabs/stack/tree/master/demo) directory, `01-install-helm.sh` and `02-install-presslabs-stack.sh`.
 
-[01-install-helm.sh](https://github.com/presslabs/stack/blob/master/demo/01-install-helm.sh) creates a `tiller` service account, it binds the `cluster-admin` role to it and is initializing the tiller.
+## Install helm tiller
+The [01-install-helm.sh](https://github.com/presslabs/stack/blob/master/demo/01-install-helm.sh) bash script creates a `tiller` service account, it binds the `cluster-admin` role to it and is initializing the tiller, it contains the following commands:
+
 
 ``` shell
 kubectl --namespace kube-system create sa tiller
@@ -120,34 +123,36 @@ helm init --service-account tiller \
     --wait
 ```
 
-[02-install-presslabs-stack.sh](https://github.com/presslabs/stack/blob/master/demo/02-install-presslabs-stack.sh) is actually going to install the Stack, via `helm`.
+## Install the Presslabs Stack
 
-First, we'll need a `presslabs-stack` namespace
+The [02-install-presslabs-stack.sh](https://github.com/presslabs/stack/blob/master/demo/02-install-presslabs-stack.sh) bash script is actually going to install the Stack, via `helm`. We'll take all the commands from this script one by one.
+
+First, we'll need a `presslabs-stack` namespace:
 
 ``` shell
 kubectl create ns presslabs-stack
 ```
 
-For that namespace, we'll need to disable validation, in order to allow cert-manager to do its job
+For that namespace, we'll need to disable validation, in order to allow cert-manager to do its job:
 
 ``` shell
 kubectl label namespace presslabs-stack certmanager.k8s.io/disable-validation=true
 ```
 
-Next, add presslabs's chart repository and update helm sources
+Next, add presslabs's chart repository and update helm sources:
 
 ``` shell
 helm repo add presslabs https://presslabs.github.io/charts
 helm repo update
 ```
 
-In the end, you can just install `presslabs/stack` chart with some presets values from [gke.yaml](https://github.com/presslabs/stack/blob/master/presets/gke.yaml).
+In the end, you can just install `presslabs/stack` chart with some preset values from [gke.yaml](https://github.com/presslabs/stack/blob/master/presets/gke.yaml).
 
 ``` shell
 helm upgrade -i stack presslabs/stack --namespace presslabs-stack \
     -f "https://raw.githubusercontent.com/presslabs/stack/master/presets/gke.yaml"
 ```
 
-Those presets will request basic resources for each component: `256Mi` RAM and `100m` CPU.
+Those preset values will request basic resources for each component: `256Mi` RAM and `100m` CPU.
 
 That's pretty much it! You have Stack up and running on your cluster!
