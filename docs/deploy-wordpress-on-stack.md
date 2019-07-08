@@ -11,10 +11,10 @@ toc: true
 related: true
 ---
 
-Right now, because of [wordpress-operator](http://github.com/presslabs/wordpress-operator), deploying a site is coupled
-with [stack-wordpress](https://github.com/presslabs/stack-wordpress).
+Right now, because of [presslabs/wordpress-operator](http://github.com/presslabs/wordpress-operator), deploying a site is coupled
+with [presslabs/stack-wordpress](https://github.com/presslabs/stack-wordpress).
 
-[stack-wordpress](https://github.com/presslabs/stack-wordpress) offers two main components:
+[presslabs/stack-wordpress](https://github.com/presslabs/stack-wordpress) offers two main components:
 
   * customized WordPress with a custom object cache and an uploads wrapper over FTP (in order to allow uploads for buckets).
   * a base Docker image as runtime with NGINX (that can serve images from buckets), PHP-FPM and some minimal PHP extensions.
