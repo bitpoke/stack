@@ -1,7 +1,7 @@
 ---
-title: How to install Stack on GKE
-linktitle: How to install Stack on GKE
-description: "Right now, GKE is the most tested Kubernetes environment for Stack."
+title: How to install Stack on Google Kubernetes Engine
+linktitle: How to install Stack on Google Kubernetes Engine
+description: "Right now, Google Kubernetes Engine (GKE) is the most tested Kubernetes environment for Stack."
 categories: []
 keywords: ['stack', 'docs', 'wordpress', 'kubernetes']
 draft: false
@@ -82,7 +82,9 @@ terraform init
 
 Next, create a new values file. Let's call it `cluster.tfvars`.
 
-``` shell
+``` tfvars
+# cluster.tfvars
+
 project = "ureactor"
 
 cluster_name = "staging"
@@ -139,7 +141,7 @@ For that namespace, we'll need to disable validation, in order to allow cert-man
 kubectl label namespace presslabs-stack certmanager.k8s.io/disable-validation=true
 ```
 
-Next, add presslabs's chart repository and update helm sources:
+Next, add the Presslabs's charts repository to your helm sources:
 
 ``` shell
 helm repo add presslabs https://presslabs.github.io/charts

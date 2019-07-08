@@ -15,7 +15,7 @@ The project is in it's alpha state and active development is happening in compon
 
 Tiller needs to be initialized in your Kubernetes cluster, eg run `helm init`
 
-Add presslabs helm chart repos:
+Add the Presslabs helm charts repo:
 
 ```
 helm repo add presslabs https://presslabs.github.io/charts

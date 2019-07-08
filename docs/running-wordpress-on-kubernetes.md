@@ -19,12 +19,12 @@ Each site needs to have at least one domain. When a request comes to the NGINX I
 
 Even if you can have multiple domains answering to the same site, you still need the main domain that will be responsible for the `WP_HOME` and `WP_SITEURL` constants.
 
-Those domains are syncing in the ingress controller. Also, Cert Manager will bundle those domains into one single certificate.
+Those domains are syncing in the ingress controller. Also, [cert-manager](https://github.com/jetstack/cert-manager) will bundle those domains into one single certificate.
 
 ## Media files
 
 Uploads are hard to manage in WordPress because they tend to get big and use a lot of computation power to generate different size.
-We found that we can scale them by using buckets (Google Compute Storage / S3 etc). You also can use other traditional ways of
+We found that we can scale them by using buckets (Google Cloud Storage / S3 etc). You also can use other traditional ways of
 storing and serving media files, via [pvc](https://kubernetes.io/docs/concepts/storage/persistent-volumes/), [hostPath](https://kubernetes.io/docs/concepts/storage/volumes/#hostpath) or
 simple [emptyDir](https://kubernetes.io/docs/concepts/storage/volumes/#emptydir).
 
@@ -52,7 +52,7 @@ In order to read a file from GCS, we experimented with `rclone`, that was used t
 ## Deploy WordPress on Stack
 
 Stack will always start a Docker image that will run the actual code. The code can be deployed using Git, [pvc](https://kubernetes.io/docs/concepts/storage/persistent-volumes/), [hostPath](https://kubernetes.io/docs/concepts/storage/volumes/#hostpath) or
-simple [emptyDir](https://kubernetes.io/docs/concepts/storage/volumes/#emptydir). Another option will be to just build the image yourself and don't specify any code options. Using this, you can run what you've bundled in the image and Stack will not interfere.
+simple [emptyDir](https://kubernetes.io/docs/concepts/storage/volumes/#emptydir). Another option will be to just build the image yourself and not specify any code options. Using this, you can run what you've bundled in the image and Stack will not interfere.
 
 In order to fully take advantage of all Stack features, there are three ways of deploying your code:
 
