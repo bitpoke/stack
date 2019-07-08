@@ -1,7 +1,7 @@
 ---
-title: How to install stack on Minikube
-linktitle: Install on Minikube
-description: "Here you can find Presslabs Stack's documentation, the first open-source serverless hosting platform that bridges two major technologies: WordPress and Kubernetes."
+title: How to install Stack on Minikube
+linktitle: How to install Stack on Minikube
+description: "Installing Stack on Minikube is no different then installing it on another Kubernetes cluster."
 categories: []
 keywords: ['stack', 'docs', 'wordpress', 'kubernetes']
 draft: false
@@ -11,10 +11,10 @@ toc: true
 related: true
 ---
 
-## How to install stack on Minikube?
-
-Installing Stack on Minikube is no difference from installing it on another Kubernetes cluster.
-We recommend to start Minikube with a little bit more resources `minikube start --cpus 4 --memory 8192`.
+We recommend to start Minikube with a little bit more resources:
+```shell
+minikube start --cpus 4 --memory 8192
+```
 
 Next, you'll need to install `helm`.
 
