@@ -28,3 +28,8 @@ version="kubernetes-1.13.1"
 name = "gopkg.in/fsnotify.v1"
 source = "https://github.com/fsnotify/fsnotify.git"
 version="v1.4.7"
+
+[[override]]
+name = "github.com/drone/go-scm"
+source = "https://github.com/presslabs/go-scm.git"
+branch = "github-ping-webhook"

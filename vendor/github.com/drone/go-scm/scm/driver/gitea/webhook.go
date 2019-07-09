@@ -5,6 +5,7 @@
 package gitea
 
 import (
+	"crypto/sha256"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -12,6 +13,7 @@ import (
 	"net/http"
 
 	"github.com/drone/go-scm/scm"
+	"github.com/drone/go-scm/scm/driver/internal/hmac"
 )
 
 type webhookService struct {
@@ -58,7 +60,20 @@ func (s *webhookService) Parse(req *http.Request, fn scm.SecretFunc) (scm.Webhoo
 	}
 
 	secret := req.FormValue("secret")
-	if secret != key {
+	signature := req.Header.Get("X-Gitea-Signature")
+
+	// fail if no signature passed
+	if signature == "" && secret == "" {
+		return hook, scm.ErrSignatureInvalid
+	}
+	
+	// test signature if header not set and secret is in payload
+	if signature == "" && secret != "" && secret != key {
+		return hook, scm.ErrSignatureInvalid
+	}
+
+	// test signature using header
+	if signature != "" && !hmac.Validate(sha256.New, data, []byte(key), signature) {
 		return hook, scm.ErrSignatureInvalid
 	}
 
@@ -139,6 +154,7 @@ type (
 	createHook struct {
 		Ref           string     `json:"ref"`
 		RefType       string     `json:"ref_type"`
+		Sha           string     `json:"sha"`
 		DefaultBranch string     `json:"default_branch"`
 		Repository    repository `json:"repository"`
 		Sender        user       `json:"sender"`
@@ -172,6 +188,7 @@ func convertTagHook(dst *createHook, action scm.Action) *scm.TagHook {
 		Action: action,
 		Ref: scm.Reference{
 			Name: dst.Ref,
+			Sha:  dst.Sha,
 		},
 		Repo:   *convertRepository(&dst.Repository),
 		Sender: *convertUser(&dst.Sender),

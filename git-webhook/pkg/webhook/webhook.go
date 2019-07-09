@@ -127,6 +127,8 @@ func (s *Server) githubWebhook(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	switch event := webhook.(type) {
+	case *scm.PingHook:
+		s.Log.Info("received push event", "repo", event.Repo.Clone)
 	case *scm.PushHook:
 		if strings.HasPrefix(event.Ref, "refs/heads/") {
 			repo, branch, ref := event.Repo.Clone, strings.TrimPrefix(event.Ref, "refs/heads/"), event.After

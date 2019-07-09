@@ -42,7 +42,8 @@
   version = "v1.1.1"
 
 [[projects]]
-  digest = "1:e8082613bf1e600d35b0d0b7955ba90c5ed4e10d713ab2da58bc5372e009dde7"
+  branch = "github-ping-webhook"
+  digest = "1:775b1a373d21979536d6923b7835976a3f6e3291105d65359bb5fbd50b7d3c43"
   name = "github.com/drone/go-scm"
   packages = [
     "scm",
@@ -51,8 +52,8 @@
     "scm/driver/internal/null",
   ]
   pruneopts = "T"
-  revision = "b31818676c09817ee1cd92949bad460e35ba245a"
-  version = "v1.4.0"
+  revision = "ec3c38c36ddb38323b56aea742a674e8985a7502"
+  source = "https://github.com/presslabs/go-scm.git"
 
 [[projects]]
   digest = "1:2cd7915ab26ede7d95b8749e6b1f933f1c6d5398030684e6505940a10f31cfda"

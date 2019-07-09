@@ -239,4 +239,141 @@ var _ = Describe("Git repo Webhook", func() {
 			})
 		})
 	})
+	When("receiving a GitHub ping event", func() {
+		var (
+			wp                                           *wordpressv1alpha1.Wordpress
+			wpName                                       string
+			repo_name, repo_org                          string
+			repo_org_name, repo_html_url, repo_clone_url string
+			webhookBody                                  []byte
+			recorder                                     *httptest.ResponseRecorder
+			req                                          *http.Request
+			gitRef                                       string
+		)
+
+		BeforeEach(func() {
+			wpName = fmt.Sprintf("wp-%d", rand.Int31())
+			repo_name = fmt.Sprintf("repo-%d", rand.Int31())
+			repo_org = "presslabs"
+			repo_org_name = repo_org + "/" + repo_name
+			repo_html_url = "https://github.com/" + repo_org_name
+			repo_clone_url = repo_html_url + ".git"
+			gitRef = "7515154901d55a1"
+
+			replicas := int32(1)
+			wp = &wordpressv1alpha1.Wordpress{
+				ObjectMeta: metav1.ObjectMeta{
+					Name:      wpName,
+					Namespace: "default",
+					Annotations: map[string]string{
+						"stack.presslabs.org/git-follow-name": fmt.Sprintf("branch-%d", rand.Int31()),
+					},
+				},
+				Spec: wordpressv1alpha1.WordpressSpec{
+					Domains:  []wordpressv1alpha1.Domain{wordpressv1alpha1.Domain("test.com")},
+					Image:    "wordpress",
+					Replicas: &replicas,
+					CodeVolumeSpec: &wordpressv1alpha1.CodeVolumeSpec{
+						GitDir: &wordpressv1alpha1.GitVolumeSource{
+							GitRef:     gitRef,
+							Repository: repo_clone_url,
+						},
+					},
+				},
+			}
+			Expect(c.Create(context.TODO(), wp)).To(Succeed())
+			wpKey := client.ObjectKey{Name: wp.Name, Namespace: wp.Namespace}
+			// Wait for the resource to be cached
+			Eventually(func() error {
+				return s.Get(context.TODO(), wpKey, wp)
+			}).Should(Succeed())
+
+			var err error
+			webhookBody, err = json.Marshal(map[string]interface{}{
+				"repository": map[string]interface{}{
+					"id":        24887812,
+					"name":      repo_name,
+					"full_name": repo_org + "/" + repo_name,
+					"private":   false,
+					"owner": map[string]interface{}{
+						"name":  repo_org,
+						"email": "ping@presslabs.com",
+						"login": repo_org,
+						"id":    25032711,
+					},
+					"html_url":     repo_html_url,
+					"fork":         false,
+					"url":          repo_html_url,
+					"created_at":   1412681978,
+					"updated_at":   "2019-05-29T10:04:48Z",
+					"pushed_at":    1559571474,
+					"git_url":      "git://github.com/" + repo_org_name + ".git",
+					"ssh_url":      "git@github.com:" + repo_org_name + ".git",
+					"clone_url":    repo_clone_url,
+					"homepage":     "https://www.presslabs.com/stack/",
+					"organization": repo_org,
+				},
+			})
+			Expect(err).To(BeNil())
+
+			recorder = httptest.NewRecorder()
+
+			req, err = http.NewRequest("POST", "/github", bytes.NewBuffer(webhookBody))
+			Expect(err).To(BeNil())
+
+			req.Header.Add("User-Agent", "GitHub-Hookshot/0a2cefb")
+			req.Header.Add("X-GitHub-Delivery", "60f280a6-860a-11e9-91d1-e5b9ac6e1d3e")
+			req.Header.Add("X-GitHub-Event", "push")
+		})
+
+		AfterEach(func() {
+			Expect(c.Delete(context.TODO(), wp)).To(Succeed())
+		})
+		It("doesn't change refs", func() {
+			s.Handler.ServeHTTP(recorder, req)
+
+			response := recorder.Result()
+
+			responseBody, err := ioutil.ReadAll(response.Body)
+			Expect(err).To(BeNil())
+
+			Expect(response.StatusCode).To(Equal(http.StatusOK), string(responseBody))
+			Expect(string(responseBody)).To(BeEmpty())
+
+			// The git ref should be unchanged
+			Consistently(wp.Spec.CodeVolumeSpec.GitDir.GitRef).Should(Equal(gitRef))
+		})
+		When("using signed payload", func() {
+			BeforeEach(func() {
+				// Add webhook signature
+
+				secret := "asdasd123123"
+				Expect(os.Setenv("WEBHOOK_SECRET", secret)).To(Succeed())
+
+				sig := hmac.New(sha1.New, []byte(secret))
+				_, err := sig.Write([]byte(webhookBody))
+				Expect(err).To(BeNil())
+				webhookBodySha1 := hex.EncodeToString(sig.Sum(nil))
+
+				req.Header.Add("X-Hub-Signature", "sha1="+webhookBodySha1)
+			})
+			AfterEach(func() {
+				Expect(os.Setenv("WEBHOOK_SECRET", ""))
+			})
+			It("doesn't change refs", func() {
+				s.Handler.ServeHTTP(recorder, req)
+
+				response := recorder.Result()
+
+				responseBody, err := ioutil.ReadAll(response.Body)
+				Expect(err).To(BeNil())
+
+				Expect(response.StatusCode).To(Equal(http.StatusOK), string(responseBody))
+				Expect(string(responseBody)).To(BeEmpty())
+
+				// The git ref should be unchanged
+				Consistently(wp.Spec.CodeVolumeSpec.GitDir.GitRef).Should(Equal(gitRef))
+			})
+		})
+	})
 })
