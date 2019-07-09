@@ -41,6 +41,8 @@ func (s *webhookService) Parse(req *http.Request, fn scm.SecretFunc) (scm.Webhoo
 		hook, err = s.parsePullRequestHook(data)
 	case "deployment":
 		hook, err = s.parseDeploymentHook(data)
+	case "ping":
+		hook, err = s.parsePingHook(data)
 	// case "pull_request_review_comment":
 	// case "issues":
 	// case "issue_comment":
@@ -147,6 +149,12 @@ func (s *webhookService) parsePullRequestHook(data []byte) (scm.Webhook, error) 
 	return dst, nil
 }
 
+func (s *webhookService) parsePingHook(data []byte) (scm.Webhook, error) {
+	dst := new(pingHook)
+	err := json.Unmarshal(data, dst)
+	return convertPingHook(dst), err
+}
+
 //
 // native data structures
 //
@@ -248,6 +256,11 @@ type (
 			Task           null.String `json:"task"`
 			Payload        interface{} `json:"payload"`
 		} `json:"deployment"`
+		Repository repository `json:"repository"`
+		Sender     user       `json:"sender"`
+	}
+
+	pingHook struct {
 		Repository repository `json:"repository"`
 		Sender     user       `json:"sender"`
 	}
@@ -386,6 +399,22 @@ func convertDeploymentHook(src *deploymentHook) *scm.DeployHook {
 		dst.Ref.Path = scm.ExpandRef(dst.Ref.Path, "refs/heads/")
 	}
 	return dst
+}
+
+func convertPingHook(src *pingHook) *scm.PingHook {
+	return &scm.PingHook{
+		Repo: scm.Repository{
+			ID:        fmt.Sprint(src.Repository.ID),
+			Namespace: src.Repository.Owner.Login,
+			Name:      src.Repository.Name,
+			Branch:    src.Repository.DefaultBranch,
+			Private:   src.Repository.Private,
+			Clone:     src.Repository.CloneURL,
+			CloneSSH:  src.Repository.SSHURL,
+			Link:      src.Repository.HTMLURL,
+		},
+		Sender: *convertUser(&src.Sender),
+	}
 }
 
 // regexp help determine if the named git object is a tag.
