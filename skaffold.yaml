@@ -14,7 +14,7 @@ deploy:
   helm:
     releases:
     - name: stack
-      chartPath: chart/stack
+      chartPath: charts/stack
       values:
         nginx-ingress.defaultBackend.image: quay.io/presslabs/default-backend
         git-webhook.image: quay.io/presslabs/git-webhook
