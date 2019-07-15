@@ -158,3 +158,10 @@ helm upgrade -i stack presslabs/stack --namespace presslabs-stack \
 Those preset values will request basic resources for each component: `256Mi` RAM and `100m` CPU.
 
 That's pretty much it! You have Stack up and running on your cluster!
+
+## Enable Let's Encrypt
+By default, Stack comes with self-signed issuer enabled. If you want to configure letsencrypt issues, you'll need to run the following command
+
+``` shell
+ helm upgrade -i stack presslabs/stack --namespace presslabs-stack -f "https://raw.githubusercontent.com/presslabs/stack/master/presets/gke.yaml" --set 'letsencrypt.enabled=true,letsencrypt.email=<youremail>'
+```
