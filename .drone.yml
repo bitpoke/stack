@@ -160,7 +160,7 @@ services:
   trigger-docs-build:
     image: plugins/downstream
     server: https://drone.presslabs.net
-    secrets: [ DRONE_TOKEN ]
+    secrets: [ GH_PASSWORD ]
     repositories:
       - presslabs/docs
     when:
