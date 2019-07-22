@@ -10,75 +10,7 @@ clone:
     image: plugins/git
     recursive: false
 
-  site-clone:
-    group: clone
-    image: quay.io/presslabs/kluster-toolbox
-    commands:
-      - /usr/local/bin/setup-github-credentials.sh
-      - git clone https://github.com/presslabs/presslabs.com /go/src/github.com/presslabs/stack/site
-      - cd /go/src/github.com/presslabs/stack/site
-      - git checkout prod
-      - git pull origin prod
-    secrets:
-      - GH_PASSWORD
-    environment:
-      - GH_USER=presslabs-bot
-
-  theme:
-    group: clone
-    image: quay.io/presslabs/kluster-toolbox
-    commands:
-      - /usr/local/bin/setup-github-credentials.sh
-      - git clone https://github.com/presslabs/hugo-docs-theme /go/src/github.com/presslabs/stack/theme
-      - mkdir -p /go/src/github.com/presslabs/stack/content /go/src/github.com/presslabs/stack/data /go/src/github.com/presslabs/stack/themes
-      - cp -R /go/src/github.com/presslabs/stack/docs/* /go/src/github.com/presslabs/stack/content/
-      - cd /go/src/github.com/presslabs/stack/theme
-      - git checkout prod
-      - git pull origin prod
-      - mv /go/src/github.com/presslabs/stack/content/config.toml /go/src/github.com/presslabs/stack/
-      - mv * /go/src/github.com/presslabs/stack/themes/
-      - cp /go/src/github.com/presslabs/stack/themes/assets.json /go/src/github.com/presslabs/stack/data/
-      - cp /go/src/github.com/presslabs/stack/themes/package.json /go/src/github.com/presslabs/stack/
-    secrets:
-      - GH_PASSWORD
-    environment:
-      - GH_USER=presslabs-bot
-
 pipeline:
-  build:
-    image: desero/hugo:latest
-    environment:
-      - HUGO_ENV=production
-    secrets: [ ALGOLIA_APP_ID, ALGOLIA_ADMIN_KEY, ALGOLIA_INDEX_NAME ]
-
-  search:
-    image: node:10.13.0
-    secrets: [ ALGOLIA_APP_ID, ALGOLIA_ADMIN_KEY, ALGOLIA_INDEX_NAME, ALGOLIA_SEARCH_KEY, ALGOLIA_INDEX_FILE ]
-    commands:
-      - node -v
-      - npm -v
-      - yarn --version
-      - yarn config set cache-folder .yarn-cache
-      - yarn install --pure-lockfile
-      - yarn algolia
-      - rm -rf /go/src/github.com/presslabs/stack/site/wp-content/root/docs/stack
-      - mkdir /go/src/github.com/presslabs/stack/site/wp-content/root/docs/stack
-      - cp -a /go/src/github.com/presslabs/stack/public/* /go/src/github.com/presslabs/stack/site/wp-content/root/docs/stack/
-      - ls -la /go/src/github.com/presslabs/stack/site/wp-content/root/docs/stack
-
-  deploy:
-    image: quay.io/presslabs/kluster-toolbox
-    commands:
-      - /usr/local/bin/setup-github-credentials.sh
-      - cd /go/src/github.com/presslabs/stack/site
-      - git checkout prod
-      - git add .
-      - (git commit -m "[docs] ${DRONE_COMMIT_MESSAGE}" && git push origin prod) || true
-    environment:
-      - GH_USER=presslabs-bot
-    secrets:
-      - GH_PASSWORD
-
   dependencies:
     pull: true
     image: quay.io/presslabs/bfc:latest
