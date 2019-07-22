@@ -2,15 +2,19 @@ workspace:
   base: /go
   path: src/github.com/presslabs/stack
 
-clone:
-  docs:
-    group: clone
-    depth: 100
-    tags: true
-    image: plugins/git
-    recursive: false
-
 pipeline:
+  trigger-docs-build:
+    image: plugins/downstream
+    server: https://drone.presslabs.net
+    fork: true
+    wait: true
+    secrets: [ DRONE_TOKEN ]
+    repositories:
+      - presslabs/docs
+    when:
+      branch: master
+      event: push
+
   dependencies:
     pull: true
     image: quay.io/presslabs/bfc:latest
