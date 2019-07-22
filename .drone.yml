@@ -3,6 +3,13 @@ workspace:
   path: src/github.com/presslabs/stack
 
 pipeline:
+  docs:
+    group: clone
+    depth: 100
+    tags: true
+    image: plugins/git
+    recursive: false
+
   dependencies:
     pull: true
     image: quay.io/presslabs/bfc:latest
