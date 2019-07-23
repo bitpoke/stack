@@ -28,6 +28,26 @@ spec:
     kind: Job
   - group: batch
     kind: CronJob
+  # cert manager operator
+  - group: certmanager.k8s.io
+    kind: Certificate
+  - group: certmanager.k8s.io
+    kind: Issuer
+  - group: certmanager.k8s.io
+    kind: ClusterIssuer
+  # prometheus operator
+  - group: monitoring.coreos.com
+    kind: Prometheus
+  - group: monitoring.coreos.com
+    kind: ServiceMonitor
+  - group: monitoring.coreos.com
+    kind: PrometheusRule
+  - group: monitoring.coreos.com
+    kind: AlertManager
+  # ingress operator
+  - group: extensions/v1beta1
+    kind: Ingress
+
   selector:
     matchLabels:
       release: {{ .Release.Name }}
