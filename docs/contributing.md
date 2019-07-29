@@ -46,3 +46,4 @@ Optionally you could [fork the repo](https://github.com/presslabs/stack/fork) fi
     If you need to run a site for your use-case, read the [related documentation](docs/running-wordpress-on-kubernetes.md).
 
 6. Open a pull request at https://github.com/presslabs/stack/compare.
+    We'll review the pull request and assist you on getting it merged.

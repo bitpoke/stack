@@ -89,3 +89,8 @@ dataDir = "/site/data"
   name = "Develop and deploy on Stack"
   url = "/deploy-wordpress-on-stack/"
   weight = 5
+
+[[menu.docs]]
+  name = "Contributing"
+  url = "/contributing/"
+  weight = 6
