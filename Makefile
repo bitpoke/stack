@@ -31,3 +31,6 @@ dependencies:
 	# install yq
 	curl -sfL https://github.com/mikefarah/yq/releases/download/2.1.1/yq_$(OS)_$(ARCH) -o $(BINDIR)/yq
 	chmod +x $(BINDIR)/yq
+
+test:
+	make -C git-webhook test

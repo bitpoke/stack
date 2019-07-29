@@ -1,5 +1,7 @@
 # Presslabs Stack
-Open-Source WordPress Infrastructure on Kubernetes
+**Open-Source WordPress Infrastructure on Kubernetes**
+
+For a more thorough documentation check [the hosted docs](https://www.presslabs.com/docs/stack/).
 
 ## Components
 
@@ -60,3 +62,9 @@ helm upgrade -i mysite presslabs/wordpress-site --set 'site.domains[0]=www.examp
 ### 0.4
 - [ ] Run sites on AWS
 - [ ] Run sites on Microsoft Azure
+
+## Contributing
+Issues are being tracked [here](https://github.com/presslabs/stack/issues).  
+We will also gladly accept [pull requests](https://github.com/presslabs/stack/pulls).
+
+You can find more detailed information about the contributing process on the [docs page](https://www.presslabs.com/docs/stack/contributing/).
