@@ -12,11 +12,14 @@ related: true
 ---
 
 ## Issues
+
 Issues are being tracked at https://github.com/presslabs/stack/issues.  
 They can range from bug reports to questions about development, installation process and other stuff related to the project.
 
 ## Development
+
 > ###### NOTE
+>
 > Before making a change to this repository, please open an issue to discuss why the change is needed, and how it should be implemented if necessary.
 
 1. Clone the repository:  
@@ -26,11 +29,10 @@ Optionally you could [fork the repo](https://github.com/presslabs/stack/fork) fi
 2. Install dependencies:  
 `make dependencies`
 
-3. Implement your changes.
-    > ###### NOTE
-    > Remember to lint your code with `make lint`.
+3. Implement your changes. Remember to lint your code with `make lint`.
 
 4. Deploy to your cluster with [skaffold](https://skaffold.dev/docs/getting-started/#installing-skaffold):  
+
     If you want to develop locally, use [minikube](https://github.com/kubernetes/minikube#installation) to get a locally running cluster. You can follow the steps described [here](install-stack-on-minikube.md), except for the ones explaining how to install the stack.
 
     If you want to have your changes constantly deployed run:  
