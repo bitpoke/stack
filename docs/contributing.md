@@ -1,7 +1,7 @@
 ---
 title: Contributing
 linktitle: Contributing
-description: "A guide for how to contribute to stack via issues, pull requests etc."
+description: "How to contribute to Stack"
 categories: []
 keywords: ['stack', 'docs', 'wordpress', 'kubernetes', 'contributing', 'development', 'issues']
 draft: false
