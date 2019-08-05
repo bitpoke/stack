@@ -142,6 +142,17 @@ pipeline:
     when:
       event: tag
 
+  trigger-docs-build:
+    image: plugins/downstream
+    server: https://drone.presslabs.net
+    secrets: [DRONE_TOKEN]
+    fork: true
+    repositories:
+      - presslabs/docs
+    when:
+      branch: master
+      event: push
+
 services:
   tiller:
     environment:
@@ -163,14 +174,3 @@ services:
       - --listen-peer-urls=http://localhost:0
       - --listen-client-urls=http://0.0.0.0:2379,http://0.0.0.0:4001
       - --advertise-client-urls=http://etcd:2379,http://etcd:4001
-
-  trigger-docs-build:
-    image: plugins/downstream
-    server: https://drone.presslabs.net
-    secrets: [DRONE_TOKEN]
-    fork: true
-    repositories:
-      - presslabs/docs
-    when:
-      branch: master
-      event: push
