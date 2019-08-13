@@ -165,9 +165,9 @@ By default, Stack comes with self-signed issuer enabled. If you want to configur
 ``` shell
  helm upgrade -i stack presslabs/stack --namespace presslabs-stack -f "https://raw.githubusercontent.com/presslabs/stack/master/presets/gke.yaml" --set 'letsencrypt.enabled=true,letsencrypt.email=<youremail>'
 ```
- How to install Stack on GKE - video tutorial 
+<h2 id="video-tutorial">VIDEO Tutorial: How to install Stack on GKE</h2>
  
-   <iframe width="560" height="315"
+   <iframe width="724" height="518"
 src="https://www.youtube.com/embed/GdVktn8ibTA" 
 frameborder="0" 
 allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
