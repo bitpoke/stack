@@ -51,7 +51,7 @@ Now, your source code is stored locally and in order to deploy it on your Kubern
 
 ``` shell
 $ wp stack init
-$ docker pull quay.io/presslabs/wordpres-runtime:5.2-7.3.4-latest
+$ docker pull quay.io/presslabs/wordpress-runtime:5.2-7.3.4-latest
 ```
 
 `wp stack init` is going to create a `Dockerfile` (used to build your running container on Kubernetes), `skaffold.yaml` (used to
