@@ -12,7 +12,8 @@ SHELL := env 'PATH=$(PATH)' /bin/sh
 charts:
 	yq w -i $(CHARTDIR)/stack/Chart.yaml version "$(APP_VERSION)"
 	yq w -i $(CHARTDIR)/stack/Chart.yaml appVersion "$(APP_VERSION)"
-	yq w -i $(CHARTDIR)/stack/values.yaml nginx-ingress.defaultBackend.image.tag "$(APP_VERSION)"
+	yq w -i $(CHARTDIR)/stack/values.yaml nginx-ingress.defaultBackend.image.tag "$(APP_VERSION:v%=%)"
+	yq w -i $(CHARTDIR)/stack/values.yaml git-webhook.image.tag "$(APP_VERSION:v%=%)"
 	yq w -i $(CHARTDIR)/wordpress-site/Chart.yaml version "$(APP_VERSION)"
 	yq w -i $(CHARTDIR)/wordpress-site/Chart.yaml appVersion "$(APP_VERSION)"
 

@@ -4,18 +4,18 @@ dependencies:
   version: 0.3.2
 - name: wordpress-operator
   repository: https://presslabs.github.io/charts/
-  version: v0.3.7
+  version: v0.4.1
 - name: nginx-ingress
   repository: https://kubernetes-charts.storage.googleapis.com/
-  version: 1.6.19
+  version: 1.15.0
 - name: cert-manager
   repository: https://charts.jetstack.io
-  version: v0.8.1
+  version: v0.9.1
 - name: prometheus-operator
   repository: https://kubernetes-charts.storage.googleapis.com/
-  version: 5.12.5
+  version: 6.6.1
 - name: git-webhook
   repository: file://../git-webhook
   version: 0.0.1+master
-digest: sha256:a4fe7bd1c8708a1855a6139f6c429b0cb2d74f402802199aa0d8f2c688e64c0b
-generated: 2019-07-26T13:49:21.040972491+03:00
+digest: sha256:728844af602c3bb87da3e2cea3b6e4e2b0b2f21b3dd79b932dea8b19f4564d09
+generated: "2019-08-14T17:32:17.50842+03:00"

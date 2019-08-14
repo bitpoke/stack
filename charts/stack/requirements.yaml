@@ -6,22 +6,22 @@ dependencies:
 
   - name: wordpress-operator
     repository: https://presslabs.github.io/charts/
-    version: ~0.3.7
+    version: ~0.4.1
     condition: wordpress-operator.enabled
 
   - name: nginx-ingress
     repository: https://kubernetes-charts.storage.googleapis.com/
-    version: ~1.6.0
+    version: ~1.15.0
     condition: nginx-ingress.enabled
 
   - name: cert-manager
     repository: https://charts.jetstack.io
-    version: ~0.8.0
+    version: ~0.9.1
     condition: cert-manager.enabled
 
   - name: prometheus-operator
     repository: https://kubernetes-charts.storage.googleapis.com/
-    version: ~5.12.0
+    version: ~6.6.1
     condition: prometheus-operator.enabled
 
   - name: git-webhook
