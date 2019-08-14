@@ -1,176 +1,190 @@
+---
+kind: pipeline
+name: git webhook
+
 workspace:
-  base: /go
+  base: /root/go
   path: src/github.com/presslabs/stack
 
-pipeline:
-  docs:
-    group: clone
-    depth: 100
-    tags: true
-    image: plugins/git
-    recursive: false
+steps:
+- name: dependencies
+  image: quay.io/presslabs/bfc
+  commands:
+  - make dependencies
 
-  dependencies:
-    pull: true
-    image: quay.io/presslabs/bfc:latest
-    environment:
-      - GOPATH=/go/
-    commands:
-      - make dependencies
+- name: test
+  image: quay.io/presslabs/bfc:latest
+  commands:
+  - make -C git-webhook test
 
-  lint:
-    image: quay.io/presslabs/bfc:latest
-    environment:
-      - GOPATH=/go/
-    commands:
-      - helm repo add jetstack https://charts.jetstack.io
-      - make lint
-      - helm dep build charts/stack
-
-  build-charts:
-    image: quay.io/presslabs/kluster-toolbox
-    commands:
-      - make charts
-
-  smoke-test:
-    image: quay.io/presslabs/kluster-toolbox
-    pull: true
-    environment:
-      - HELM_HOST=tiller:44134
-    commands:
-      - kubectl config set-cluster default --server=http://kubernetes:8080
-      - kubectl config set-context default --cluster=default --namespace=default
-      - kubectl config use-context default
-      - dockerize -wait http://kubernetes:8080/healthz -skip-tls-verify -timeout 30s
-      - helm version
-      - helm install -n presslabs --namespace presslabs-sys ./charts/stack
-      - helm install -n mysite ./charts/wordpress-site --set 'site.domains[0]=example.com'
-      - helm ls
-
-  git-webhook:
-    image: quay.io/presslabs/bfc:latest
-    environment:
-      - GOPATH=/go/
-    commands:
-      - make -C git-webhook test
-
-  publish-default-backend-branch:
+- name: publish docker image
+  image: plugins/docker
+  settings:
+    dockerfile: Dockerfile.git-webhook
     group: publish
-    image: plugins/docker
-    registry: quay.io
-    repo: quay.io/presslabs/default-backend
-    dockerfile: Dockerfile.default-backend
-    tags: [ "latest" ]
-    username: presslabs+drone
-    secrets:
-      - source: QUAY_TOKEN
-        target: DOCKER_PASSWORD
-    when:
-      branch: master
-      event: push
-
-  publish-default-backend-tag:
-    group: publish
-    image: plugins/docker
-    registry: quay.io
-    repo: quay.io/presslabs/default-backend
-    dockerfile: Dockerfile.default-backend
-    tags: [ "${DRONE_TAG}" ]
-    username: presslabs+drone
-    secrets:
-      - source: QUAY_TOKEN
-        target: DOCKER_PASSWORD
-    when:
-      event: tag
-
-  publish-git-webhook:
-    group: publish
-    image: plugins/docker
     registry: quay.io
     repo: quay.io/presslabs/git-webhook
-    dockerfile: Dockerfile.git-webhook
-    tags: [ "latest" ]
+    auto_tag: true
     username: presslabs+drone
-    secrets:
-      - source: QUAY_TOKEN
-        target: DOCKER_PASSWORD
-    when:
-      branch: master
-      event: push
+  environment:
+    DOCKER_PASSWORD:
+      from_secret: QUAY_TOKEN
+---
+kind: pipeline
+name: default backend
 
-  publish-git-webhook:
+workspace:
+  base: /root/go
+  path: src/github.com/presslabs/stack
+
+steps:
+- name: dependencies
+  image: quay.io/presslabs/bfc
+  commands:
+  - make dependencies
+
+- name: publish docker image
+  image: plugins/docker
+  settings:
+    dockerfile: Dockerfile.default-backend
     group: publish
-    image: plugins/docker
     registry: quay.io
-    repo: quay.io/presslabs/git-webhook
-    dockerfile: Dockerfile.git-webhook
-    tags: [ "${DRONE_TAG}" ]
+    repo: quay.io/presslabs/default-backend
+    auto_tag: true
     username: presslabs+drone
-    secrets:
-      - source: QUAY_TOKEN
-        target: DOCKER_PASSWORD
-    when:
-      event: tag
+  environment:
+    DOCKER_PASSWORD:
+      from_secret: QUAY_TOKEN
+---
+kind: pipeline
+name: docs
 
-  publish-stack-chart:
-    group: publish
-    image: quay.io/presslabs/kluster-toolbox
-    environment:
-      - GH_USER=presslabs-bot
-    commands:
-      - cd charts
-      - helm package stack
-      - CHART="$(basename stack*.tgz)" ; MESSAGE="Publish $(basename $CHART .tgz)"
-      - /usr/local/bin/gh put --skip-existing -m "$MESSAGE" "$CHART" "presslabs/charts/docs/"
-    secrets:
-      - GH_PASSWORD
-    when:
-      event: tag
+clone:
+  disable: true
 
-  publish-wordpress-chart:
-    group: publish
-    image: quay.io/presslabs/kluster-toolbox
-    environment:
-      - GH_USER=presslabs-bot
-    commands:
-      - cd charts
-      - helm package wordpress-site
-      - CHART="$(basename wordpress-site*.tgz)" ; MESSAGE="Publish $(basename $CHART .tgz)"
-      - /usr/local/bin/gh put --skip-existing -m "$MESSAGE" "$CHART" "presslabs/charts/docs/"
-    secrets:
-      - GH_PASSWORD
-    when:
-      event: tag
-
-  trigger-docs-build:
-    image: plugins/downstream
-    server: https://drone.presslabs.net
-    secrets: [DRONE_TOKEN]
+steps:
+- name: trigger docs rebuild
+  image: plugins/downstream
+  settings:
     fork: true
     repositories:
-      - presslabs/docs
-    when:
-      branch: master
-      event: push
+    - presslabs/docs
+    server: https://drone.presslabs.net
+  environment:
+    DRONE_TOKEN:
+      from_secret: DRONE_TOKEN
+trigger:
+  branch:
+    - master
+  event:
+    - push
+---
+kind: pipeline
+name: helm charts
+
+workspace:
+  base: /root/go
+  path: src/github.com/presslabs/stack
+
+clone:
+  disable: true
+
+steps:
+- name: clone
+  image: plugins/git
+  settings:
+    depth: 0
+    tags: true
+
+- name: dependencies
+  image: quay.io/presslabs/bfc
+  commands:
+  - make dependencies
+
+- name: lint
+  image: quay.io/presslabs/bfc
+  commands:
+  - helm repo add jetstack https://charts.jetstack.io
+  - make lint
+  - helm dep build charts/stack
+
+- name: build
+  image: quay.io/presslabs/bfc
+  commands:
+  - make charts
+
+- name: smoke-test
+  image: quay.io/presslabs/bfc
+  commands:
+  - kubectl config set-cluster default --server=http://kubernetes:8080
+  - kubectl config set-context default --cluster=default --namespace=default
+  - kubectl config use-context default
+  - dockerize -wait http://kubernetes:8080/healthz -skip-tls-verify -timeout 30s
+  - helm version
+  - helm install -n presslabs --namespace presslabs-sys ./charts/stack
+  - helm install -n mysite ./charts/wordpress-site --set 'site.domains[0]=example.com'
+  - helm ls
+  environment:
+    HELM_HOST: tiller:44134
+
+- name: publish stack chart
+  image: quay.io/presslabs/bfc
+  commands:
+  - cd charts
+  - helm package stack
+  - CHART="$(basename stack*.tgz)" ; MESSAGE="Publish $(basename $CHART .tgz)"
+  - /usr/local/bin/gh put --skip-existing -m "$MESSAGE" "$CHART" "presslabs/charts/docs/"
+  settings:
+    group: publish
+  environment:
+    GH_PASSWORD:
+      from_secret: GH_PASSWORD
+    GH_USER: presslabs-bot
+  when:
+    event:
+    - tag
+
+- name: publish wordpress chart
+  image: quay.io/presslabs/bfc
+  commands:
+  - cd charts
+  - helm package wordpress-site
+  - CHART="$(basename wordpress-site*.tgz)" ; MESSAGE="Publish $(basename $CHART .tgz)"
+  - /usr/local/bin/gh put --skip-existing -m "$MESSAGE" "$CHART" "presslabs/charts/docs/"
+  settings:
+    group: publish
+  environment:
+    GH_PASSWORD:
+      from_secret: GH_PASSWORD
+    GH_USER: presslabs-bot
+  when:
+    event:
+    - tag
 
 services:
-  tiller:
-    environment:
-      - KUBERNETES_MASTER=http://kubernetes:8080
-    image: gcr.io/kubernetes-helm/tiller:v2.11.0
-  kubernetes:
-    image: k8s.gcr.io/hyperkube:v1.10.7
-    command:
-      - kube-apiserver
-      - --cert-dir=/tmp
-      - --etcd-servers=http://etcd:2379
-      - --insecure-port=8080
-      - --insecure-bind-address=0.0.0.0
-      - --secure-port=0
-  etcd:
-    image: quay.io/coreos/etcd:v3.3
-    command:
-      - etcd
-      - --listen-peer-urls=http://localhost:0
-      - --listen-client-urls=http://0.0.0.0:2379,http://0.0.0.0:4001
-      - --advertise-client-urls=http://etcd:2379,http://etcd:4001
+- name: tiller
+  image: gcr.io/kubernetes-helm/tiller:v2.11.0
+  environment:
+    KUBERNETES_MASTER: http://kubernetes:8080
+
+- name: kubernetes
+  image: k8s.gcr.io/hyperkube:v1.10.7
+  command:
+  - kube-apiserver
+  - --cert-dir=/tmp
+  - --etcd-servers=http://etcd:2379
+  - --insecure-port=8080
+  - --insecure-bind-address=0.0.0.0
+  - --secure-port=0
+
+- name: etcd
+  image: quay.io/coreos/etcd:v3.3
+  command:
+  - etcd
+  - --listen-peer-urls=http://localhost:0
+  - --listen-client-urls=http://0.0.0.0:2379,http://0.0.0.0:4001
+  - --advertise-client-urls=http://etcd:2379,http://etcd:4001
+
+depends_on:
+  - git webhook
+  - default backend
