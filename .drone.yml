@@ -113,20 +113,6 @@ steps:
   commands:
   - make charts
 
-- name: smoke-test
-  image: quay.io/presslabs/bfc
-  commands:
-  - kubectl config set-cluster default --server=http://kubernetes:8080
-  - kubectl config set-context default --cluster=default --namespace=default
-  - kubectl config use-context default
-  - dockerize -wait http://kubernetes:8080/healthz -skip-tls-verify -timeout 30s
-  - helm version
-  - helm install --no-hooks -n presslabs --namespace presslabs-sys ./charts/stack
-  - helm install --no-hooks -n mysite ./charts/wordpress-site --set 'site.domains[0]=example.com'
-  - helm ls
-  environment:
-    HELM_HOST: tiller:44134
-
 - name: publish stack chart
   image: quay.io/presslabs/bfc
   commands:
@@ -160,30 +146,6 @@ steps:
   when:
     event:
     - tag
-
-services:
-- name: tiller
-  image: gcr.io/kubernetes-helm/tiller:v2.14.1
-  environment:
-    KUBERNETES_MASTER: http://kubernetes:8080
-
-- name: kubernetes
-  image: k8s.gcr.io/hyperkube:v1.13.1
-  command:
-  - kube-apiserver
-  - --etcd-servers=http://etcd:2379
-  - --cert-dir=/tmp
-  - --insecure-port=8080
-  - --insecure-bind-address=0.0.0.0
-  - --secure-port=6443
-
-- name: etcd
-  image: quay.io/coreos/etcd:v3.3
-  command:
-  - etcd
-  - --listen-peer-urls=http://localhost:0
-  - --listen-client-urls=http://0.0.0.0:2379,http://0.0.0.0:4001
-  - --advertise-client-urls=http://etcd:2379,http://etcd:4001
 
 depends_on:
   - git webhook
