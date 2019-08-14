@@ -121,8 +121,8 @@ steps:
   - kubectl config use-context default
   - dockerize -wait http://kubernetes:8080/healthz -skip-tls-verify -timeout 30s
   - helm version
-  - helm install -n presslabs --namespace presslabs-sys ./charts/stack
-  - helm install -n mysite ./charts/wordpress-site --set 'site.domains[0]=example.com'
+  - helm install --no-hooks -n presslabs --namespace presslabs-sys ./charts/stack
+  - helm install --no-hooks -n mysite ./charts/wordpress-site --set 'site.domains[0]=example.com'
   - helm ls
   environment:
     HELM_HOST: tiller:44134
@@ -163,19 +163,19 @@ steps:
 
 services:
 - name: tiller
-  image: gcr.io/kubernetes-helm/tiller:v2.11.0
+  image: gcr.io/kubernetes-helm/tiller:v2.14.1
   environment:
     KUBERNETES_MASTER: http://kubernetes:8080
 
 - name: kubernetes
-  image: k8s.gcr.io/hyperkube:v1.10.7
+  image: k8s.gcr.io/hyperkube:v1.13.1
   command:
   - kube-apiserver
-  - --cert-dir=/tmp
   - --etcd-servers=http://etcd:2379
+  - --cert-dir=/tmp
   - --insecure-port=8080
   - --insecure-bind-address=0.0.0.0
-  - --secure-port=0
+  - --secure-port=6443
 
 - name: etcd
   image: quay.io/coreos/etcd:v3.3
