@@ -107,6 +107,11 @@ Next, just apply the configuration you set:
 ``` shell
 terraform apply -var-file="cluster.tfvars"
 ```
+To be able to interact with kubernetes, you need to get the permission:
+
+``` shell
+gcloud beta container clusters get-credentials staging --region europe-west3 --project ureactor
+```
 
 Now that the cluster is up and running, you'll need to install helm tiller and the Presslabs Stack. For that, Stack offers some bash scripts that are located under the [demo](https://github.com/presslabs/stack/tree/master/demo) directory, `01-install-helm.sh` and `02-install-presslabs-stack.sh`.
 
