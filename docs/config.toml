@@ -71,23 +71,29 @@ dataDir = "/site/data"
   weight = 1
 
 [[menu.docs]]
-  name = "Install on GKE"
-  url = "/install-stack-on-gke/"
+  name = "Quickstart"
+  identifier = "quickstart"
   weight = 2
 
 [[menu.docs]]
-  name = "Install on Minikube"
-  url = "/install-stack-on-minikube/"
+  name = "How-to guides"
+  identifier = "how-to"
   weight = 3
 
 [[menu.docs]]
-  name = "Running WordPress on Kubernetes"
-  url = "/running-wordpress-on-kubernetes/"
+  name = "Development"
+  identifier = "how-to-develop"
+  parent = "how-to"
+  weight = 1
+
+[[menu.docs]]
+  name = "Concepts"
+  identifier = "concepts"
   weight = 4
 
 [[menu.docs]]
-  name = "Develop and deploy on Stack"
-  url = "/deploy-wordpress-on-stack/"
+  name = "References"
+  identifier = "references"
   weight = 5
 
 [[menu.docs]]

@@ -4,6 +4,10 @@ linktitle: How to install Stack on Minikube
 description: "Installing Stack on Minikube is no different then installing it on another Kubernetes cluster."
 categories: []
 keywords: ['stack', 'docs', 'wordpress', 'kubernetes']
+menu:
+  docs:
+    name: "Install on Minikube"
+    parent: "quickstart"
 draft: false
 aliases: []
 slug: install-stack-on-minikube
