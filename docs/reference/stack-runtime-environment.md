@@ -18,11 +18,11 @@ related: true
 ## HTTP server
 * `PORT` (default to `8080`) - the port your app
 * `MAX_BODY_SIZE` (default to `10`) - the size in megabytes for the maximum
-  client request body size.  (this controls nginx `client_max_body_size` and
+  client request body size.  (this controls NGINX `client_max_body_size` and
   php
   `upload_max_filesize` and `post_max_size`)
-* `NGINX_ACCESS_LOG` (default to `off`) - where to write nginx's access log
-* `NGINX_ERROR_LOG` (default to `/dev/stderr`) - where to write nginx's error
+* `NGINX_ACCESS_LOG` (default to `off`) - where to write NGINX's access log
+* `NGINX_ERROR_LOG` (default to `/dev/stderr`) - where to write NGINX's error
   log
 
 ## Media Library
