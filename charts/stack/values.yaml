@@ -5,6 +5,8 @@ letsencrypt:
 
 wordpress-operator:
   enabled: true
+  extraArgs:
+    - --ingress-class=presslabs-stack
 
 mysql-operator:
   enabled: true
@@ -16,6 +18,7 @@ mysql-operator:
 nginx-ingress:
   enabled: true
   controller:
+    ingressClass: presslabs-stack
     config:
       custom-http-errors: 502,503,504
     publishService:
