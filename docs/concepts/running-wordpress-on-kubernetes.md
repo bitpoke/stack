@@ -44,4 +44,4 @@ To get access to the the media bucket you need to call `wp_get_upload_dir()` or
 
 ### Read a file
 
-The nginx provided by the base `quay.io/presslabs/wordpress-runtime` allows out-of-the-box integration for serving files from media buckets. This is convenient, but if you create your custom docker image from scratch you'll probably want to deal with media serving on your own.
+The NGINX provided by the base `quay.io/presslabs/wordpress-runtime` allows out-of-the-box integration for serving files from media buckets. This is convenient, but if you create your custom docker image from scratch you'll probably want to deal with media serving on your own.

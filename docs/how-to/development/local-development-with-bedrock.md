@@ -128,5 +128,5 @@ This site should be available at http://localhost:8080.
 ## What's next
 
 * [Deploy WordPress on Stack](../deploy-wordpress-on-stack.md)
-* [Customize nginx](../customize-nginx.md)
+* Customize NGINX
 * An example project can be found at [github.com/presslabs/stack-example-bedrock](https://github.com/presslabs/stack-example-bedrock)

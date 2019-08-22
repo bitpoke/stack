@@ -115,5 +115,5 @@ docker-compose run wordpress wp plugin install debug-bar
 ## What's next
 
 - [Deploy WordPress on Stack](../deploy-wordpress-on-stack.md)
-- [Customize nginx](../customize-nginx.md)
+- Customize NGINX
 - An example project can be found at [github.com/presslabs/stack-example-wordpress](https://github.com/presslabs/stack-example-wordpress)
