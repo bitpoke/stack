@@ -4,7 +4,7 @@ dependencies:
   version: 0.3.2
 - name: wordpress-operator
   repository: https://presslabs.github.io/charts/
-  version: v0.4.2
+  version: v0.4.3
 - name: nginx-ingress
   repository: https://kubernetes-charts.storage.googleapis.com/
   version: 1.15.1
@@ -17,5 +17,5 @@ dependencies:
 - name: git-webhook
   repository: file://../git-webhook
   version: 0.0.1+master
-digest: sha256:0c1ff9d4ac36184554ecb0e838571d50b28aa5d948c007494995edcb77582e6f
-generated: "2019-08-22T14:41:32.993696+03:00"
+digest: sha256:6ce152ac5bab20663b8cc6c24e1c697baf6b4000d4b079d853cff0934a9e564c
+generated: 2019-08-28T15:11:07.866900107+03:00
