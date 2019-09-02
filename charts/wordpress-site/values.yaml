@@ -5,11 +5,11 @@
 replicaCount: 1
 
 # Uncomment to use a custom image
-# image:
-#   repository: nginx
-#   tag: stable
-#   pullPolicy: IfNotPresent
-#   imagePullSecrets: ImagePullSecretName
+image: {}
+  # repository: quay.io/presslabs/wordpress-runtime
+  # tag: latest
+  # pullPolicy: IfNotPresent
+  # imagePullSecrets: ImagePullSecretName
 
 site:
   domains: []
