@@ -29,7 +29,7 @@ $ mkdir -p my-site/wp-content/{plugins,themes,mu-plugins,uploads}
 $ cd my-site
 ```
 
-Then we need to install the Presslabs Stack must use plugin for WordPress from https://github.com/presslabs/stack-mu-plugin/releases/download/latest/stack-mu-plugin.zip.
+Then we need to install the Presslabs Stack must use plugin for WordPress from [GitHub](https://github.com/presslabs/stack-mu-plugin/releases/latest/download/stack-mu-plugin.zip).
 
 In order to enable the external object cache, we need to place it into our `WP_CONTENT_DIR/object-cache.php`.
 
