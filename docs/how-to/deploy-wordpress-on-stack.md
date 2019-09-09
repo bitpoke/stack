@@ -87,5 +87,5 @@ $ helm upgrade my-site presslabs/wordpress-site --reuse-values \
 
 ## What's next?
 
-* [How to import a site](import-site.md)
+* [How to import a site](./import-site.md)
 * Check [helm chart values reference](../reference/wordpress-site-helm-chart-values.md)
