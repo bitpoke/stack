@@ -26,7 +26,7 @@ themes via `composer`, use it's autoload functionality and other goodies.
 
 ## Requirements
 
-* [composer](https://getcomposer.org/doc/00-intro.md)
+* [composer](https://getcomposer.org/)
 * [docker-compose](https://docs.docker.com/compose/install/)
 
 ## Bootstrap the project
