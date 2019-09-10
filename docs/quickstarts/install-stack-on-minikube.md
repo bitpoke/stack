@@ -51,3 +51,12 @@ $ helm repo update
 $ helm upgrade -i stack presslabs/stack --namespace presslabs-stack \
     -f "https://raw.githubusercontent.com/presslabs/stack/master/presets/minikube.yaml"
 ```
+
+
+## VIDEO Tutorial: How to install Stack on Minikube
+
+<iframe width="724" height="518"
+src="https://www.youtube.com/embed/3Y6BOmJT9Pk"
+frameborder="0"
+allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+allowfullscreen></iframe>
