@@ -28,6 +28,10 @@ resource "google_container_cluster" "cluster" {
     }
   }
 
+  workload_identity_config {
+    identity_namespace = "${var.project}.svc.id.goog"
+  }
+
   # Setting an empty username and password explicitly disables basic auth
   master_auth {
     username = ""
@@ -83,7 +87,7 @@ resource "google_container_node_pool" "system" {
     }
 
     workload_metadata_config {
-      node_metadata = "SECURE"
+      node_metadata = "GKE_METADATA_SERVER"
     }
   }
 }
@@ -128,7 +132,7 @@ resource "google_container_node_pool" "database" {
     }
 
     workload_metadata_config {
-      node_metadata = "SECURE"
+      node_metadata = "GKE_METADATA_SERVER"
     }
   }
 }
@@ -171,7 +175,7 @@ resource "google_container_node_pool" "wordpress" {
     }
 
     workload_metadata_config {
-      node_metadata = "SECURE"
+      node_metadata = "GKE_METADATA_SERVER"
     }
   }
 }
@@ -225,7 +229,7 @@ resource "google_container_node_pool" "wordpress_preemptible" {
     }
 
     workload_metadata_config {
-      node_metadata = "SECURE"
+      node_metadata = "GKE_METADATA_SERVER"
     }
   }
 }
