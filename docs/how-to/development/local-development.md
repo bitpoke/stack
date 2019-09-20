@@ -121,7 +121,7 @@ docker-compose run wordpress wp plugin install debug-bar
 ## VIDEO Tutorial: Create a WordPress project with Docker Compose
 
 <iframe width="724" height="518"
-src="https://www.youtube.com/embed/7AyyBRdyuTw"
+src="https://www.youtube.com/embed/ObrW_v-H2kU"
 frameborder="0"
 allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
 allowfullscreen></iframe>
