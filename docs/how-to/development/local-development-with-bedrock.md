@@ -130,3 +130,12 @@ This site should be available at http://localhost:8080.
 * [Deploy WordPress on Stack](../deploy-wordpress-on-stack.md)
 * Customize NGINX
 * An example project can be found at [github.com/presslabs/stack-example-bedrock](https://github.com/presslabs/stack-example-bedrock)
+
+
+## VIDEO Tutorial: Create a Bedrock WordPress project
+
+<iframe width="724" height="518"
+src="https://www.youtube.com/embed/DybhIIKMtYM"
+frameborder="0"
+allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+allowfullscreen></iframe>
