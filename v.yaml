@@ -1,0 +1,137 @@
+cert-manager:
+  cainjector:
+    nodeSelector:
+      node-role.kubernetes.io/presslabs-sys: ""
+    resources:
+      requests:
+        cpu: 100m
+        memory: 256Mi
+    tolerations:
+    - key: CriticalAddonsOnly
+      operator: Exists
+  nodeSelector:
+    node-role.kubernetes.io/presslabs-sys: ""
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+  tolerations:
+  - key: CriticalAddonsOnly
+    operator: Exists
+  webhook:
+    nodeSelector:
+      node-role.kubernetes.io/presslabs-sys: ""
+    resources:
+      requests:
+        cpu: 100m
+        memory: 256Mi
+    tolerations:
+    - key: CriticalAddonsOnly
+      operator: Exists
+component_default:
+  nodeSelector:
+    node-role.kubernetes.io/presslabs-sys: ""
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+  tolerations:
+  - key: CriticalAddonsOnly
+    operator: Exists
+letsencrypt:
+  email: ping+stack-staging@presslabs.com
+  enabled: true
+mysql-operator:
+  nodeSelector:
+    node-role.kubernetes.io/presslabs-sys: ""
+  orchestrator:
+    nodeSelector:
+      node-role.kubernetes.io/presslabs-sys: ""
+    resources:
+      requests:
+        cpu: 100m
+        memory: 256Mi
+    tolerations:
+    - key: CriticalAddonsOnly
+      operator: Exists
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+  tolerations:
+  - key: CriticalAddonsOnly
+    operator: Exists
+nginx-ingress:
+  controller:
+    minAvailable: 1
+    nodeSelector:
+      node-role.kubernetes.io/presslabs-sys: ""
+    replicaCount: 2
+    resources:
+      requests:
+        cpu: 500m
+        memory: 768Mi
+    service:
+      externalTrafficPolicy: Local
+      loadBalancerIP: 34.90.51.134
+    tolerations:
+    - key: CriticalAddonsOnly
+      operator: Exists
+  defaultBackend:
+    minAvailable: 1
+    nodeSelector:
+      node-role.kubernetes.io/presslabs-sys: ""
+    replicaCount: 2
+    resources:
+      requests:
+        cpu: 100m
+        memory: 256Mi
+    tolerations:
+    - key: CriticalAddonsOnly
+      operator: Exists
+prometheus-operator:
+  grafana:
+    nodeSelector:
+      node-role.kubernetes.io/presslabs-sys: ""
+    resources:
+      requests:
+        cpu: 100m
+        memory: 256Mi
+    tolerations:
+    - key: CriticalAddonsOnly
+      operator: Exists
+  kube-state-metrics:
+    nodeSelector:
+      node-role.kubernetes.io/presslabs-sys: ""
+    resources:
+      requests:
+        cpu: 100m
+        memory: 256Mi
+    tolerations:
+    - key: CriticalAddonsOnly
+      operator: Exists
+  prometheus-node-exporter:
+    tolerations:
+    - operator: Exists
+  prometheusOperator:
+    createCustomResource: false
+    nodeSelector:
+      node-role.kubernetes.io/presslabs-sys: ""
+    resources:
+      requests:
+        cpu: 100m
+        memory: 256Mi
+    tolerations:
+    - key: CriticalAddonsOnly
+      operator: Exists
+wordpress-operator:
+  nodeSelector:
+    node-role.kubernetes.io/presslabs-sys: ""
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+  tolerations:
+  - key: CriticalAddonsOnly
+    operator: Exists
+

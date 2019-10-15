@@ -21,6 +21,9 @@ nginx-ingress:
     ingressClass: presslabs-stack
     config:
       custom-http-errors: 502,503,504
+      hsts-preload: "true"
+    addHeaders:
+      server: "nginx"
     publishService:
       enabled: true
   defaultBackend:
