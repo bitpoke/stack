@@ -10,12 +10,12 @@ dependencies:
   version: 1.24.3
 - name: cert-manager
   repository: https://charts.jetstack.io
-  version: v0.10.1
+  version: v0.11.0
 - name: prometheus-operator
   repository: https://kubernetes-charts.storage.googleapis.com/
   version: 6.6.1
 - name: git-webhook
   repository: file://../git-webhook
   version: 0.0.1+master
-digest: sha256:06f635f6c3a4460fb357f660f8fca68eac5bd3f00b2dcb9756dc32c3767ac4a4
-generated: "2019-10-15T14:43:40.629721+03:00"
+digest: sha256:d04d58c927f3795b1041e4332a6e11b804b05871075f41ac0a3f22a860c9ab32
+generated: "2019-10-17T17:09:24.790815+03:00"

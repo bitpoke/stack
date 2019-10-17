@@ -121,7 +121,9 @@ spec:
     nginx.ingress.kubernetes.io/proxy-body-size: "10m"
     {{- if eq "ClusterIssuer" (default "ClusterIssuer" .Values.tls.issuerKind) }}
     certmanager.k8s.io/cluster-issuer: {{ default "stack-default" .Values.tls.issuerName }}
+    cert-manager.io/cluster-issuer: {{ default "stack-default" .Values.tls.issuerName }}
     {{- else if eq "Issuer" (default "ClusterIssuer" .Values.tls.issuerKind) }}
     certmanager.k8s.io/issuer: {{ default "stack-default" .Values.tls.issuerName }}
+    cert-manager.io/issuer: {{ default "stack-default" .Values.tls.issuerName }}
     {{- end }}
     certmanager.k8s.io/acme-challenge-type: {{ default "http01" .Values.tls.acmeChallengeType }}
