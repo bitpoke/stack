@@ -1,3 +1,4 @@
+{{- $nginxIngress := index .Values "nginx-ingress" -}}
 apiVersion: cert-manager.io/v1alpha2
 kind: ClusterIssuer
 metadata:
@@ -19,7 +20,10 @@ spec:
       # Secret resource used to store the account's private key.
       name: {{ template "stack.fullname" . }}-letsencrypt
     # Enable the HTTP01 challenge mechanism for this Issuer
-    http01: {}
+    solvers:
+      - http01:
+          ingress:
+            class: {{ $nginxIngress.controller.ingressClass }}
 {{ else }}
   ca:
     secretName: {{ template "stack.fullname" . }}-ca
