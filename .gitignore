@@ -64,3 +64,5 @@ override.tf.json
 # Include override files you do wish to add to version control using negated pattern
 #
 # !example_override.tf
+
+v.yaml
