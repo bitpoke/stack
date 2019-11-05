@@ -25,6 +25,11 @@ helm repo add presslabs https://presslabs.github.io/charts
 helm repo update
 ```
 
+Install the CRDs necessar to run the stack:
+```
+kubectl apply -f https://raw.githubusercontent.com/presslabs/stack/master/deploy/manifests/00-crds.yaml
+```
+
 ### Minikube/Docker for Mac
 Ensure a larger Minikube with eg, `minikube start --cpus 4 --memory 8192` to provide a working local environment.
 ```

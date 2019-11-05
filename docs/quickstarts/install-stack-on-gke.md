@@ -142,7 +142,7 @@ kubectl create ns presslabs-stack
 For that namespace, we'll need to disable validation, in order to allow cert-manager to do its job:
 
 ``` shell
-kubectl label namespace presslabs-stack certmanager.k8s.io/disable-validation=true
+kubectl label namespace presslabs-stack certmanager.io/disable-validation=true
 ```
 
 Next, add the Presslabs's charts repository to your helm sources:
@@ -150,6 +150,11 @@ Next, add the Presslabs's charts repository to your helm sources:
 ``` shell
 helm repo add presslabs https://presslabs.github.io/charts
 helm repo update
+```
+
+Also before before installing the stack using helm we need to install the CRDs that are used by this deployment:
+```shell
+kubectl apply -f https://raw.githubusercontent.com/presslabs/stack/master/deploy/manifests/00-crds.yaml
 ```
 
 In the end, you can just install `presslabs/stack` chart with some preset values from [gke.yaml](https://github.com/presslabs/stack/blob/master/presets/gke.yaml).
