@@ -35,3 +35,22 @@ dependencies:
 
 test:
 	make -C git-webhook test
+
+
+MANIFESTS_DIR ?= deploy/manifests
+CRDS_FILE ?= $(MANIFESTS_DIR)/00-crds.yaml
+
+CERT_MANAGER_VERSION ?= v0.11.0
+MYSQL_OPERATOR_VERSION ?= v0.3.4
+WORDPRESS_OPERATOR_VERSION ?= v0.6.3
+
+collect-crds:
+	# wordpress operator
+	wget https://raw.githubusercontent.com/presslabs/wordpress-operator/$(WORDPRESS_OPERATOR_VERSION)/config/crds/wordpress_v1alpha1_wordpress.yaml -O - > $(CRDS_FILE)
+
+	# mysql operator
+	wget https://raw.githubusercontent.com/presslabs/mysql-operator/$(MYSQL_OPERATOR_VERSION)/config/crds/mysql_v1alpha1_mysqlcluster.yaml -O - >>  $(CRDS_FILE)
+	wget https://raw.githubusercontent.com/presslabs/mysql-operator/$(MYSQL_OPERATOR_VERSION)/config/crds/mysql_v1alpha1_mysqlbackup.yaml -O  - >> $(CRDS_FILE)
+
+	# cert manager
+	wget https://raw.githubusercontent.com/jetstack/cert-manager/$(CERT_MANAGER_VERSION)/deploy/manifests/00-crds.yaml -O - >> $(CRDS_FILE)

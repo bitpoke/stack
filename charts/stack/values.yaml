@@ -5,11 +5,14 @@ letsencrypt:
 
 wordpress-operator:
   enabled: true
+  crd:
+    install: false
   extraArgs:
     - --ingress-class=presslabs-stack
 
 mysql-operator:
   enabled: true
+  installCRDs: false
   orchestrator:
     topologyPassword: this-must-be-set-in-stone-because-of-mysql-operator-bug-75
     image: quay.io/presslabs/orchestrator:v3.0.14-r37
@@ -37,6 +40,8 @@ cert-manager:
 
 prometheus-operator:
   enabled: true
+  prometheusOperator:
+    createCustomResource: false
 
 git-webhook:
   enabled: false

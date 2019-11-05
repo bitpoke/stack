@@ -40,6 +40,9 @@ $ helm init --service-account tiller \
 After that, we're ready to install `Stack`.
 
 ``` shell
+
+$ kubectl apply -f https://raw.githubusercontent.com/presslabs/stack/master/deploy/manifests/00-crds.yaml
+
 $ kubectl create ns presslabs-stack
 
 $ kubectl label namespace presslabs-stack certmanager.k8s.io/disable-validation=true
