@@ -38,7 +38,7 @@ test:
 
 
 define getVersion
-$(shell python -c "import yaml; print([x['version'] for x in yaml.load(open('charts/stack/requirements.lock', 'r'))['dependencies'] if x['name'] == '$1'  ][0])")
+$(shell python3 -c "import yaml; print([x['version'] for x in yaml.load(open('charts/stack/requirements.lock', 'r'), Loader=yaml.BaseLoader)['dependencies'] if x['name'] == '$1'  ][0])")
 endef
 
 MANIFESTS_DIR ?= deploy/manifests
