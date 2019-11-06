@@ -120,6 +120,7 @@ steps:
   commands:
   - make charts
 
+
 - name: publish stack chart
   image: quay.io/presslabs/bfc
   commands:
@@ -153,6 +154,24 @@ steps:
   when:
     event:
     - tag
+
+- name: publish docker image
+  image: plugins/docker
+  settings:
+    dockerfile: Dockerfile.deployer
+    group: publish
+    registry: quay.io
+    repo: quay.io/presslabs/stack-instaler
+    auto_tag: true
+    username: presslabs+drone
+  environment:
+    DOCKER_PASSWORD:
+      from_secret: QUAY_TOKEN
+  when:
+    event:
+    - push
+    branch:
+    - master
 
 depends_on:
   - git webhook

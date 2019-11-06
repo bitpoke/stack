@@ -1,0 +1,9 @@
+
+FROM dtzar/helm-kubectl
+
+ADD deploy/manifests /manifests/
+ADD charts /charts/
+ADD deploy/entrypoint.sh /
+RUN mkdir -p /config && touch /config/values.yaml
+
+CMD ["/entrypoint.sh"]
