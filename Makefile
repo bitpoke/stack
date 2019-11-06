@@ -37,20 +37,29 @@ test:
 	make -C git-webhook test
 
 
+define getVersion
+$(shell python -c "import yaml; print([x['version'] for x in yaml.load(open('charts/stack/requirements.lock', 'r'))['dependencies'] if x['name'] == '$1'  ][0])")
+endef
+
 MANIFESTS_DIR ?= deploy/manifests
 CRDS_FILE ?= $(MANIFESTS_DIR)/00-crds.yaml
 
-CERT_MANAGER_VERSION ?= v0.11.0
-MYSQL_OPERATOR_VERSION ?= v0.3.4
-WORDPRESS_OPERATOR_VERSION ?= v0.6.3
+CERT_MANAGER_TAG ?= $(call getVersion,cert-manager)
+MYSQL_OPERATOR_TAG ?= v$(call getVersion,mysql-operator)
+WORDPRESS_OPERATOR_TAG ?= $(call getVersion,wordpress-operator)
 
+.PHONY: collect-crds
 collect-crds:
+	$(info ---- CERT_MANAGER_TAG = $(CERT_MANAGER_TAG))
+	$(info ---- WORDPRESS_OPERATOR_TAG = $(WORDPRESS_OPERATOR_TAG))
+	$(info ---- MYSQL_OPERATOR_TAG = $(MYSQL_OPERATOR_TAG))
+
 	# wordpress operator
-	wget https://raw.githubusercontent.com/presslabs/wordpress-operator/$(WORDPRESS_OPERATOR_VERSION)/config/crds/wordpress_v1alpha1_wordpress.yaml -O - > $(CRDS_FILE)
+	wget https://raw.githubusercontent.com/presslabs/wordpress-operator/$(WORDPRESS_OPERATOR_TAG)/config/crds/wordpress_v1alpha1_wordpress.yaml -O - > $(CRDS_FILE)
 
 	# mysql operator
-	wget https://raw.githubusercontent.com/presslabs/mysql-operator/$(MYSQL_OPERATOR_VERSION)/config/crds/mysql_v1alpha1_mysqlcluster.yaml -O - >>  $(CRDS_FILE)
-	wget https://raw.githubusercontent.com/presslabs/mysql-operator/$(MYSQL_OPERATOR_VERSION)/config/crds/mysql_v1alpha1_mysqlbackup.yaml -O  - >> $(CRDS_FILE)
+	wget https://raw.githubusercontent.com/presslabs/mysql-operator/$(MYSQL_OPERATOR_TAG)/config/crds/mysql_v1alpha1_mysqlcluster.yaml -O - >>  $(CRDS_FILE)
+	wget https://raw.githubusercontent.com/presslabs/mysql-operator/$(MYSQL_OPERATOR_TAG)/config/crds/mysql_v1alpha1_mysqlbackup.yaml -O  - >> $(CRDS_FILE)
 
 	# cert manager
-	wget https://raw.githubusercontent.com/jetstack/cert-manager/$(CERT_MANAGER_VERSION)/deploy/manifests/00-crds.yaml -O - >> $(CRDS_FILE)
+	wget https://raw.githubusercontent.com/jetstack/cert-manager/$(CERT_MANAGER_TAG)/deploy/manifests/00-crds.yaml -O - >> $(CRDS_FILE)
