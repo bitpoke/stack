@@ -104,7 +104,6 @@ steps:
 - name: check manifests
   image: quay.io/presslabs/bfc
   commands:
-  - pip install pyyaml
   - make collect-crds
   - git diff --exit-code
 
@@ -161,7 +160,7 @@ steps:
     dockerfile: Dockerfile.deployer
     group: publish
     registry: quay.io
-    repo: quay.io/presslabs/stack-instaler
+    repo: quay.io/presslabs/stack-installer
     auto_tag: true
     username: presslabs+drone
   environment:
