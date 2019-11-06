@@ -101,6 +101,13 @@ steps:
   commands:
   - make dependencies
 
+- name: check manifests
+  image: quay.io/presslabs/bfc
+  commands:
+  - pip install pyyaml
+  - make collect-crds
+  - git diff --exit-code
+
 - name: lint
   image: quay.io/presslabs/bfc
   commands:
