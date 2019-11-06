@@ -1,5 +1,22 @@
+FROM alpine:3.10 as builder
 
-FROM dtzar/helm-kubectl
+ENV KUBECTL_VERSION="v1.16.2"
+ENV HELM_VERSION="v2.15.2"
+
+RUN apk add --no-cache ca-certificates \
+    && mkdir /build \
+    && wget -q https://storage.googleapis.com/kubernetes-release/release/${KUBECTL_VERSION}/bin/linux/amd64/kubectl -O /build/kubectl \
+    && chmod +x /build/kubectl \
+    && wget -q https://storage.googleapis.com/kubernetes-helm/helm-${HELM_VERSION}-linux-amd64.tar.gz -O - | tar -xz \
+    && mv linux-amd64/helm linux-amd64/tiller /build/ \
+    && chmod +x /build/helm \
+    && chmod +x /build/tiller
+
+
+FROM alpine:3.10
+
+RUN apk add --no-cache ca-certificates bash curl
+COPY --from=builder /build/* /usr/local/bin/
 
 ADD deploy/manifests /manifests/
 ADD charts /charts/
