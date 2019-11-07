@@ -16,11 +16,20 @@ RUN apk add --no-cache ca-certificates \
 FROM alpine:3.10
 
 RUN apk add --no-cache ca-certificates bash curl
+
 COPY --from=builder /build/* /usr/local/bin/
+# install supervisord
+COPY --from=ochinchina/supervisord:latest /usr/local/bin/supervisord /usr/local/bin/supervisord
 
 ADD deploy/manifests /manifests/
 ADD charts /charts/
-ADD deploy/entrypoint.sh /
 RUN mkdir -p /config && touch /config/values.yaml
+
+# init helm and update the dep charts
+RUN helm init --client-only && \
+    helm dependency update /charts/stack
+
+ADD deploy/entrypoint.sh /
+ADD deploy/docker/etc/supervisor.conf /etc/
 
 CMD ["/entrypoint.sh"]
