@@ -1,7 +1,7 @@
 dependencies:
   - name: mysql-operator
     repository: https://presslabs.github.io/charts/
-    version: ~0.3.3
+    version: ~0.3.4
     condition: mysql-operator.enabled
 
   - name: wordpress-operator
