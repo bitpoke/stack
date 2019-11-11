@@ -2,6 +2,7 @@ FROM alpine:3.10 as builder
 
 ENV KUBECTL_VERSION="v1.16.2"
 ENV HELM_VERSION="v2.16.0"
+ENV SUPERVISORD_VERSION="0.6.3"
 
 RUN apk add --no-cache ca-certificates \
     && mkdir /build \
@@ -10,16 +11,15 @@ RUN apk add --no-cache ca-certificates \
     && wget -q https://storage.googleapis.com/kubernetes-helm/helm-${HELM_VERSION}-linux-amd64.tar.gz -O - | tar -xz \
     && mv linux-amd64/helm linux-amd64/tiller /build/ \
     && chmod +x /build/helm \
-    && chmod +x /build/tiller
-
+    && chmod +x /build/tiller \
+    && wget -q https://github.com/ochinchina/supervisord/releases/download/v${SUPERVISORD_VERSION}/supervisord_static_${SUPERVISORD_VERSION}_linux_amd64 -O /build/supervisord \
+    && chmod +x /build/supervisord
 
 FROM alpine:3.10
 
 RUN apk add --no-cache ca-certificates bash curl
 
 COPY --from=builder /build/* /usr/local/bin/
-# install supervisord
-COPY --from=ochinchina/supervisord:latest /usr/local/bin/supervisord /usr/local/bin/supervisord
 
 ADD deploy/manifests /manifests/
 ADD charts /charts/

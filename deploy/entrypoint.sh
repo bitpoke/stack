@@ -14,7 +14,7 @@ kubectl wait --for condition=established --timeout=${TIMEOUT:-60s} -f /manifests
 
 # create mysql-operator orchestrator topology secret
 orc_secret_name=stack-mysql-operator-topology-credentials
-if ! kubectl get secret $orc_secret_name; then
+if ! kubectl -n ${NAMESPACE:-presslabs-system} get secret $orc_secret_name; then
     cat <<EOF | kubectl create -f-
 apiVersion: v1
 kind: Secret
@@ -24,7 +24,7 @@ metadata:
 type: Opaque
 data:
     TOPOLOGY_PASSWORD: $(echo -n ${ORCHESTRATOR_PASSWORD:-$(tr -dc '_A-Z-a-z-0-9' < /dev/urandom  | head -c31)} | base64 )
-    TOPOLOGY_USER: b3JjaGVzdHJhdG9y
+    TOPOLOGY_USER: c3lzLW9yY2hlc3RyYXRvcg==
 EOF
 fi
 
