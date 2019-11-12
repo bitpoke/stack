@@ -9,13 +9,13 @@ function stop_tiller {
 trap stop_tiller EXIT
 
 # install manfiests and wait to be ready (e.g. crds)
-kubectl apply --validate=false -f /manifests/
+kubectl apply --validate=false --save-config=false -f /manifests/
 kubectl wait --for condition=established --timeout=${TIMEOUT:-60s} -f /manifests/
 
 # create mysql-operator orchestrator topology secret
 orc_secret_name=stack-mysql-operator-topology-credentials
 if ! kubectl -n ${NAMESPACE:-presslabs-system} get secret $orc_secret_name; then
-    cat <<EOF | kubectl create -f-
+    cat <<EOF | kubectl create --save-config=false -f-
 apiVersion: v1
 kind: Secret
 metadata:
