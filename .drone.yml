@@ -168,9 +168,7 @@ steps:
       from_secret: QUAY_TOKEN
   when:
     event:
-    - push
-    branch:
-    - master
+    - tag
 
 depends_on:
   - git webhook
