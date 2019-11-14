@@ -9,7 +9,7 @@ function stop_tiller {
 trap stop_tiller EXIT
 
 # install manfiests and wait to be ready (e.g. crds)
-kubectl apply --validate=false --save-config=false -f /manifests/
+kubectl apply --validate=false -f /manifests/
 kubectl wait --for condition=established --timeout=${TIMEOUT:-60s} -f /manifests/
 
 # create mysql-operator orchestrator topology secret
