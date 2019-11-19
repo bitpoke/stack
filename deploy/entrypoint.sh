@@ -24,7 +24,7 @@ metadata:
 type: Opaque
 data:
     TOPOLOGY_PASSWORD: $(echo -n ${ORCHESTRATOR_PASSWORD:-$(tr -dc '_A-Z-a-z-0-9' < /dev/urandom  | head -c31)} | base64 )
-    TOPOLOGY_USER: c3lzLW9yY2hlc3RyYXRvcg==
+    TOPOLOGY_USER: c3lzX29yY2hlc3RyYXRvcg==
 EOF
 fi
 
