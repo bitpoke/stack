@@ -56,10 +56,13 @@ collect-crds:
 
 	# wordpress operator
 	wget https://raw.githubusercontent.com/presslabs/wordpress-operator/$(WORDPRESS_OPERATOR_TAG)/config/crds/wordpress_v1alpha1_wordpress.yaml -O - > $(CRDS_FILE)
+	echo "---" >> $(CRDS_FILE)
 
 	# mysql operator
 	wget https://raw.githubusercontent.com/presslabs/mysql-operator/$(MYSQL_OPERATOR_TAG)/config/crds/mysql_v1alpha1_mysqlcluster.yaml -O - >>  $(CRDS_FILE)
+	echo "---" >> $(CRDS_FILE)
 	wget https://raw.githubusercontent.com/presslabs/mysql-operator/$(MYSQL_OPERATOR_TAG)/config/crds/mysql_v1alpha1_mysqlbackup.yaml -O  - >> $(CRDS_FILE)
+	echo "---" >> $(CRDS_FILE)
 
 	# cert manager
 	wget https://raw.githubusercontent.com/jetstack/cert-manager/$(CERT_MANAGER_TAG)/deploy/manifests/00-crds.yaml -O - >> $(CRDS_FILE)
