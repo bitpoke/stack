@@ -47,12 +47,14 @@ CRDS_FILE ?= $(MANIFESTS_DIR)/00-crds.yaml
 CERT_MANAGER_TAG ?= $(call getVersion,cert-manager)
 MYSQL_OPERATOR_TAG ?= v$(call getVersion,mysql-operator)
 WORDPRESS_OPERATOR_TAG ?= $(call getVersion,wordpress-operator)
+PROMETHEUS_TAG ?= $(call getVersion,prometheus-operator)
 
 .PHONY: collect-crds
 collect-crds:
 	$(info ---- CERT_MANAGER_TAG = $(CERT_MANAGER_TAG))
 	$(info ---- WORDPRESS_OPERATOR_TAG = $(WORDPRESS_OPERATOR_TAG))
 	$(info ---- MYSQL_OPERATOR_TAG = $(MYSQL_OPERATOR_TAG))
+	$(info ---- PROMETHEUS_TAG = $(PROMETHEUS_TAG))
 
 	# wordpress operator
 	wget https://raw.githubusercontent.com/presslabs/wordpress-operator/$(WORDPRESS_OPERATOR_TAG)/config/crds/wordpress_v1alpha1_wordpress.yaml -O - > $(CRDS_FILE)
@@ -66,3 +68,16 @@ collect-crds:
 
 	# cert manager
 	wget https://raw.githubusercontent.com/jetstack/cert-manager/$(CERT_MANAGER_TAG)/deploy/manifests/00-crds.yaml -O - >> $(CRDS_FILE)
+
+	# Prometheus
+	helm repo add presslabs https://presslabs.github.io/charts
+	helm repo add jetstack https://charts.jetstack.io
+
+	helm dependency update ./charts/stack
+	helm template ./charts/stack --set prometheus-operator.prometheusOperator.createCustomResource=true \
+	              -x charts/prometheus-operator/templates/prometheus-operator/crd-alertmanager.yaml \
+	              -x charts/prometheus-operator/templates/prometheus-operator/crd-podmonitor.yaml \
+	              -x charts/prometheus-operator/templates/prometheus-operator/crd-prometheus.yaml \
+	              -x charts/prometheus-operator/templates/prometheus-operator/crd-prometheusrules.yaml \
+	              -x charts/prometheus-operator/templates/prometheus-operator/crd-servicemonitor.yaml >> $(CRDS_FILE)
+
