@@ -37,6 +37,7 @@ nginx-ingress:
 
 cert-manager:
   enabled: true
+  installCRDs: false
 
 prometheus-operator:
   enabled: true
