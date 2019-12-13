@@ -10,7 +10,7 @@ kubectl create ns presslabs-stack
 kubectl apply --validate=false -f https://raw.githubusercontent.com/presslabs/stack/master/deploy/manifests/00-crds.yaml
 
 # label the namespace because of cert manager
-kubectl label namespace presslabs-stack certmanager.io/disable-validation=true
+kubectl label namespace presslabs-stack cert-manager.io/disable-validation=true
 
 helm repo add presslabs https://presslabs.github.io/charts
 
