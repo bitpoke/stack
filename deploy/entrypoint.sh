@@ -12,6 +12,10 @@ trap stop_tiller EXIT
 kubectl apply --validate=false -f /manifests/
 kubectl wait --for condition=established --timeout=${TIMEOUT:-60s} -f /manifests/
 
+# create namespace if does not exists
+kubectl create namespace ${NAMESPACE:-presslabs-system} || true
+kubectl label namespace ${NAMESPACE:-presslabs-system} cert-manager.io/disable-validation=true
+
 # create mysql-operator orchestrator topology secret
 orc_secret_name=stack-mysql-operator-topology-credentials
 if ! kubectl -n ${NAMESPACE:-presslabs-system} get secret $orc_secret_name; then
