@@ -75,9 +75,4 @@ collect-crds:
 
 	helm dependency update ./charts/stack
 	helm template ./charts/stack --set prometheus-operator.prometheusOperator.createCustomResource=true \
-	              -x charts/prometheus-operator/templates/prometheus-operator/crd-alertmanager.yaml \
-	              -x charts/prometheus-operator/templates/prometheus-operator/crd-podmonitor.yaml \
-	              -x charts/prometheus-operator/templates/prometheus-operator/crd-prometheus.yaml \
-	              -x charts/prometheus-operator/templates/prometheus-operator/crd-prometheusrules.yaml \
-	              -x charts/prometheus-operator/templates/prometheus-operator/crd-servicemonitor.yaml >> $(CRDS_FILE)
-
+	              -x charts/prometheus-operator/templates/prometheus-operator/crds.yaml >> $(CRDS_FILE)
