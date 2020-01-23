@@ -1,17 +1,12 @@
 ---
 title: Running WordPress on Kubernetes
-linktitle: Running WordPress on Kubernetes
+linktitle: "Running WordPress on Kubernetes"
 description: "There are multiple parts that make a site running on Kubernetes via Stack, and we'll take them one by one below."
-categories: []
 keywords: ['stack', 'docs', 'wordpress', 'kubernetes']
 menu:
-  docs:
+  global:
     parent: concepts
-draft: false
-aliases: []
 slug: running-wordpress-on-kubernetes
-toc: true
-related: true
 ---
 
 A good reference about how a WordPress site looks on Stack is the [WordPress Spec](https://github.com/presslabs/wordpress-operator#deploying-a-wordpress-site).

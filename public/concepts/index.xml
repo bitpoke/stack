@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Concepts on Presslabs Stack DOCS</title>
+    <link>http://0.0.0.0:8000/concepts/</link>
+    <description>Recent content in Concepts on Presslabs Stack DOCS</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    
+	<atom:link href="http://0.0.0.0:8000/concepts/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Running WordPress on Kubernetes</title>
+      <link>http://0.0.0.0:8000/concepts/running-wordpress-on-kubernetes/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://0.0.0.0:8000/concepts/running-wordpress-on-kubernetes/</guid>
+      <description>A good reference about how a WordPress site looks on Stack is the WordPress Spec .
+Domains Each site needs to have at least one domain. When a request comes to the NGINX Ingress, it&#39;ll get routed to the appropriate pods, based on the Host header.
+Even if you can have multiple domains answering to the same site, you still need the main domain that will be responsible for the WP_HOME and WP_SITEURL constants.</description>
+    </item>
+    
+  </channel>
+</rss>

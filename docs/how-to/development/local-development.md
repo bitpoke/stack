@@ -1,18 +1,12 @@
 ---
 title: Local development
-linktitle: Local site development on Stack
+linktitle: "Local development"
 description: "This how-to will guide you trough creating a classic WordPress project, containerising it and running it locally using docker compose"
-categories: []
 keywords: ['stack', 'docs', 'wordpress', 'kubernetes', 'how-to', 'local-development']
 menu:
-  docs:
-    parent: how-to-develop
-    name: Local development
-draft: false
-aliases: []
+  global:
+    parent: development
 slug: local-development
-toc: true
-related: true
 ---
 
 ## Requirements

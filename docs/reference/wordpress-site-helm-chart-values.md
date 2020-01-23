@@ -1,21 +1,16 @@
 ---
 title: WordPress site helm chart values
-linktitle: WordPress site helm chart values
+linktitle: Helm chart values
 description: "This describes the reference values file for running a WordPress site."
-categories: []
 keywords: ['stack', 'docs', 'wordpress', 'kubernetes']
 menu:
-  docs:
+  global:
     parent: references
-    name: "WordPress chart values"
-draft: false
-aliases: []
 slug: wordpress-site-helm-chart-values
-toc: true
-related: true
 ---
 
 ## Helm chart values
+
 ```yaml
 # Default values for wordpress-site.
 # This is a YAML-formatted file.
@@ -79,4 +74,3 @@ mysql:
 memcached:
   replicaCount: 1
 ```
-

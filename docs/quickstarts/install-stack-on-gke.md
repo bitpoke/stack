@@ -1,18 +1,12 @@
 ---
 title: How to install Stack on Google Kubernetes Engine
-linktitle: How to install Stack on Google Kubernetes Engine
+linktitle: Install on GKE
 description: "Right now, Google Kubernetes Engine (GKE) is the most tested Kubernetes environment for Stack."
-categories: []
 keywords: ['stack', 'docs', 'wordpress', 'kubernetes']
 menu:
-  docs:
-    name: "Install on GKE"
+  global:
     parent: "quickstart"
-draft: false
-aliases: []
 slug: install-stack-on-gke
-toc: true
-related: true
 ---
 
 ## Cluster description
@@ -180,7 +174,7 @@ helm upgrade -i stack presslabs/stack \
 ## VIDEO Tutorial: How to install Stack on GKE
 
    <iframe width="724" height="518"
-src="https://www.youtube.com/embed/GdVktn8ibTA" 
-frameborder="0" 
-allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
+src="https://www.youtube.com/embed/GdVktn8ibTA"
+frameborder="0"
+allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
 allowfullscreen></iframe>  

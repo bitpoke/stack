@@ -1,21 +1,16 @@
 ---
 title: How to install Stack on Minikube
-linktitle: How to install Stack on Minikube
+linktitle: Install on Minikube
 description: "Installing Stack on Minikube is no different then installing it on another Kubernetes cluster."
-categories: []
 keywords: ['stack', 'docs', 'wordpress', 'kubernetes']
 menu:
-  docs:
-    name: "Install on Minikube"
+  global:
     parent: "quickstart"
-draft: false
-aliases: []
 slug: install-stack-on-minikube
-toc: true
-related: true
 ---
 
 We recommend to start Minikube with a little bit more resources:
+
 ```shell
 minikube start --cpus 4 --memory 8192
 ```

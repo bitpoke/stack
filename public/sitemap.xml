@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <url>
+    <loc>http://0.0.0.0:8000/about-stack/</loc>
+  </url>
+  
+  <url>
+    <loc>http://0.0.0.0:8000/categories/</loc>
+  </url>
+  
+  <url>
+    <loc>http://0.0.0.0:8000/concepts/</loc>
+  </url>
+  
+  <url>
+    <loc>http://0.0.0.0:8000/contributing/</loc>
+  </url>
+  
+  <url>
+    <loc>http://0.0.0.0:8000/how-to/deploy-wordpress-on-stack/</loc>
+  </url>
+  
+  <url>
+    <loc>http://0.0.0.0:8000/how-to/development/</loc>
+  </url>
+  
+  <url>
+    <loc>http://0.0.0.0:8000/reference/wordpress-site-helm-chart-values/</loc>
+  </url>
+  
+  <url>
+    <loc>http://0.0.0.0:8000/how-to/</loc>
+  </url>
+  
+  <url>
+    <loc>http://0.0.0.0:8000/how-to/import-site/</loc>
+  </url>
+  
+  <url>
+    <loc>http://0.0.0.0:8000/quickstarts/install-stack-on-gke/</loc>
+  </url>
+  
+  <url>
+    <loc>http://0.0.0.0:8000/quickstarts/install-stack-on-minikube/</loc>
+  </url>
+  
+  <url>
+    <loc>http://0.0.0.0:8000/how-to/development/local-development/</loc>
+  </url>
+  
+  <url>
+    <loc>http://0.0.0.0:8000/quickstarts/</loc>
+  </url>
+  
+  <url>
+    <loc>http://0.0.0.0:8000/reference/</loc>
+  </url>
+  
+  <url>
+    <loc>http://0.0.0.0:8000/concepts/running-wordpress-on-kubernetes/</loc>
+  </url>
+  
+  <url>
+    <loc>http://0.0.0.0:8000/reference/runtime-environment/</loc>
+  </url>
+  
+  <url>
+    <loc>http://0.0.0.0:8000/</loc>
+  </url>
+  
+  <url>
+    <loc>http://0.0.0.0:8000/tags/</loc>
+  </url>
+  
+  <url>
+    <loc>http://0.0.0.0:8000/how-to/development/local-development-with-bedrock/</loc>
+  </url>
+  
+</urlset>

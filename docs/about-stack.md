@@ -3,13 +3,7 @@ title: About Stack
 linktitle: About Stack
 description: "Stack is a collection of Kubernetes operators that are used to manage and operate WordPress on top of Kubernetes.
 Those operators are cloud agnostic, meaning that Stack can run on any Kubernetes cluster."
-categories: []
 keywords: ['stack', 'docs', 'wordpress', 'kubernetes']
-draft: false
-aliases: []
-slug: about-stack
-toc: true
-related: true
 ---
 
 The [Presslabs Stack](https://www.presslabs.com/stack/) is an [open-source project](https://github.com/presslabs/stack) on Github.

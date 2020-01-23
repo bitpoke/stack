@@ -1,20 +1,12 @@
 ---
 title: Local development with Bedrock
-linktitle: Local site development on Stack using Bedrock
-description: |
-    This how-to will guide you through creating a Bedrock WordPress project,
-    containerising it and running it locally using docker compose.
-categories: []
+linktitle: "Using Bedrock"
+description: "This how-to will guide you through creating a Bedrock WordPress project, containerising it and running it locally using docker compose."
 keywords: ['stack', 'docs', 'wordpress', 'kubernetes', 'how-to', 'local-development']
 menu:
-  docs:
-    parent: how-to-develop
-    name: Local development with Bedrock
-draft: false
-aliases: []
+  global:
+    parent: development
 slug: local-development-with-bedrock
-toc: true
-related: true
 ---
 
 ## Why starting with Bedrock?
