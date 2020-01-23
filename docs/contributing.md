@@ -2,13 +2,7 @@
 title: Contributing
 linktitle: Contributing
 description: "How to contribute to Stack"
-categories: []
 keywords: ['stack', 'docs', 'wordpress', 'kubernetes', 'contributing', 'development', 'issues']
-draft: false
-aliases: []
-slug: contributing
-toc: true
-related: true
 ---
 
 ## Issues

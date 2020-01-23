@@ -1,21 +1,16 @@
 ---
 title: Stack runtime environment
-linktitle: Stack runtime environment
+linktitle: Runtime environment
 description: "Sites on Stack run in docker images. This describes the reference environment that docker images should implement in order to integrate with Stack."
-categories: []
 keywords: ['stack', 'docs', 'wordpress', 'kubernetes']
 menu:
-  docs:
+  global:
     parent: references
-    name: "Runtime Environment"
-draft: false
-aliases: []
 slug: runtime-environment
-toc: true
-related: true
 ---
 
 ## HTTP server
+
 * `PORT` (default to `8080`) - the port your app
 * `MAX_BODY_SIZE` (default to `10`) - the size in megabytes for the maximum
   client request body size.  (this controls NGINX `client_max_body_size` and
@@ -26,11 +21,13 @@ related: true
   log
 
 ## Media Library
+
 * `STACK_MEDIA_PATH` (default to `/wp-content/uploads`)
 * `STACK_MEDIA_BUCKET` - if set serves the `STACK_MEDIA_PATH` from this media bucket
   (eg. `gs://my-google-cloud-storage-bucket/prefix` or `s3://my-aws-s3-bucket`)
 
 ## PHP runtime
+
 * `PHP_MEMORY_LIMIT` (default to `128`). PHP request memory limit in megabytes
 * `PHP_REQUEST_TIMEOUT` (default to `30`) - Time in seconds for serving a
   single request. PHP `max_execution_time` is set to this value and can only
@@ -47,6 +44,7 @@ related: true
   request is logged as slow. Set to `0` to disable slow logging.
 
 ## SMTP settings
+
 * `SMTP_HOST` (default to `localhost`)
 * `SMTP_USER`
 * `SMTP_PASS`

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Development on Presslabs Stack DOCS</title>
+    <link>http://0.0.0.0:8000/how-to/development/</link>
+    <description>Recent content in Development on Presslabs Stack DOCS</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    
+	<atom:link href="http://0.0.0.0:8000/how-to/development/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Local development</title>
+      <link>http://0.0.0.0:8000/how-to/development/local-development/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://0.0.0.0:8000/how-to/development/local-development/</guid>
+      <description>Requirements   wp-cli   docker-compose   Bootstrap the project First let&#39;s create a project via wp-cli.
+$ mkdir -p my-site/wp-content/{plugins,themes,mu-plugins,uploads} $ cd my-site Then we need to install the Presslabs Stack must use plugin for WordPress from GitHub .
+In order to enable the external object cache, we need to place it into our WP_CONTENT_DIR/object-cache.php.
+$ ln -sf mu-plugins/stack-mu-plugin/src/object-cache.php web/app/object-cache.php Create the Dockerfile Presslabs Stack provides a base image for building and developing WordPress sites.</description>
+    </item>
+    
+    <item>
+      <title>Local development with Bedrock</title>
+      <link>http://0.0.0.0:8000/how-to/development/local-development-with-bedrock/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://0.0.0.0:8000/how-to/development/local-development-with-bedrock/</guid>
+      <description>Why starting with Bedrock? roots/bedrock offers a standard structure and allows you to work with composer, thus providing better dependency management and enabling some software engineering good practices. You can install/uninstall plugins and themes via composer, use it&#39;s autoload functionality and other goodies.
+Requirements   composer   docker-compose   Bootstrap the project First let&#39;s create a project via composer starting from roots/bedrock .
+$ composer create-project roots/bedrock my-site $ cd my-site Then we need to install the Presslabs Stack must-use plugin for WordPress.</description>
+    </item>
+    
+  </channel>
+</rss>

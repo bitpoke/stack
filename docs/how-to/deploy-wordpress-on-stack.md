@@ -1,17 +1,12 @@
 ---
 title: Deploy WordPress to Presslabs Stack
-linktitle: Deploy WordPress to Presslabs Stack
+linktitle: "Deploy to Stack"
 description: "Find out how to deploy your WordPress code to the Presslabs Stack."
-categories: []
 keywords: ['stack', 'docs', 'wordpress', 'kubernetes', 'how-to', 'development']
 menu:
-  docs:
+  global:
     parent: how-to
-draft: false
-aliases: []
 slug: deploy-wordpress-on-stack
-toc: true
-related: true
 ---
 
 ## Requirements

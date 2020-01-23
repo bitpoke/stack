@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Welcome to Stack Docs! on Presslabs Stack DOCS</title>
+    <link>http://0.0.0.0:8000/</link>
+    <description>Recent content in Welcome to Stack Docs! on Presslabs Stack DOCS</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    
+	<atom:link href="http://0.0.0.0:8000/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>About Stack</title>
+      <link>http://0.0.0.0:8000/about-stack/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://0.0.0.0:8000/about-stack/</guid>
+      <description>The Presslabs Stack is an open-source project on Github.
+All the components of Stack can be viewed in the picture below:
+ It has a control plane made up of:
+  WordPress Operator - manages WordPress related operations. From installation and autoscaling, to cronjobs, backups, and upgrades.  MySQL Operator - takes care of all the database operations, from scaling and failovers to backups. Depending on your use-case, you can have one cluster per site or one cluster for multiple sites.</description>
+    </item>
+    
+    <item>
+      <title>Contributing</title>
+      <link>http://0.0.0.0:8000/contributing/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://0.0.0.0:8000/contributing/</guid>
+      <description>Issues Issues are being tracked at https://github.com/presslabs/stack/issues.
+They can range from bug reports to questions about development, installation process and other stuff related to the project.
+Development  NOTE Before making a change to this repository, please open an issue to discuss why the change is needed, and how it should be implemented if necessary.
+   Clone the repository:
+Optionally you could fork the repo first.
+git clone https://github.</description>
+    </item>
+    
+    <item>
+      <title>Deploy WordPress to Presslabs Stack</title>
+      <link>http://0.0.0.0:8000/how-to/deploy-wordpress-on-stack/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://0.0.0.0:8000/how-to/deploy-wordpress-on-stack/</guid>
+      <description>Requirements   helm   Getting started Deploying a site is as simple as following these three steps:
+  Add the Presslabs helm chart repository
+$ helm repo add presslabs https://presslabs.github.io/charts $ helm repo update   Deploy a site, with main domain pointing to example.com
+$ helm upgrade -i my-site presslabs/wordpress-site --set site.domains[0]=example.com   Point the domain to the ingress IP
+$ kubectl get -n presslabs-stack service stack-nginx-ingress-controller   Deploy a site from a git repository  NOTE Deploying from git repository requires that your WP_CONTENT_DIR is checked in.</description>
+    </item>
+    
+    <item>
+      <title>WordPress site helm chart values</title>
+      <link>http://0.0.0.0:8000/reference/wordpress-site-helm-chart-values/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://0.0.0.0:8000/reference/wordpress-site-helm-chart-values/</guid>
+      <description>Helm chart values # Default values for wordpress-site.# This is a YAML-formatted file.# Declare variables to be passed into your templates.replicaCount:1# to use a custom wordpress runtime imageimage:repository:quay.io/presslabs/wordpress-runtimetag:5.2.2pullPolicy:IfNotPresentimagePullSecrets:ImagePullSecretNamesite:domains:[]env:[]envFrom:[]resources:{}# to automatically install wordpressbootstrap:title:MyStackEnabledsiteemail:ping@example.comuser:adminpassword:change-password-afer-logintls:issuerKind:ClusterIssuerissuerName:stack-defaultacmeChallengeType:http01code:# when true, the code is mounted read-only inside the runtime containerreadOnly:false# the path, within the code volume (git repo), where the &amp;#39;wp-content&amp;#39; is# availablecontentSubPath:wp-content/git:repository:https://github.com/presslabs/stack-example-wordpress# it is not recommended to use a &amp;#39;moving&amp;#39; target for deployment like a# branch name.</description>
+    </item>
+    
+    <item>
+      <title>Import data into a site running on Stack</title>
+      <link>http://0.0.0.0:8000/how-to/import-site/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://0.0.0.0:8000/how-to/import-site/</guid>
+      <description>Database import In order to import the database, you&#39;ll need to port-forward MySQL&#39;s port.
+$ kubectl get pods $ kubectl port-forward &amp;lt;release&amp;gt;-mysql-0 3307:3306 Furthermore, you&#39;ll need to connect to it via a user and password. All database related credentials are stored in the &amp;lt;release&amp;gt;-db secret.
+$ kubectl get secret &amp;lt;release&amp;gt;-db -o yaml You&#39;ll need the USER and PASSWORD secret. Those are base64 encoded and in order to decode them you can echo &amp;lt;USER-CONTENT&amp;gt; | base64 -D.</description>
+    </item>
+    
+    <item>
+      <title>How to install Stack on Google Kubernetes Engine</title>
+      <link>http://0.0.0.0:8000/quickstarts/install-stack-on-gke/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://0.0.0.0:8000/quickstarts/install-stack-on-gke/</guid>
+      <description>Cluster description  WARNING Keep in mind that for now, Kubernetes 1.13.6 and 1.14.2 are not supported because of https://github.com/presslabs/stack/issues/23 .
+ If you want to move quickly, you can use the predefined terraform scripts from terraform .
+These scripts allow you to create a new cluster with 4 node pools, pre-configured with the labels and taints:
+ system, used by the control plane to host all operators pods. Those nodes don&#39;t need heavy resources.</description>
+    </item>
+    
+    <item>
+      <title>How to install Stack on Minikube</title>
+      <link>http://0.0.0.0:8000/quickstarts/install-stack-on-minikube/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://0.0.0.0:8000/quickstarts/install-stack-on-minikube/</guid>
+      <description>We recommend to start Minikube with a little bit more resources:
+minikube start --cpus 4 --memory 8192 Next, you&#39;ll need to install helm.
+$ kubectl --namespace kube-system create sa tiller $ kubectl create clusterrolebinding tiller \  --clusterrole cluster-admin \  --serviceaccount=kube-system:tiller $ helm init --service-account tiller \  --history-max 10 \  --override &amp;#39;spec.template.spec.containers[0].command&amp;#39;=&amp;#39;{/tiller,--storage=secret}&amp;#39; \  --override &amp;#39;spec.template.spec.tolerations[0].key&amp;#39;=&amp;#39;CriticalAddonsOnly&amp;#39; \  --override &amp;#39;spec.template.spec.tolerations[0].operator&amp;#39;=&amp;#39;Exists&amp;#39; \  --wait After that, we&#39;re ready to install Stack.</description>
+    </item>
+    
+    <item>
+      <title>Local development</title>
+      <link>http://0.0.0.0:8000/how-to/development/local-development/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://0.0.0.0:8000/how-to/development/local-development/</guid>
+      <description>Requirements   wp-cli   docker-compose   Bootstrap the project First let&#39;s create a project via wp-cli.
+$ mkdir -p my-site/wp-content/{plugins,themes,mu-plugins,uploads} $ cd my-site Then we need to install the Presslabs Stack must use plugin for WordPress from GitHub .
+In order to enable the external object cache, we need to place it into our WP_CONTENT_DIR/object-cache.php.
+$ ln -sf mu-plugins/stack-mu-plugin/src/object-cache.php web/app/object-cache.php Create the Dockerfile Presslabs Stack provides a base image for building and developing WordPress sites.</description>
+    </item>
+    
+    <item>
+      <title>Running WordPress on Kubernetes</title>
+      <link>http://0.0.0.0:8000/concepts/running-wordpress-on-kubernetes/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://0.0.0.0:8000/concepts/running-wordpress-on-kubernetes/</guid>
+      <description>A good reference about how a WordPress site looks on Stack is the WordPress Spec .
+Domains Each site needs to have at least one domain. When a request comes to the NGINX Ingress, it&#39;ll get routed to the appropriate pods, based on the Host header.
+Even if you can have multiple domains answering to the same site, you still need the main domain that will be responsible for the WP_HOME and WP_SITEURL constants.</description>
+    </item>
+    
+    <item>
+      <title>Stack runtime environment</title>
+      <link>http://0.0.0.0:8000/reference/runtime-environment/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://0.0.0.0:8000/reference/runtime-environment/</guid>
+      <description>HTTP server  PORT (default to 8080) - the port your app MAX_BODY_SIZE (default to 10) - the size in megabytes for the maximum client request body size. (this controls NGINX client_max_body_size and php upload_max_filesize and post_max_size) NGINX_ACCESS_LOG (default to off) - where to write NGINX&#39;s access log NGINX_ERROR_LOG (default to /dev/stderr) - where to write NGINX&#39;s error log  Media Library  STACK_MEDIA_PATH (default to /wp-content/uploads) STACK_MEDIA_BUCKET - if set serves the STACK_MEDIA_PATH from this media bucket (eg.</description>
+    </item>
+    
+    <item>
+      <title>Local development with Bedrock</title>
+      <link>http://0.0.0.0:8000/how-to/development/local-development-with-bedrock/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://0.0.0.0:8000/how-to/development/local-development-with-bedrock/</guid>
+      <description>Why starting with Bedrock? roots/bedrock offers a standard structure and allows you to work with composer, thus providing better dependency management and enabling some software engineering good practices. You can install/uninstall plugins and themes via composer, use it&#39;s autoload functionality and other goodies.
+Requirements   composer   docker-compose   Bootstrap the project First let&#39;s create a project via composer starting from roots/bedrock .
+$ composer create-project roots/bedrock my-site $ cd my-site Then we need to install the Presslabs Stack must-use plugin for WordPress.</description>
+    </item>
+    
+  </channel>
+</rss>

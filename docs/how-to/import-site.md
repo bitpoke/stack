@@ -1,17 +1,12 @@
 ---
 title: Import data into a site running on Stack
-linktitle: Import data into a site running on Stack
+linktitle: "Import data"
 description: "Find out how to import database and media files into your Presslabs Stack site."
-categories: []
 keywords: ['stack', 'docs', 'wordpress', 'kubernetes']
 menu:
-  docs:
+  global:
     parent: how-to
-draft: false
-aliases: []
 slug: import-site
-toc: true
-related: true
 ---
 
 ## Database import

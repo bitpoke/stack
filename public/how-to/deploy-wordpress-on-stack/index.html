@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en" class="js csstransforms3d">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="http://0.0.0.0:8000/images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="http://0.0.0.0:8000/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="http://0.0.0.0:8000/images/favicon-16x16.png">
+    <link rel="manifest" href="http://0.0.0.0:8000/images/site.webmanifest">
+    <link rel="mask-icon" href="http://0.0.0.0:8000/images/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+
+    <meta name="description" content="Find out how to deploy your WordPress code to the Presslabs Stack.">
+
+
+    <title>
+      Deploy WordPress to Presslabs Stack — Presslabs Stack DOCS
+    </title>
+    <link href="http://0.0.0.0:8000/styles/styles.css" rel="stylesheet" type="text/css" />
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+      integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8="
+      crossorigin="anonymous"></script>
+    <script type="text/javascript">
+      var ALGOLIA_APP_ID = '0TS6NFHDBC';
+      var ALGOLIA_SEARCH_KEY = 'b2efcfd6516eed7a2f19269f9cb13acb';
+      var ALGOLIA_INDEX_NAME = 'Stack Docs';
+      var HAS_VERSIONS = false;
+    </script>
+
+    
+  </head>
+  <body>
+    
+
+    <div class="progress-bar" role="progressbar" title="Progress bar"></div>
+
+    <header class="bg-gray-100 border-b border-gray-200 nav" id="header-height" role="banner">
+      <div class="container mx-auto">
+        <div id="header" class="px-3 flex flex-col md:flex-row justify-between py-10">
+  <div class="branding logo-container mb-5 md:mb-0 flex items-center">
+    <a href="http://0.0.0.0:8000" class="logo-main" title="Presslabs">
+      <svg xmlns="http://www.w3.org/2000/svg" class="block" width="150" height="42" fill-rule="evenodd">
+        <title>Presslabs DOCS</title>
+        <path fill="#0CB14B" class="symbol" d="M14.93,13.36H9.16a1.49,1.49,0,0,1,0-3h5.77a1.49,1.49,0,0,1,0,3Zm1.49,5.84a1.49,1.49,0,0,0-1.49-1.49H7.74a1.49,1.49,0,1,0,0,3h7.19A1.49,1.49,0,0,0,16.42,19.2ZM26.94,38.47a5.4,5.4,0,0,0,2.46-7.13L23.93,19.55a18,18,0,0,1-1.69-7.68V3.45A3.46,3.46,0,0,0,18.78,0H9.16a1.49,1.49,0,0,0,0,3h9.62a.46.46,0,0,1,.47.47v8.42a21.09,21.09,0,0,0,2,8.94L26.7,32.62v0a2.42,2.42,0,0,1-1.16,3.18A23.45,23.45,0,0,1,15,38.32a22.92,22.92,0,0,1-10.6-2.5,2.43,2.43,0,0,1-1.17-3.18l2-4.36A.47.47,0,0,1,5.62,28H16.5a1.49,1.49,0,1,0,0-3H5.62a3.46,3.46,0,0,0-3.07,1.89l-2,4.41A5.39,5.39,0,0,0,3,38.46,26,26,0,0,0,15,41.3,26.61,26.61,0,0,0,26.94,38.47Zm-.22-5.82Z" />
+        <path fill="#283859" class="logotype" d="M103.7,4.93a1.6,1.6,0,0,0-1.52,1.63V25.25a1.57,1.57,0,1,0,3.13,0V6.49A1.56,1.56,0,0,0,103.7,4.93ZM58.62,11.3a12.06,12.06,0,0,0-2.42-.21,15.53,15.53,0,0,0-3.45.5,1.45,1.45,0,0,0-1.21,1.6V25.25a1.56,1.56,0,1,0,3.12,0V13.87a9.39,9.39,0,0,1,2.16-.27c.44,0,1.35.12,1.62.12a1.14,1.14,0,0,0,1.15-1.24A1.11,1.11,0,0,0,58.62,11.3ZM42.12,24.52A10.22,10.22,0,0,1,38.73,24V13.92a12,12,0,0,1,3.39-.44c3.42,0,3.74,2.63,3.74,5.34C45.86,21.74,45.63,24.52,42.12,24.52Zm.23-13.43a22.52,22.52,0,0,0-5.57.68,1.4,1.4,0,0,0-1.18,1.57V31.51a1.57,1.57,0,0,0,3.13,0V26.34a13,13,0,0,0,3.8.56c4.4,0,6.52-2.71,6.52-8.08C49.05,13.69,47.4,11.09,42.35,11.09ZM130,24.52a10.22,10.22,0,0,1-3.39-.51V14a10.89,10.89,0,0,1,3.39-.47c3.42,0,3.75,2.63,3.75,5.34C133.78,21.74,133.54,24.52,130,24.52Zm.62-13.43a13.18,13.18,0,0,0-4,.62V6.49a1.57,1.57,0,0,0-3.13,0v18.2a1.44,1.44,0,0,0,1.18,1.57,19.51,19.51,0,0,0,5.13.64c5.22,0,7.14-2.71,7.14-8.08C137,13.69,135.19,11.09,130.65,11.09ZM144.1,26.9a17.43,17.43,0,0,1-4.39-.56c-.59-.17-1-.47-1-1.15a1.06,1.06,0,0,1,1.15-1.12,37.79,37.79,0,0,0,3.87.5c2.42,0,3.21-.62,3.21-2,0-1.57-.76-2.16-3.45-2.54-3.21-.47-4.69-1.5-4.69-4.51,0-3.19,2.45-4.46,5.81-4.46a17.56,17.56,0,0,1,4,.5,1.06,1.06,0,0,1,1,1.13,1,1,0,0,1-1.12,1.12c-.56,0-2.25-.42-3.6-.42-2.48,0-3.1.8-3.1,1.95,0,1.39.68,1.89,3.33,2.3,3.4.53,4.87,1.39,4.87,4.54C150,25.64,148,26.9,144.1,26.9Zm-26.87-7.52H115.6c-4.16,0-4.83,1.33-4.83,2.83s.56,2.42,3.21,2.42a15.28,15.28,0,0,0,3.25-.44Zm3.06,5.28a1.4,1.4,0,0,1-1.18,1.57,24.41,24.41,0,0,1-5.31.67c-4.66,0-6.13-1.47-6.13-4.57,0-2.77,1.77-4.84,7.64-4.84h1.92V16.14c0-1.92-.92-2.63-3.31-2.63a39,39,0,0,0-3.92.41,1,1,0,0,1-1.12-1.14,1,1,0,0,1,.94-1.13,22.61,22.61,0,0,1,4.84-.56c4.07,0,5.63,1.36,5.63,4.78ZM93.74,26.9a17.43,17.43,0,0,1-4.39-.56,1.11,1.11,0,0,1-1-1.15,1.06,1.06,0,0,1,1.15-1.12,37.9,37.9,0,0,0,3.86.5c2.42,0,3.21-.62,3.21-2,0-1.57-.76-2.16-3.45-2.54-3.21-.47-4.69-1.5-4.69-4.51,0-3.19,2.45-4.46,5.82-4.46a17.64,17.64,0,0,1,4,.5,1.06,1.06,0,0,1,.94,1.13,1,1,0,0,1-1.12,1.12c-.56,0-2.24-.42-3.6-.42-2.48,0-3.1.8-3.1,1.95,0,1.39.68,1.89,3.34,2.3,3.39.53,4.86,1.39,4.86,4.54C99.64,25.64,97.67,26.9,93.74,26.9Zm-13,0a17.6,17.6,0,0,1-4.4-.56,1.11,1.11,0,0,1-1-1.15,1.06,1.06,0,0,1,1.15-1.12,37.9,37.9,0,0,0,3.86.5c2.42,0,3.22-.62,3.22-2,0-1.57-.77-2.16-3.46-2.54-3.21-.47-4.69-1.5-4.69-4.51,0-3.19,2.45-4.46,5.82-4.46a17.64,17.64,0,0,1,4,.5,1.06,1.06,0,0,1,.94,1.13,1,1,0,0,1-1.12,1.12c-.56,0-2.24-.42-3.6-.42-2.48,0-3.1.8-3.1,1.95,0,1.39.68,1.89,3.34,2.3,3.39.53,4.86,1.39,4.86,4.54C86.6,25.64,84.63,26.9,80.71,26.9Zm-9.92-9.23c-.09-2.24-.38-4.33-3.45-4.33s-3.42,2.12-3.48,4.33Zm1.33,1.95H63.89c0,2.62.56,4.87,4.25,4.87a35.94,35.94,0,0,0,3.74-.42A1.07,1.07,0,0,1,73,25.22a1.1,1.1,0,0,1-1,1.18,23.49,23.49,0,0,1-5.1.5c-4.84,0-6.17-2.8-6.17-8.08,0-5,1.92-7.73,6.64-7.73,4.57,0,6.22,2.57,6.22,7.08C73.65,19.06,73.24,19.62,72.12,19.62Z" />
+      </svg>
+    </a>
+    <a href="http://0.0.0.0:8000" class="ml-3 mb-1 text-2xl font-light text-gray-700 hover:text-blue-700" title="Presslabs Stack">
+      <span class="logo-domain">
+        <span class="stack-domain">DOCS</span>
+      </span>
+    </a>
+  </div>
+
+  <div class="flex flex-grow-1 md:flex-grow-0 md:ml-5 items-center">
+    <div class="w-full md:mr-5">
+      <input type="search" role="search" class="form-input w-full text-gray-800" id="algolia-doc-search" placeholder="Search docs" aria-label="Search docs" autocomplete="off">
+    </div>
+
+    <div class="hidden md:block">
+      <a class="bg-green-600 hover:bg-green-700 transition-bg text-white font-bold py-3 px-4 rounded text-sm whitespace-no-wrap text-shadow-sm" href="https://www.presslabs.com/" tabindex="0">Discover Presslabs</a>
+    </div>
+  </div>
+</div>
+
+      </div>
+    </header>
+
+    <main class="container mx-auto px-3 flex mt-3" role="main">
+      <div class="hidden md:block md:w-1/4">
+        <div id="sidebar" class="pr-10">
+
+  
+
+  
+<h3 id="nav-title" class="hidden">Navigation</h3>
+<div class="side-nav pt-4" role="navigation" aria-labelledby="nav-title">
+  <ul class="text-sm">
+    <li class="list-item">
+      <a
+        href="/about-stack"
+        class="block leading-loose text-gray-700 hover:text-blue-700 js-toggle"
+      >
+        About Stack
+      </a>
+    </li>
+    <li class="has-children">
+      <a
+        href="#"
+        class="block leading-loose text-gray-700 hover:text-blue-700 js-toggle font-bold"
+      >
+        Quickstart
+      </a>
+      <ul class="ml-2 hidden my-1">
+    <li class="list-item">
+      <a
+        href="/quickstarts/install-stack-on-gke/"
+        class="block leading-loose text-gray-700 hover:text-blue-700 js-toggle"
+      >
+        Install on GKE
+      </a>
+    </li>
+    <li class="list-item">
+      <a
+        href="/quickstarts/install-stack-on-minikube/"
+        class="block leading-loose text-gray-700 hover:text-blue-700 js-toggle"
+      >
+        Install on Minikube
+      </a>
+    </li>
+      </ul>
+    </li>
+    <li class="has-children">
+      <a
+        href="#"
+        class="block leading-loose text-gray-700 hover:text-blue-700 js-toggle font-bold"
+      >
+        How-to guides
+      </a>
+      <ul class="ml-2 block my-1">
+    <li class="has-children">
+      <a
+        href="#"
+        class="block leading-loose text-gray-700 hover:text-blue-700 js-toggle font-bold"
+      >
+        Development
+      </a>
+      <ul class="ml-2 hidden my-1">
+    <li class="list-item">
+      <a
+        href="/how-to/development/local-development/"
+        class="block leading-loose text-gray-700 hover:text-blue-700 js-toggle"
+      >
+        Local development
+      </a>
+    </li>
+    <li class="list-item">
+      <a
+        href="/how-to/development/local-development-with-bedrock/"
+        class="block leading-loose text-gray-700 hover:text-blue-700 js-toggle"
+      >
+        Using Bedrock
+      </a>
+    </li>
+      </ul>
+    </li>
+    <li class="list-item">
+      <a
+        href="/how-to/deploy-wordpress-on-stack/"
+        class="block leading-loose text-gray-700 hover:text-blue-700 js-toggle text-blue-600"
+      >
+        Deploy to Stack
+      </a>
+    </li>
+    <li class="list-item">
+      <a
+        href="/how-to/import-site/"
+        class="block leading-loose text-gray-700 hover:text-blue-700 js-toggle"
+      >
+        Import data
+      </a>
+    </li>
+      </ul>
+    </li>
+    <li class="has-children">
+      <a
+        href="#"
+        class="block leading-loose text-gray-700 hover:text-blue-700 js-toggle font-bold"
+      >
+        Concepts
+      </a>
+      <ul class="ml-2 hidden my-1">
+    <li class="list-item">
+      <a
+        href="/concepts/running-wordpress-on-kubernetes/"
+        class="block leading-loose text-gray-700 hover:text-blue-700 js-toggle"
+      >
+        Running WordPress on Kubernetes
+      </a>
+    </li>
+      </ul>
+    </li>
+    <li class="has-children">
+      <a
+        href="#"
+        class="block leading-loose text-gray-700 hover:text-blue-700 js-toggle font-bold"
+      >
+        References
+      </a>
+      <ul class="ml-2 hidden my-1">
+    <li class="list-item">
+      <a
+        href="/reference/wordpress-site-helm-chart-values/"
+        class="block leading-loose text-gray-700 hover:text-blue-700 js-toggle"
+      >
+        Helm chart values
+      </a>
+    </li>
+    <li class="list-item">
+      <a
+        href="/reference/runtime-environment/"
+        class="block leading-loose text-gray-700 hover:text-blue-700 js-toggle"
+      >
+        Runtime environment
+      </a>
+    </li>
+      </ul>
+    </li>
+    <li class="list-item">
+      <a
+        href="/contributing"
+        class="block leading-loose text-gray-700 hover:text-blue-700 js-toggle"
+      >
+        Contributing
+      </a>
+    </li>
+  </ul>
+</div>
+
+
+
+
+</div>
+
+      </div>
+      <div class="w-full md:w-3/4">
+        <div class="content-wrapper">
+
+
+<div class="flex">
+  <div class="lg:w-3/4 w-full">
+    
+
+
+
+
+<ul class="flex flex-wrap text-sm font-light py-5">
+  <li>
+    <a href="http://0.0.0.0:8000" class="text-gray-600 hover:text-blue-600" title="Home"><i class="ico ico-home"></i><span class="hidden">Home</span></a>
+  </li>
+  
+    
+      
+    
+    <li>
+      <span class="text-gray-300 px-3">/</span> <a href="http://0.0.0.0:8000how-to/" class="text-gray-600 hover:text-blue-600">How-to guides</a>
+    </li>
+  
+    
+      
+    
+    <li>
+      <span class="text-gray-300 px-3">/</span> <a href="http://0.0.0.0:8000how-to/deploy-wordpress-on-stack/" class="text-gray-600 hover:text-blue-600">Deploy WordPress to Presslabs Stack</a>
+    </li>
+  
+</ul>
+
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [{
+        "@type": "ListItem",
+        "position":  0 ,
+        "item": {
+          
+          "@id": "\/how-to",
+          "name": "How-to guides"
+        }
+    },{
+        "@type": "ListItem",
+        "position":  1 ,
+        "item": {
+          
+          "@id": "\/how-to\/deploy-wordpress-on-stack",
+          "name": "Deploy WordPress to Presslabs Stack"
+        }
+    }]
+}
+</script>
+
+
+
+
+
+
+
+
+
+<div id="deploy-wordpress-on-stack">
+  <div class="mb-10">
+    <h1 class="font-normal leading-tight md:leading-loose text-2xl md:text-3xl text-blue-900">Deploy WordPress to Presslabs Stack</h1>
+    <p class="font-light text-xl text-gray-700">Find out how to deploy your WordPress code to the Presslabs Stack.</p>
+  </div>
+  <div class="prose" id="prose"><h2 id="requirements">Requirements</h2>
+<ul>
+<li>
+
+
+
+
+<a href="https://helm.sh">helm</a>
+</li>
+</ul>
+<h2 id="getting-started">Getting started</h2>
+<p>Deploying a site is as simple as following these three steps:</p>
+<ol>
+<li>
+<p>Add the Presslabs helm chart repository</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ helm repo add presslabs https://presslabs.github.io/charts
+$ helm repo update
+</code></pre></div></li>
+<li>
+<p>Deploy a site, with main domain pointing to <code>example.com</code></p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ helm upgrade -i my-site presslabs/wordpress-site --set site.domains<span class="o">[</span>0<span class="o">]</span><span class="o">=</span>example.com
+</code></pre></div></li>
+<li>
+<p>Point the domain to the ingress IP</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ kubectl get -n presslabs-stack service stack-nginx-ingress-controller
+</code></pre></div></li>
+</ol>
+<h2 id="deploy-a-site-from-a-git-repository">Deploy a site from a git repository</h2>
+<blockquote>
+<h6 id="note">NOTE</h6>
+<p>Deploying from git repository requires that your <code>WP_CONTENT_DIR</code> is checked
+in. If you want to use Bedrock it is highly recommended that you deploy using
+a docker image.</p>
+</blockquote>
+<p>Deploying from git is as simple as:</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ helm upgrade -i my-site presslabs/wordpress-site --set site.domains<span class="o">[</span>0<span class="o">]</span><span class="o">=</span>example.com <span class="se">\
+</span><span class="se"></span>	--set code.git.repository<span class="o">=</span>https://github.com/presslabs/stack-example-wordpress.git <span class="se">\
+</span><span class="se"></span>	--set code.git.reference<span class="o">=</span>master
+</code></pre></div><ul>
+<li><code>code.git.repository</code> is a valid git repository origin. It supports HTTP, HTTPS, GIT and the SSH protocol.</li>
+<li><code>code.git.reference</code> reference to deploy. It can be a commit, branch or tag and defaults to <code>master</code></li>
+</ul>
+<h3 id="using-a-private-repository">Using a private repository</h3>
+<p>In order to use a private repository, you must generate a SSH key pair and set
+the <strong>private</strong> to the deployment. To do that, you need to add
+<code>--set-file code.git.ssh_private_key=PATH_TO_THE_PRIVATE_KEY</code>:</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ ssh-keygen -f id_rsa -P <span class="s1">&#39;&#39;</span>
+$ helm upgrade -i my-site presslabs/wordpress-site --set site.domains<span class="o">[</span>0<span class="o">]</span><span class="o">=</span>example.com <span class="se">\
+</span><span class="se"></span>	--set code.git.repository<span class="o">=</span>https://github.com/presslabs/stack-example-wordpress.git <span class="se">\
+</span><span class="se"></span>	--set code.git.reference<span class="o">=</span>master <span class="se">\
+</span><span class="se"></span>	--set-file code.git.ssh_private_key<span class="o">=</span>id_rsa
+</code></pre></div><h2 id="deploy-a-custom-docker-image">Deploy a custom Docker image</h2>
+<p>You can run a custom image, bundled with your own code and dependencies. You can
+specify it when deploying by setting <code>image.repository</code> and <code>image.tag</code>.</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ helm upgrade my-site presslabs/wordpress-site --reuse-values <span class="se">\
+</span><span class="se"></span>	--set image.repository<span class="o">=</span>quay.io/presslabs/wordpress-runtime
+	--set image.tag<span class="o">=</span>5.2.2
+</code></pre></div><h2 id="whats-next">What's next?</h2>
+<ul>
+<li>
+
+
+
+
+<a href="../import-site/">How to import a site</a>
+</li>
+<li>Check 
+
+
+
+
+<a href="../../reference/wordpress-site-helm-chart-values/">helm chart values reference</a>
+</li>
+</ul>
+</div>
+</div>
+
+    
+      
+
+<div class="mt-24">
+  <h2 class="text-3xl mb-5 font-light text-gray-900">See Also</h2>
+  <div class="grid grid-columns-1 md:grid-columns-2 grid-gap-2 md:grid-gap-8">
+    
+    <div class="group rounded overflow-hidden shadow-lg hover:bg-blue-500 p-5 relative pb-16">
+      <h3 class="font-normal text-gray-900 text-xl mb-5 group-hover:text-white">Import data into a site running on Stack</h3>
+      <p class="group-hover:text-white font-light text-gray-700">Find out how to import database and media files into your Presslabs Stack site.</p>
+      <div class="absolute bottom-0 pb-5">
+        <a href="/how-to/import-site/" class="flex items-center text-blue-600 group-hover:text-white">
+          <span>Read More</span> <i class="ml-1 ico ico-arrow-e ico-bold text-xl"></i>
+        </a>
+      </div>
+    </div>
+    
+  </div>
+</div>
+
+
+    
+  </div>
+  <div class="hidden lg:block lg:w-1/4 pl-10">
+
+    <div class="hidden md:block py-4 sticky top-0">
+  
+  
+
+  
+  <div>
+    <h3 class="text-xs uppercase tracking-wider font-bold text-gray-600">What's on this Page</h3>
+    <ul class="text-xs font-light py-5">
+      
+        
+        
+        
+        
+        <li class="mb-2">
+          <a href="#requirements" class="text-gray-600 hover:text-blue-600">Requirements</a>
+        </li>
+      
+        
+        
+        
+        
+        <li class="mb-2">
+          <a href="#getting-started" class="text-gray-600 hover:text-blue-600">Getting started</a>
+        </li>
+      
+        
+        
+        
+        
+        <li class="mb-2">
+          <a href="#deploy-a-site-from-a-git-repository" class="text-gray-600 hover:text-blue-600">Deploy a site from a git repository</a>
+        </li>
+      
+        
+        
+        
+        
+        <li class="mb-2">
+          <a href="#deploy-a-custom-docker-image" class="text-gray-600 hover:text-blue-600">Deploy a custom Docker image</a>
+        </li>
+      
+        
+        
+        
+        
+        <li class="mb-2">
+          <a href="#whats-next" class="text-gray-600 hover:text-blue-600">What's next?</a>
+        </li>
+      
+    </ul>
+  </div>
+  
+
+</div>
+
+    
+  <div date-pref class="flex justify-between text-sm" role="group">
+    
+    
+      <a href="http://0.0.0.0:8000/how-to/import-site/" class="flex items-center text-blue-600 hover:text-blue-700" title="Import data into a site running on Stack">
+        Next <i class="ico ico-arrow-e ml-2"></i>
+      </a>
+    
+  </div>
+
+
+    <a class="text-blue-600 hover:text-blue-700 text-sm sticky" style="top: calc(100vh - 50px);" tabindex="0" href="#">Back to top <i class="ico ico-arrow-n"></i></a>
+
+
+  </div>
+</div>
+
+        </div>
+      </div>
+    </main>
+
+    <footer id="footer-height" class="site-footer px-10 font-light text-sm bg-gray-100 border-t border-gray-200 mt-24" role="contentinfo">
+      <div class="container mx-auto py-16">
+        <div class="footer-widgets">
+          <div class="site-social">
+            <h2 class="mt-0 mb-5 text-2xl font-light text-gray-700">Let’s talk</h2>
+            <a class="bg-green-600 hover:bg-green-700 transition-bg text-white font-bold py-2 px-4 rounded text-shadow-sm" href="https://www.presslabs.com/contact/">Reach out today</a>
+
+            <h2 class="md:mt-24 text-2xl font-light text-gray-700">Follow us</h2>
+            <ul class="socials flex mb-5">
+              <li class="mr-5 text-xl"><a class="text-blue-600 hover:text-blue-700" href="https://twitter.com/presslabs/" title="Follow us on Twitter"><i class="ico ico-twitter"> <span class="hidden">Twitter</span></i></a></li>
+              <li class="mr-5 text-xl"><a class="text-blue-600 hover:text-blue-700" href="https://github.com/presslabs/" title="Follow us on Github"><i class="ico ico-github"> <span class="hidden">Github</span></i></a></li>
+              <li class="mr-5 text-xl"><a class="text-blue-600 hover:text-blue-700" href="https://kubernetes.slack.com/messages/CEKQXFR0E/" title="Follow us on Slack"><i class="ico ico-slack"> <span class="hidden">Slack</span></i></a></li>
+              <li class="mr-5 text-xl"><a class="text-blue-600 hover:text-blue-700" href="https://www.youtube.com/presslabs/" title="Follow us on YouTube"><i class="ico ico-youtube"> <span class="hidden">YouTube</span></i></a></li>
+              <li class="mr-5 text-xl"><a class="text-blue-600 hover:text-blue-700" href="https://www.linkedin.com/company/presslabs/" title="Follow us on Linkedin"><i class="ico ico-linkedin"> <span class="hidden">LinkedIn</span></i></a></li>
+              <li class="mr-5 text-xl"><a class="text-blue-600 hover:text-blue-700" href="https://www.facebook.com/presslabs/" title="Follow us on Facebook"><i class="ico ico-facebook"> <span class="hidden">Facebook</span></i></a></li>
+            </ul>
+
+            <a class="text-blue-600 hover:text-blue-700 text-lg" href="tel:+18447737752" class="flex items-center my-5" title="Phone"><i class="ico ico-phone text-base mr-2"></i> +1-844-7737752</a>
+          </div>
+          <div class="site-info text-gray-600 text-sm">
+            <p class="location"> Engineered in Europe, deployed worldwide.</p>
+            <p>Copyright &copy; 2011 &mdash; 2020 Presslabs.</p>
+            
+          </div>
+          <div id="nav_menu-3">
+            <h4 class="text-xs uppercase tracking-wider font-bold text-gray-700 mb-5">Presslabs</h4>
+            <ul id="menu-footer-presslabs">
+              <li class="mb-2"><a class="text-gray-800 hover:text-blue-600" href="https://www.presslabs.com/about/">About us</a></li>
+              <li class="mb-2"><a class="text-gray-800 hover:text-blue-600" href="https://www.presslabs.com/blog/">Blog</a></li>
+              <li class="mb-2"><a class="text-gray-800 hover:text-blue-600" href="https://www.presslabs.com/press/">Press</a></li>
+              <li class="mb-2"><a class="text-gray-800 hover:text-blue-600" href="https://www.presslabs.com/jobs/">Jobs</a></li>
+              <li class="mb-2"><a class="text-gray-800 hover:text-blue-600" href="https://www.presslabs.com/contact/">Contact</a></li>
+            </ul>
+          </div>
+          <div id="nav_menu-4">
+            <h4 class="text-xs uppercase tracking-wider font-bold text-gray-700 mb-5">WordPress Hosting</h4>
+            <ul id="menu-footer-wordpress-hosting">
+              <li class="mb-2"><a class="text-gray-800 hover:text-blue-600" href="https://www.presslabs.com/publisher/">Publishers</a></li>
+              <li class="mb-2"><a class="text-gray-800 hover:text-blue-600" href="https://www.presslabs.com/agencies/">Agencies</a></li>
+              <li class="mb-2"><a class="text-gray-800 hover:text-blue-600" href="https://www.presslabs.com/enterprise/">Enterprise</a></li>
+              <li class="mb-2"><a class="text-gray-800 hover:text-blue-600" href="https://www.presslabs.com/specifications/">Specifications</a></li>
+              <li class="mb-2"><a class="text-gray-800 hover:text-blue-600" href="https://www.presslabs.com/clients/">Clients</a></li>
+              <li class="mb-2"><a class="text-gray-800 hover:text-blue-600" href="https://www.presslabs.com/pricing/">Pricing</a></li>
+              <li class="mb-2"><a class="text-gray-800 hover:text-blue-600" href="https://www.presslabs.com/datacenters/">Datacenters</a></li>
+            </ul>
+          </div>
+          <div id="nav_menu-7" class="widget widget_nav_menu">
+            <h4 class="text-xs uppercase tracking-wider font-bold text-gray-700 mb-5">Cloud-Native Solutions</h4>
+            <ul id="menu-footer-cloud-menu">
+              <li class="mb-2"><a class="text-gray-800 hover:text-blue-600" href="https://www.presslabs.com/dashboard/">Dashboard</a></li>
+              <li class="mb-2"><a class="text-gray-800 hover:text-blue-600" href="https://www.presslabs.com/stack/">Stack</a></li>
+            </ul>
+          </div>
+          <div id="nav_menu-5">
+            <h4 class="text-xs uppercase tracking-wider font-bold text-gray-700 mb-5">Documentation</h4>
+            <ul id="menu-footer-documentation">
+              <li class="mb-2"><a class="text-gray-800 hover:text-blue-600" href="https://www.presslabs.com/docs/getting-started/setting-up-a-site/">Getting started</a></li>
+              <li class="mb-2"><a class="text-gray-800 hover:text-blue-600" href="https://www.presslabs.com/docs/getting-started/support/">Support</a></li>
+              <li class="mb-2"><a class="text-gray-800 hover:text-blue-600" href="https://www.presslabs.com/docs/getting-started/setting-up-a-site/#migrating-an-existing-site">Migration</a></li>
+              <li class="mb-2"><a class="text-gray-800 hover:text-blue-600" href="https://www.presslabs.com/docs/development/presslabs-development-guidelines/">Development</a></li>
+              <li class="mb-2"><a class="text-gray-800 hover:text-blue-600" href="https://www.presslabs.com/docs/categories/platform-specifications/">Platform specifications</a></li>
+              <li class="mb-2"><a class="text-gray-800 hover:text-blue-600" href="https://www.presslabs.com/docs/platform-specifications/backup-policy/">Backups</a></li>
+              <li class="mb-2"><a class="text-gray-800 hover:text-blue-600" href="https://www.presslabs.com/docs/getting-started/payments/">Payments</a></li>
+            </ul>
+          </div>
+          <div id="nav_menu-6">
+            <h4 class="text-xs uppercase tracking-wider font-bold text-gray-700 mb-5">Legal</h4>
+            <ul id="menu-footer-legal">
+              <li class="mb-2"><a class="text-gray-800 hover:text-blue-600" href="https://www.presslabs.com/legal/terms-and-conditions/">Terms and conditions</a></li>
+              <li class="mb-2"><a class="text-gray-800 hover:text-blue-600" href="https://www.presslabs.com/legal/privacy-policy/">Privacy policy</a></li>
+              <li class="mb-2"><a class="text-gray-800 hover:text-blue-600" href="https://www.presslabs.com/legal/abuse-policy/">Abuse policy</a></li>
+              <li class="mb-2"><a class="text-gray-800 hover:text-blue-600" href="https://www.presslabs.com/legal/data-protection/">Data protection</a></li>
+              <li class="mb-2"><a class="text-gray-800 hover:text-blue-600" href="https://www.presslabs.com/legal/returns-and-cancellation-policy/">Returns and cancellation</a></li>
+              <li class="mb-2"><a class="text-gray-800 hover:text-blue-600" href="http://www.anpc.gov.ro/">Alternative dispute resolution / ANPC</a></li>
+            </ul>
+          </div>
+        </div> 
+
+      </div>
+    </footer>
+
+    
+    
+    
+    
+    
+    
+    
+
+    
+    <script type="text/javascript" src="http://0.0.0.0:8000/js/scripts.min.js"></script>
+  </body>
+</html>
+
