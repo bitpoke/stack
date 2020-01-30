@@ -27,7 +27,7 @@ Optionally you could [fork the repo](https://github.com/presslabs/stack/fork) fi
 
 4. Deploy to your cluster with [skaffold](https://skaffold.dev/docs/getting-started/#installing-skaffold):  
 
-    If you want to develop locally, use [minikube](https://github.com/kubernetes/minikube#installation) to get a locally running cluster. You can follow the steps described [here](./install-stack-on-minikube.md), except for the ones explaining how to install the stack.
+    If you want to develop locally, use [minikube](https://github.com/kubernetes/minikube#installation) to get a locally running cluster. You can follow the steps described [here](./quickstarts/install-stack-on-minikube.md), except for the ones explaining how to install the stack.
 
     If you want to have your changes constantly deployed run:  
 `skaffold dev`
@@ -39,7 +39,7 @@ Optionally you could [fork the repo](https://github.com/presslabs/stack/fork) fi
     There's not much written code in stack, except for a few components (default-backend, git-webhook...) which might have their own Makefile and tests that can be run with `make test`.  
     So most of the times testing will mean just running the stack with your changes and poking around.
 
-    If you need to run a site for your use-case, read the [related documentation](./running-wordpress-on-kubernetes.md).
+    If you need to run a site for your use-case, read the [related documentation](./concepts/running-wordpress-on-kubernetes.md).
 
 6. Open a pull request at https://github.com/presslabs/stack/compare.
     We'll review the pull request and assist you on getting it merged.
