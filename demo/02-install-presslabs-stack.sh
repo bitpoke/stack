@@ -2,6 +2,7 @@
 : ${CHART:="presslabs/stack"}
 : ${PRESET:="gke"}
 : ${PRESETS_LOCATION:="https://raw.githubusercontent.com/presslabs/stack/master/presets"}
+: ${HELM:=helm}
 
 set -x
 
@@ -12,9 +13,9 @@ kubectl apply --validate=false -f https://raw.githubusercontent.com/presslabs/st
 # label the namespace because of cert manager
 kubectl label namespace presslabs-system cert-manager.io/disable-validation=true
 
-helm repo add presslabs https://presslabs.github.io/charts
+"${HELM}" repo add presslabs https://presslabs.github.io/charts
 
-helm repo update
+"${HELM}" repo update
 
-helm upgrade -i stack $CHART --namespace presslabs-system \
+"${HELM}" upgrade -i stack $CHART --namespace presslabs-system \
     -f "${PRESETS_LOCATION}/${PRESET}.yaml"
