@@ -8,6 +8,8 @@ ARCH ?= amd64
 PATH := $(BINDIR):$(PATH)
 SHELL := env 'PATH=$(PATH)' /bin/sh
 
+HELM ?= helm
+
 .PHONY: charts
 charts:
 	yq w -i $(CHARTDIR)/stack/Chart.yaml version "$(APP_VERSION)"
@@ -18,14 +20,14 @@ charts:
 	yq w -i $(CHARTDIR)/wordpress-site/Chart.yaml appVersion "$(APP_VERSION)"
 
 lint:
-	helm lint charts/stack
-	helm lint charts/wordpress-site --set 'site.domains[0]=example.com'
-	helm dep build charts/wordpress-site
+	$(HELM) lint charts/stack
+	$(HELM) lint charts/wordpress-site --set 'site.domains[0]=example.com'
+	$(HELM) dep build charts/wordpress-site
 	make -C git-webhook lint
 
 dependencies:
 	test -d $(BINDIR) || mkdir $(BINDIR)
-    # install ginkgo
+#	install ginkgo
 	GOBIN=$(BINDIR) go install ./vendor/github.com/onsi/ginkgo/ginkgo
 	# install golangci-lint
 	curl -sfL https://install.goreleaser.com/github.com/golangci/golangci-lint.sh | BINARY=golangci-lint bash -s -- -b $(BINDIR) v1.21.0
@@ -70,9 +72,9 @@ collect-crds:
 	wget https://raw.githubusercontent.com/jetstack/cert-manager/$(CERT_MANAGER_TAG)/deploy/manifests/00-crds.yaml -O - >> $(CRDS_FILE)
 
 	# Prometheus
-	helm repo add presslabs https://presslabs.github.io/charts
-	helm repo add jetstack https://charts.jetstack.io
+	$(HELM) repo add presslabs https://presslabs.github.io/charts
+	$(HELM) repo add jetstack https://charts.jetstack.io
 
-	helm dependency update ./charts/stack
-	helm template ./charts/stack --set prometheus-operator.prometheusOperator.createCustomResource=true \
+	$(HELM) dependency update ./charts/stack
+	$(HELM) template ./charts/stack --set prometheus-operator.prometheusOperator.createCustomResource=true \
 	              -x charts/prometheus-operator/templates/prometheus-operator/crds.yaml >> $(CRDS_FILE)
