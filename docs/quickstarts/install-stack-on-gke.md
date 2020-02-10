@@ -127,16 +127,16 @@ helm init --service-account tiller \
 
 The [02-install-presslabs-stack.sh](https://github.com/presslabs/stack/blob/master/demo/02-install-presslabs-stack.sh) bash script is actually going to install the Stack, via `helm`. We'll take all the commands from this script one by one.
 
-First, we'll need a `presslabs-stack` namespace:
+First, we'll need a `presslabs-system` namespace:
 
 ``` shell
-kubectl create ns presslabs-stack
+kubectl create ns presslabs-system
 ```
 
 For that namespace, we'll need to disable validation, in order to allow cert-manager to do its job:
 
 ``` shell
-kubectl label namespace presslabs-stack certmanager.io/disable-validation=true
+kubectl label namespace presslabs-system certmanager.io/disable-validation=true
 ```
 
 Next, add the Presslabs's charts repository to your helm sources:
@@ -154,7 +154,7 @@ kubectl apply -f https://raw.githubusercontent.com/presslabs/stack/master/deploy
 In the end, you can just install `presslabs/stack` chart with some preset values from [gke.yaml](https://github.com/presslabs/stack/blob/master/presets/gke.yaml).
 
 ``` shell
-helm upgrade -i stack presslabs/stack --namespace presslabs-stack \
+helm upgrade -i stack presslabs/stack --namespace presslabs-system \
     -f "https://raw.githubusercontent.com/presslabs/stack/master/presets/gke.yaml"
 ```
 
@@ -167,7 +167,7 @@ By default, Stack comes with self-signed issuer enabled. If you want to configur
 
 ``` shell
 helm upgrade -i stack presslabs/stack \
-	--namespace presslabs-stack \
+	--namespace presslabs-system \
 	-f "https://raw.githubusercontent.com/presslabs/stack/master/presets/gke.yaml" \
 	--set 'letsencrypt.enabled=true,letsencrypt.email=<youremail>'
 ```

@@ -33,7 +33,7 @@ kubectl apply -f https://raw.githubusercontent.com/presslabs/stack/master/deploy
 ### Minikube/Docker for Mac
 Ensure a larger Minikube with eg, `minikube start --cpus 4 --memory 8192` to provide a working local environment.
 ```
-helm upgrade -i stack presslabs/stack --namespace presslabs-stack -f https://raw.githubusercontent.com/presslabs/stack/master/presets/minikube.yaml
+helm upgrade -i stack presslabs/stack --namespace presslabs-system -f https://raw.githubusercontent.com/presslabs/stack/master/presets/minikube.yaml
 ```
 
 ### GKE
@@ -41,7 +41,7 @@ helm upgrade -i stack presslabs/stack --namespace presslabs-stack -f https://raw
 For GKE is required to have at least three nodes for running components and also have some room for deploying a site. For testing out and playground `g1-small` should suffice.
 
 ```
-helm upgrade -i stack presslabs/stack --namespace presslabs-stack -f https://raw.githubusercontent.com/presslabs/stack/master/presets/gke.yaml
+helm upgrade -i stack presslabs/stack --namespace presslabs-system -f https://raw.githubusercontent.com/presslabs/stack/master/presets/gke.yaml
 ```
 
 ## Usage

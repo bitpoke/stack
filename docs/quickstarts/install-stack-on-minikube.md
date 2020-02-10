@@ -38,15 +38,15 @@ After that, we're ready to install `Stack`.
 
 $ kubectl apply -f https://raw.githubusercontent.com/presslabs/stack/master/deploy/manifests/00-crds.yaml
 
-$ kubectl create ns presslabs-stack
+$ kubectl create ns presslabs-system
 
-$ kubectl label namespace presslabs-stack certmanager.k8s.io/disable-validation=true
+$ kubectl label namespace presslabs-system certmanager.k8s.io/disable-validation=true
 
 $ helm repo add presslabs https://presslabs.github.io/charts
 
 $ helm repo update
 
-$ helm upgrade -i stack presslabs/stack --namespace presslabs-stack \
+$ helm upgrade -i stack presslabs/stack --namespace presslabs-system \
     -f "https://raw.githubusercontent.com/presslabs/stack/master/presets/minikube.yaml"
 ```
 

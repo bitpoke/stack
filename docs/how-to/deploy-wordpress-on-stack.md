@@ -33,7 +33,7 @@ Deploying a site is as simple as following these three steps:
 3. Point the domain to the ingress IP
 
    ```shell
-   $ kubectl get -n presslabs-stack service stack-nginx-ingress-controller
+   $ kubectl get -n presslabs-system service stack-nginx-ingress-controller
    ```
 
 ## Deploy a site from a git repository

@@ -18,7 +18,7 @@ deploy:
       values:
         nginx-ingress.defaultBackend.image: quay.io/presslabs/default-backend
         git-webhook.image: quay.io/presslabs/git-webhook
-      namespace: presslabs-stack
+      namespace: presslabs-system
       setValues:
         cert-manager.enabled: true
         mysql-operator.enabled: true
