@@ -20,6 +20,29 @@ mysql-operator:
 nginx-ingress:
   controller:
     <<: *component_default
+    config:
+      custom-http-errors: 502,503,504
+      hsts-preload: "true"
+      log-format-escape-json: "true"
+      log-format-upstream: '{
+          "time": "$time_iso8601",
+          "httpRequest": {
+            "requestMethod": "$request_method",
+            "requestUrl": "$scheme://$host$request_uri",
+            "requestSize": "$request_length",
+            "status": $status,
+            "responseSize": "$bytes_sent",
+            "userAgent": "$http_user_agent",
+            "remoteIp": "$remote_addr",
+            "referer": "$http_referer",
+            "latency": "${request_time}s",
+            "protocol": "$server_protocol"
+          },
+          "trace": "$req_id",
+          "labels": {
+            "upstream-name": "$proxy_upstream_name"
+          }
+        }'
     replicaCount: 2
     minAvailable: 1
     resources:
