@@ -39,9 +39,7 @@ nginx-ingress:
             "protocol": "$server_protocol"
           },
           "trace": "$req_id",
-          "labels": {
-            "upstream-name": "$proxy_upstream_name"
-          }
+          "upstream": "$proxy_upstream_name"
         }'
     replicaCount: 2
     minAvailable: 1
