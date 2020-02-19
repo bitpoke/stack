@@ -23,6 +23,7 @@ nginx-ingress:
   controller:
     ingressClass: presslabs-stack
     config:
+      proxy-buffer-size: 64k
       custom-http-errors: 502,503,504
       hsts-preload: "true"
     addHeaders:

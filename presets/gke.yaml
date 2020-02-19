@@ -21,6 +21,7 @@ nginx-ingress:
   controller:
     <<: *component_default
     config:
+      proxy-buffer-size: 64k
       custom-http-errors: 502,503,504
       hsts-preload: "true"
       log-format-escape-json: "true"
