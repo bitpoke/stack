@@ -14,7 +14,7 @@ kubectl wait --for condition=established --timeout=${TIMEOUT:-60s} -f /manifests
 
 # create namespace if does not exists
 kubectl create namespace ${NAMESPACE:-presslabs-system} || true
-kubectl label namespace ${NAMESPACE:-presslabs-system} cert-manager.io/disable-validation=true
+kubectl label namespace --overwrite=true ${NAMESPACE:-presslabs-system} cert-manager.io/disable-validation=true
 
 # create mysql-operator orchestrator topology secret
 orc_secret_name=stack-mysql-operator-topology-credentials
