@@ -39,7 +39,7 @@ site:
 
 tls:
   issuerKind: ClusterIssuer
-  issuerName: stack-default
+  issuerName: stack-default-certificate-issuer
   acmeChallengeType: http01
 
 code:

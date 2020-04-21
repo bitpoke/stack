@@ -2,7 +2,7 @@
 apiVersion: cert-manager.io/v1alpha2
 kind: ClusterIssuer
 metadata:
-  name: {{ template "stack.fullname" . }}-default
+  name: {{ template "stack.fullname" . }}-default-certificate-issuer
   labels:
     app: {{ include "stack.name" . }}
     chart: {{ include "stack.chart" . }}
@@ -42,7 +42,7 @@ spec:
   secretName: {{ template "stack.fullname" . }}-ingress-default
   commonName: "ingress.local"
   issuerRef:
-    name: {{ template "stack.fullname" . }}-default
+    name: {{ template "stack.fullname" . }}-default-certificate-issuer
     kind: ClusterIssuer
 
 {{- if not .Values.letsencrypt.enabled }}
