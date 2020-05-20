@@ -42,10 +42,9 @@ spec:
   secretName: {{ template "stack.fullname" . }}-ingress-default
   commonName: "ingress.local"
   issuerRef:
-    name: {{ template "stack.fullname" . }}-default-certificate-issuer
-    kind: ClusterIssuer
+    name: {{ template "stack.fullname" . }}-ca-issuer
+    kind: Issuer
 
-{{- if not .Values.letsencrypt.enabled }}
 ---
 apiVersion: cert-manager.io/v1alpha2
 kind: Issuer
@@ -58,6 +57,8 @@ metadata:
     heritage: {{ .Release.Service }}
 spec:
   selfSigned: {}
+
+{{- if not .Values.letsencrypt.enabled }}
 ---
 apiVersion: cert-manager.io/v1alpha2
 kind: Certificate
