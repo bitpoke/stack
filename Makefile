@@ -59,7 +59,7 @@ collect-crds:
 	$(info ---- PROMETHEUS_TAG = $(PROMETHEUS_TAG))
 
 	# wordpress operator
-	wget https://raw.githubusercontent.com/presslabs/wordpress-operator/$(WORDPRESS_OPERATOR_TAG)/config/crds/wordpress_v1alpha1_wordpress.yaml -O - > $(CRDS_FILE)
+	wget https://raw.githubusercontent.com/presslabs/wordpress-operator/v$(WORDPRESS_OPERATOR_TAG)/config/crds/wordpress.presslabs.org_wordpresses.yaml -O - > $(CRDS_FILE)
 	echo "---" >> $(CRDS_FILE)
 
 	# mysql operator
