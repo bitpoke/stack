@@ -1,7 +1,7 @@
 FROM alpine:3.10 as builder
 
-ENV KUBECTL_VERSION="v1.16.2"
-ENV HELM_VERSION="v2.16.0"
+ENV KUBECTL_VERSION="v1.16.10"
+ENV HELM_VERSION="v2.16.7"
 ENV SUPERVISORD_VERSION="0.6.3"
 
 RUN apk add --no-cache ca-certificates \
