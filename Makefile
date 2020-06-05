@@ -48,7 +48,7 @@ CRDS_FILE ?= $(MANIFESTS_DIR)/00-crds.yaml
 
 CERT_MANAGER_TAG ?= $(call getVersion,cert-manager)
 MYSQL_OPERATOR_TAG ?= v$(call getVersion,mysql-operator)
-WORDPRESS_OPERATOR_TAG ?= $(call getVersion,wordpress-operator)
+WORDPRESS_OPERATOR_TAG ?= v$(call getVersion,wordpress-operator)
 PROMETHEUS_TAG ?= $(call getVersion,prometheus-operator)
 
 .PHONY: collect-crds
@@ -59,7 +59,7 @@ collect-crds:
 	$(info ---- PROMETHEUS_TAG = $(PROMETHEUS_TAG))
 
 	# wordpress operator
-	wget https://raw.githubusercontent.com/presslabs/wordpress-operator/v$(WORDPRESS_OPERATOR_TAG)/config/crds/wordpress.presslabs.org_wordpresses.yaml -O - > $(CRDS_FILE)
+	kustomize build "github.com/presslabs/wordpress-operator/config?ref=$(WORDPRESS_OPERATOR_TAG)" > $(CRDS_FILE)
 	echo "---" >> $(CRDS_FILE)
 
 	# mysql operator
