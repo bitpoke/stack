@@ -33,5 +33,5 @@ EOF
 fi
 
 # run helm to install the stack
-helm upgrade -i stack /charts/stack --reuse-values --namespace ${NAMESPACE:-presslabs-system} -f /config/*.yaml \
+helm upgrade -i stack /charts/stack --namespace ${NAMESPACE:-presslabs-system} -f /config/*.yaml \
      --set mysql-operator.orchestrator.secretName=${orc_secret_name} --wait
