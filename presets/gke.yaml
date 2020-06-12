@@ -3,8 +3,6 @@ component_default: &component_default
     requests:
       memory: "256Mi"
       cpu: "100m"
-  nodeSelector:
-    "node-role.kubernetes.io/presslabs-sys": ""
   tolerations:
     - key: "CriticalAddonsOnly"
       operator: "Exists"
@@ -46,10 +44,8 @@ nginx-ingress:
     minAvailable: 1
     resources:
       requests:
-        memory: "768Mi"
-        cpu: "500m"
-    nodeSelector:
-      "node-role.kubernetes.io/presslabs-sys": ""
+        memory: "512Mi"
+        cpu: "200m"
     service:
       externalTrafficPolicy: Local
 
@@ -57,8 +53,6 @@ nginx-ingress:
     <<: *component_default
     replicaCount: 2
     minAvailable: 1
-    nodeSelector:
-      "node-role.kubernetes.io/presslabs-sys": ""
 
 prometheus-operator:
   prometheusOperator:
