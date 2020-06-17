@@ -16,7 +16,7 @@ dependencies:
 
   - name: cert-manager
     repository: https://charts.jetstack.io
-    version: ~0.13.0
+    version: ~0.15.1
     condition: cert-manager.enabled
 
   - name: prometheus-operator
