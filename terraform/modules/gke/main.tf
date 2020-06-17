@@ -77,7 +77,7 @@ resource "google_container_node_pool" "system" {
     ]
 
     labels = {
-      "node-role.kubernetes.io/presslabs-sys" = ""
+      "node-role.stack.presslabs.org/presslabs-sys" = ""
     }
 
     taint {
@@ -126,9 +126,9 @@ resource "google_container_node_pool" "database" {
     ]
 
     labels = {
-      "node-role.kubernetes.io/database"  = ""
-      "node-role.kubernetes.io/mysql"     = ""
-      "node-role.kubernetes.io/memcached" = ""
+      "node-role.stack.presslabs.org/database"  = ""
+      "node-role.stack.presslabs.org/mysql"     = ""
+      "node-role.stack.presslabs.org/memcached" = ""
     }
 
     workload_metadata_config {
@@ -171,7 +171,7 @@ resource "google_container_node_pool" "wordpress" {
     ]
 
     labels = {
-      "node-role.kubernetes.io/wordpress" = ""
+      "node-role.stack.presslabs.org/wordpress" = ""
     }
 
     workload_metadata_config {
@@ -219,7 +219,7 @@ resource "google_container_node_pool" "wordpress_preemptible" {
     ]
 
     labels = {
-      "node-role.kubernetes.io/wordpress" = ""
+      "node-role.stack.presslabs.org/wordpress" = ""
     }
 
     taint {

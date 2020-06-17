@@ -102,7 +102,7 @@ spec:
       - weight: 1
         preference:
           matchExpressions:
-          - key: node-role.kubernetes.io/wordpress
+          - key: node-role.stack.presslabs.org/wordpress
             operator: Exists
     podAntiAffinity:
       preferredDuringSchedulingIgnoredDuringExecution:

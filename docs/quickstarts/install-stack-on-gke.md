@@ -44,11 +44,11 @@ In `stack/`, you'll find a directory called `terraform` which contains some terr
 ### Node pools details
 #### system node pool
 
-The `system` node pool is going to have the initial node count set to 1, but it has autoscaling active, with a minimum node count of 1 to a maxim of 3 nodes. It spawns nodes with 50Gb storage and "COS" images (Container-Optimized OS from Google). Those nodes can be configured as preemptible, if the `preemptible` variable is set to `true`. As labels, it sets only one called `node-role.kubernetes.io/presslabs-sys`. One interesting part about this node pool is that it has a taint called `CriticalAddonsOnly`. You can read more about taints and toleration [here](https://cloud.google.com/kubernetes-engine/docs/how-to/node-taints). It's advised to have non-preemptible machines for this node-pool in production, but it doesn't require having resource heavy machines.
+The `system` node pool is going to have the initial node count set to 1, but it has autoscaling active, with a minimum node count of 1 to a maxim of 3 nodes. It spawns nodes with 50Gb storage and "COS" images (Container-Optimized OS from Google). Those nodes can be configured as preemptible, if the `preemptible` variable is set to `true`. As labels, it sets only one called `node-role.stack.presslabs.org/presslabs-sys`. One interesting part about this node pool is that it has a taint called `CriticalAddonsOnly`. You can read more about taints and toleration [here](https://cloud.google.com/kubernetes-engine/docs/how-to/node-taints). It's advised to have non-preemptible machines for this node-pool in production, but it doesn't require having resource heavy machines.
 
 #### database node pool
 
-Next one is the `database` node pool. Is similar to the `system` node pool, the only differences are in initial node count, which is 0, and labels which are `node-role.kubernetes.io/database`, `node-role.kubernetes.io/mysql` and `node-role.kubernetes.io/memcached`. As you can see, the Memcached instance is close to the database, but this can be updated.
+Next one is the `database` node pool. Is similar to the `system` node pool, the only differences are in initial node count, which is 0, and labels which are `node-role.stack.presslabs.org/database`, `node-role.stack.presslabs.org/mysql` and `node-role.stack.presslabs.org/memcached`. As you can see, the Memcached instance is close to the database, but this can be updated.
 
 #### wordpress node pool
 
