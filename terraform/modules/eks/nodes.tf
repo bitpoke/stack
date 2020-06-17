@@ -26,7 +26,7 @@ module "system_nodes" {
   spot_price           = "${var.system_spot_price}"
 
   labels = {
-    "node-role.kubernetes.io/presslabs-sys" = ""
+    "node-role.stack.presslabs.org/presslabs-sys" = ""
   }
 
   taints = {
@@ -51,9 +51,9 @@ module "database_nodes" {
   spot_price           = "${var.database_spot_price}"
 
   labels = {
-    "node-role.kubernetes.io/database"  = ""
-    "node-role.kubernetes.io/mysql"     = ""
-    "node-role.kubernetes.io/memcached" = ""
+    "node-role.stack.presslabs.org/database"  = ""
+    "node-role.stack.presslabs.org/mysql"     = ""
+    "node-role.stack.presslabs.org/memcached" = ""
   }
 }
 
@@ -74,7 +74,7 @@ module "wordpress_nodes" {
   spot_price           = "${var.wordpress_spot_only ? var.wordpress_spot_price : ""}"
 
   labels = {
-    "node-role.kubernetes.io/wordpress" = ""
+    "node-role.stack.presslabs.org/wordpress" = ""
   }
 }
 
@@ -95,7 +95,7 @@ module "wordpress_spot_nodes" {
   spot_price           = "${var.wordpress_spot_price}"
 
   labels = {
-    "node-role.kubernetes.io/wordpress" = ""
+    "node-role.stack.presslabs.org/wordpress" = ""
   }
 
   taints = {

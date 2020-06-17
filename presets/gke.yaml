@@ -3,6 +3,8 @@ component_default: &component_default
     requests:
       memory: "256Mi"
       cpu: "100m"
+  nodeSelector:
+    "node-role.stack.presslabs.org/presslabs-sys": ""
   tolerations:
     - key: "CriticalAddonsOnly"
       operator: "Exists"
@@ -42,10 +44,12 @@ nginx-ingress:
         }'
     replicaCount: 2
     minAvailable: 1
+    nodeSelector:
+      "node-role.stack.presslabs.org/presslabs-sys": ""
     resources:
       requests:
-        memory: "512Mi"
-        cpu: "200m"
+        memory: "768Mi"
+        cpu: "500m"
     service:
       externalTrafficPolicy: Local
 
@@ -53,6 +57,8 @@ nginx-ingress:
     <<: *component_default
     replicaCount: 2
     minAvailable: 1
+    nodeSelector:
+      "node-role.stack.presslabs.org/presslabs-sys": ""
 
 prometheus-operator:
   prometheusOperator:
