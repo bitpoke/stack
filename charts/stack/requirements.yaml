@@ -11,7 +11,7 @@ dependencies:
 
   - name: nginx-ingress
     repository: https://kubernetes-charts.storage.googleapis.com/
-    version: ~1.30.0
+    version: ~1.40.0
     condition: nginx-ingress.enabled
 
   - name: cert-manager
