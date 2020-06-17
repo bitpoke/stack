@@ -69,7 +69,7 @@ collect-crds:
 	echo "---" >> $(CRDS_FILE)
 
 	# cert manager
-	wget https://raw.githubusercontent.com/jetstack/cert-manager/$(CERT_MANAGER_TAG)/deploy/manifests/00-crds.yaml -O - >> $(CRDS_FILE)
+	wget https://github.com/jetstack/cert-manager/releases/download/$(CERT_MANAGER_TAG)/cert-manager.crds.yaml -O - >> $(CRDS_FILE)
 
 	# Prometheus
 	$(HELM) repo add presslabs https://presslabs.github.io/charts
