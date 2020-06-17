@@ -7,7 +7,7 @@ dependencies:
   version: 0.9.1
 - name: nginx-ingress
   repository: https://kubernetes-charts.storage.googleapis.com/
-  version: 1.30.3
+  version: 1.40.0
 - name: cert-manager
   repository: https://charts.jetstack.io
   version: v0.13.1
@@ -17,5 +17,5 @@ dependencies:
 - name: git-webhook
   repository: file://../git-webhook
   version: 0.0.1+master
-digest: sha256:98833b0ff3af2bb650468b9a4392239efa86dfcb06401a3e49ef22025208ed18
-generated: "2020-06-12T12:00:58.209572237+03:00"
+digest: sha256:1ee54c90b4624e3dd945e49b69855c00f9e0493772ddb113d58baa2db84e92d4
+generated: "2020-06-17T14:02:23.995010672+03:00"
