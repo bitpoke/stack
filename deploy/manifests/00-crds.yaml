@@ -4141,6 +4141,8 @@ spec:
   names:
     kind: MysqlCluster
     plural: mysqlclusters
+    shortNames:
+    - mysql
   scope: Namespaced
   subresources:
     scale:
@@ -4197,12 +4199,25 @@ spec:
               description: A bucket URL that contains a xtrabackup to initialize the
                 mysql database.
               type: string
+            initFileExtraSQL:
+              description: InitFileExtraSQL is a list of extra sql commands to append
+                to init_file.
+              items:
+                type: string
+              type: array
             maxSlaveLatency:
               description: MaxSlaveLatency represents the allowed latency for a slave
                 node in seconds. If set then the node with a latency grater than this
                 is removed from service.
               format: int64
               type: integer
+            metricsExporterExtraArgs:
+              description: MetricsExporterExtraArgs is a list of extra command line
+                arguments to pass to MySQL metrics exporter. See https://github.com/prometheus/mysqld_exporter
+                for the list of available flags.
+              items:
+                type: string
+              type: array
             minAvailable:
               description: The number of pods from that set that must still be available
                 after the eviction, even in the absence of the evicted pod Defaults
@@ -4225,13 +4240,33 @@ spec:
                   type: object
                 annotations:
                   type: object
+                containers:
+                  description: Containers allows for user to specify extra sidecar
+                    containers to run along with mysql
+                  items:
+                    type: object
+                  type: array
                 imagePullPolicy:
                   type: string
                 imagePullSecrets:
                   items:
                     type: object
                   type: array
+                initContainers:
+                  description: InitContainers allows the user to specify extra init
+                    containers
+                  items:
+                    type: object
+                  type: array
                 labels:
+                  type: object
+                metricsExporterResources:
+                  description: MetricsExporterResources allows you to specify resources
+                    for metrics exporter container
+                  type: object
+                mysqlOperatorSidecarResources:
+                  description: MySQLOperatorSidecarResources allows you to specify
+                    resources for sidecar container used to take backups with xtrabackup
                   type: object
                 nodeSelector:
                   type: object
@@ -4242,6 +4277,17 @@ spec:
                 serviceAccountName:
                   type: string
                 tolerations:
+                  items:
+                    type: object
+                  type: array
+                volumeMounts:
+                  description: VolumesMounts allows mounting extra volumes to the
+                    mysql container
+                  items:
+                    type: object
+                  type: array
+                volumes:
+                  description: Volumes allows adding extra volumes to the statefulset
                   items:
                     type: object
                   type: array
@@ -4291,6 +4337,12 @@ spec:
               required:
               - maxQueryTime
               type: object
+            rcloneExtraArgs:
+              description: RcloneExtraArgs is a list of extra command line arguments
+                to pass to rclone.
+              items:
+                type: string
+              type: array
             readOnly:
               description: Makes the cluster READ ONLY. Set the master to writable
                 or ReadOnly
@@ -4314,8 +4366,8 @@ spec:
               format: int64
               type: integer
             tmpfsSize:
-              description: TmpfsSize if specified, mounts a tmpfs of this size into
-                /tmp
+              description: 'TmpfsSize if specified, mounts a tmpfs of this size into
+                /tmp DEPRECATED: use instead PodSpec.Volumes and PodSpec.VolumeMounts'
               type: string
             volumeSpec:
               description: PVC extra specifiaction
@@ -4335,6 +4387,28 @@ spec:
                     by HostPath and EmptyDir. And represents the PVC specification.
                   type: object
               type: object
+            xbstreamExtraArgs:
+              description: XbstreamExtraArgs is a list of extra command line arguments
+                to pass to xbstream.
+              items:
+                type: string
+              type: array
+            xtrabackupExtraArgs:
+              description: XtrabackupExtraArgs is a list of extra command line arguments
+                to pass to xtrabackup.
+              items:
+                type: string
+              type: array
+            xtrabackupPrepareExtraArgs:
+              description: XtrabackupPrepareExtraArgs is a list of extra command line
+                arguments to pass to xtrabackup during --prepare.
+              items:
+                type: string
+              type: array
+            xtrabackupTargetDir:
+              description: XtrabackupTargetDir is a backup destination directory for
+                xtrabackup.
+              type: string
           required:
           - secretName
           type: object
