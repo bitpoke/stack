@@ -44,7 +44,7 @@ $(shell python3 -c "import yaml; print([x['version'] for x in yaml.load(open('ch
 endef
 
 MANIFESTS_DIR ?= deploy/manifests
-CRDS_FILE ?= $(MANIFESTS_DIR)/00-crds.yaml
+CRDS_DIR ?= $(MANIFESTS_DIR)/crds
 
 CERT_MANAGER_TAG ?= $(call getVersion,cert-manager)
 MYSQL_OPERATOR_TAG ?= v$(call getVersion,mysql-operator)
@@ -58,18 +58,17 @@ collect-crds:
 	$(info ---- MYSQL_OPERATOR_TAG = $(MYSQL_OPERATOR_TAG))
 	$(info ---- PROMETHEUS_TAG = $(PROMETHEUS_TAG))
 
+	@rm -rf $(CRDS_DIR)/*
+
 	# wordpress operator
-	kustomize build "github.com/presslabs/wordpress-operator/config?ref=$(WORDPRESS_OPERATOR_TAG)" > $(CRDS_FILE)
-	echo "---" >> $(CRDS_FILE)
+	kustomize build "github.com/presslabs/wordpress-operator/config?ref=$(WORDPRESS_OPERATOR_TAG)" > $(CRDS_DIR)/wordpress.yaml
 
 	# mysql operator
-	wget https://raw.githubusercontent.com/presslabs/mysql-operator/$(MYSQL_OPERATOR_TAG)/config/crds/mysql_v1alpha1_mysqlcluster.yaml -O - >>  $(CRDS_FILE)
-	echo "---" >> $(CRDS_FILE)
-	wget https://raw.githubusercontent.com/presslabs/mysql-operator/$(MYSQL_OPERATOR_TAG)/config/crds/mysql_v1alpha1_mysqlbackup.yaml -O  - >> $(CRDS_FILE)
-	echo "---" >> $(CRDS_FILE)
+	wget https://raw.githubusercontent.com/presslabs/mysql-operator/$(MYSQL_OPERATOR_TAG)/config/crds/mysql_v1alpha1_mysqlcluster.yaml -O $(CRDS_DIR)/mysql_mysqlcluster.yaml
+	wget https://raw.githubusercontent.com/presslabs/mysql-operator/$(MYSQL_OPERATOR_TAG)/config/crds/mysql_v1alpha1_mysqlbackup.yaml -O $(CRDS_DIR)/mysql_mysqlbackup.yaml
 
 	# cert manager
-	wget https://github.com/jetstack/cert-manager/releases/download/$(CERT_MANAGER_TAG)/cert-manager.crds.yaml -O - >> $(CRDS_FILE)
+	wget https://github.com/jetstack/cert-manager/releases/download/$(CERT_MANAGER_TAG)/cert-manager.crds.yaml -O $(CRDS_DIR)/cert-manager.yaml
 
 	# Prometheus
 	$(HELM) repo add presslabs https://presslabs.github.io/charts
@@ -77,4 +76,4 @@ collect-crds:
 
 	$(HELM) dependency update ./charts/stack
 	$(HELM) template ./charts/stack --set prometheus-operator.prometheusOperator.createCustomResource=true \
-	              -x charts/prometheus-operator/templates/prometheus-operator/crds.yaml >> $(CRDS_FILE)
+	              -x charts/prometheus-operator/templates/prometheus-operator/crds.yaml > $(CRDS_DIR)/prometheus.yaml

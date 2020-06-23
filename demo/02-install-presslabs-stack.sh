@@ -8,7 +8,8 @@ set -x
 
 kubectl create ns presslabs-system
 
-kubectl apply --validate=false -f https://raw.githubusercontent.com/presslabs/stack/master/deploy/manifests/00-crds.yaml
+# apply the CRDs
+kustomize build ../deploy/manifests/ | kubectl apply --validate=false -f-
 
 # label the namespace because of cert manager
 kubectl label namespace presslabs-system cert-manager.io/disable-validation=true
