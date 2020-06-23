@@ -25,9 +25,16 @@ helm repo add presslabs https://presslabs.github.io/charts
 helm repo update
 ```
 
-Install the CRDs necessar to run the stack:
+### Install CRDs
+We collect all necessary CRDs in one place so you can install them.
+
+If you are installing Stack in a different namespace than `presslabs-system` then you have to
+download those manifests and change the namespace [from this
+location](https://github.com/presslabs/stack/blob/master/deploy/manifests/kustomization.yaml#L1)
+with the new target namespace.
+
 ```
-kubectl apply -f https://raw.githubusercontent.com/presslabs/stack/master/deploy/manifests/00-crds.yaml
+kustomize build github.com/presslabs/stack/deploy/manifests | kubectl apply -f-
 ```
 
 ### Minikube/Docker for Mac
@@ -38,7 +45,8 @@ helm upgrade -i stack presslabs/stack --namespace presslabs-system -f https://ra
 
 ### GKE
 
-For GKE is required to have at least three nodes for running components and also have some room for deploying a site. For testing out and playground `g1-small` should suffice.
+For GKE is required to have at least three nodes for running components and also have some room for
+deploying a site. For testing out and playground `g1-small` should suffice.
 
 ```
 helm upgrade -i stack presslabs/stack --namespace presslabs-system -f https://raw.githubusercontent.com/presslabs/stack/master/presets/gke.yaml
