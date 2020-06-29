@@ -50,7 +50,7 @@ spec:
     # webhookClientConfig is required when strategy is `Webhook` and it configures the webhook endpoint to be called by API server.
     webhookClientConfig:
       service:
-        namespace: 'cert-manager'
+        namespace: presslabs-system
         name: 'cert-manager-webhook'
         path: /convert
   names:
@@ -1861,7 +1861,7 @@ spec:
     # webhookClientConfig is required when strategy is `Webhook` and it configures the webhook endpoint to be called by API server.
     webhookClientConfig:
       service:
-        namespace: 'cert-manager'
+        namespace: presslabs-system
         name: 'cert-manager-webhook'
         path: /convert
   names:
@@ -2101,7 +2101,7 @@ spec:
     # webhookClientConfig is required when strategy is `Webhook` and it configures the webhook endpoint to be called by API server.
     webhookClientConfig:
       service:
-        namespace: 'cert-manager'
+        namespace: presslabs-system
         name: 'cert-manager-webhook'
         path: /convert
   names:
@@ -2315,7 +2315,7 @@ spec:
     # webhookClientConfig is required when strategy is `Webhook` and it configures the webhook endpoint to be called by API server.
     webhookClientConfig:
       service:
-        namespace: 'cert-manager'
+        namespace: presslabs-system
         name: 'cert-manager-webhook'
         path: /convert
   names:
@@ -3067,7 +3067,7 @@ spec:
     # webhookClientConfig is required when strategy is `Webhook` and it configures the webhook endpoint to be called by API server.
     webhookClientConfig:
       service:
-        namespace: 'cert-manager'
+        namespace: presslabs-system
         name: 'cert-manager-webhook'
         path: /convert
   names:
@@ -4517,7 +4517,7 @@ spec:
     # webhookClientConfig is required when strategy is `Webhook` and it configures the webhook endpoint to be called by API server.
     webhookClientConfig:
       service:
-        namespace: 'cert-manager'
+        namespace: presslabs-system
         name: 'cert-manager-webhook'
         path: /convert
   names:
