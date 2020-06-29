@@ -69,6 +69,8 @@ collect-crds:
 
 	# cert manager
 	wget https://github.com/jetstack/cert-manager/releases/download/$(CERT_MANAGER_TAG)/cert-manager.crds.yaml -O $(CRDS_DIR)/cert-manager.yaml
+	# patch crds with the presslabs-system namespace to be able to apply the CRDs using kubectl -f
+	sed -ri 's/^(\s*namespace:) .*$$/\1 presslabs-system/' $(CRDS_DIR)/cert-manager.yaml
 
 	# Prometheus
 	$(HELM) repo add presslabs https://presslabs.github.io/charts
