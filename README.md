@@ -37,6 +37,13 @@ with the new target namespace.
 kustomize build github.com/presslabs/stack/deploy/manifests | kubectl apply -f-
 ```
 
+Or, you can use old manifests file `deploy/manifests/00-crds.yaml`, which, BTW, is deprecated and we
+recommend to use the first method:
+
+```
+kubectl apply -f https://raw.githubusercontent.com/presslabs/stack/master/deploy/manifests/00-crds.yaml
+```
+
 ### Minikube/Docker for Mac
 Ensure a larger Minikube with eg, `minikube start --cpus 4 --memory 8192` to provide a working local environment.
 ```
