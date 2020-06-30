@@ -60,22 +60,29 @@ collect-crds:
 
 	@rm -rf $(CRDS_DIR)/*
 
-	# wordpress operator
+	@# wordpress operator
 	kustomize build "github.com/presslabs/wordpress-operator/config?ref=$(WORDPRESS_OPERATOR_TAG)" > $(CRDS_DIR)/wordpress.yaml
 
-	# mysql operator
+	@# mysql operator
 	wget https://raw.githubusercontent.com/presslabs/mysql-operator/$(MYSQL_OPERATOR_TAG)/config/crds/mysql_v1alpha1_mysqlcluster.yaml -O $(CRDS_DIR)/mysql_mysqlcluster.yaml
 	wget https://raw.githubusercontent.com/presslabs/mysql-operator/$(MYSQL_OPERATOR_TAG)/config/crds/mysql_v1alpha1_mysqlbackup.yaml -O $(CRDS_DIR)/mysql_mysqlbackup.yaml
 
-	# cert manager
+	@# cert manager
 	wget https://github.com/jetstack/cert-manager/releases/download/$(CERT_MANAGER_TAG)/cert-manager.crds.yaml -O $(CRDS_DIR)/cert-manager.yaml
-	# patch crds with the presslabs-system namespace to be able to apply the CRDs using kubectl -f
+	@# patch crds with the presslabs-system namespace to be able to apply the CRDs using kubectl -f
 	sed -ri 's/^(\s*namespace:) .*$$/\1 presslabs-system/' $(CRDS_DIR)/cert-manager.yaml
 
-	# Prometheus
-	$(HELM) repo add presslabs https://presslabs.github.io/charts
-	$(HELM) repo add jetstack https://charts.jetstack.io
+	@# Prometheus
+	@$(HELM) repo add presslabs https://presslabs.github.io/charts
+	@$(HELM) repo add jetstack https://charts.jetstack.io
+	@$(HELM) dependency update ./charts/stack
 
-	$(HELM) dependency update ./charts/stack
 	$(HELM) template ./charts/stack --set prometheus-operator.prometheusOperator.createCustomResource=true \
 	              -x charts/prometheus-operator/templates/prometheus-operator/crds.yaml > $(CRDS_DIR)/prometheus.yaml
+
+	@# keep 00-crds.yaml for backward compatibility reasons
+	rm -f $(MANIFESTS_DIR)/00-crds.yaml
+	for file in $(CRDS_DIR)/* ; do \
+		echo "---" >> $(MANIFESTS_DIR)/00-crds.yaml; \
+		cat $${file} >> $(MANIFESTS_DIR)/00-crds.yaml; \
+	done;
