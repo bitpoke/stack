@@ -30,7 +30,7 @@ dependencies:
 #	install ginkgo
 	GOBIN=$(BINDIR) go get -u github.com/onsi/ginkgo/ginkgo@v1.10.3
 	# install golangci-lint
-	curl -sfL https://install.goreleaser.com/github.com/golangci/golangci-lint.sh | BINARY=golangci-lint bash -s -- -b $(BINDIR) v1.21.0
+	curl -sfL https://install.goreleaser.com/github.com/golangci/golangci-lint.sh | BINARY=golangci-lint bash -s -- -b $(BINDIR) v1.27.0
 	# install yq
 	curl -sfL https://github.com/mikefarah/yq/releases/download/2.1.1/yq_$(OS)_$(ARCH) -o $(BINDIR)/yq
 	chmod +x $(BINDIR)/yq
