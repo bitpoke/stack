@@ -17,7 +17,6 @@ limitations under the License.
 package webhook
 
 import (
-	"k8s.io/client-go/kubernetes/scheme"
 	"path/filepath"
 	"testing"
 
@@ -25,19 +24,19 @@ import (
 	. "github.com/onsi/gomega"
 
 	logf "github.com/presslabs/controller-util/log"
+	wordpressv1alpha1 "github.com/presslabs/wordpress-operator/pkg/apis/wordpress/v1alpha1"
+	"k8s.io/client-go/kubernetes/scheme"
 	"k8s.io/client-go/rest"
 	"sigs.k8s.io/controller-runtime/pkg/envtest"
 	"sigs.k8s.io/controller-runtime/pkg/manager"
-
-	wordpressv1alpha1 "github.com/presslabs/wordpress-operator/pkg/apis/wordpress/v1alpha1"
 )
 
 var cfg *rest.Config
 var t *envtest.Environment
 
-func TestProjectController(t *testing.T) {
+func TestWebhook(t *testing.T) {
 	RegisterFailHandler(Fail)
-	RunSpecsWithDefaultAndCustomReporters(t, "Project Namespace Controller Suite", []Reporter{envtest.NewlineReporter{}})
+	RunSpecsWithDefaultAndCustomReporters(t, "Webhook Suite", []Reporter{envtest.NewlineReporter{}})
 }
 
 var _ = BeforeSuite(func() {
