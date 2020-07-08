@@ -46,7 +46,7 @@ var _ = BeforeSuite(func() {
 
 	t = &envtest.Environment{
 		CRDDirectoryPaths: []string{
-			filepath.Join("..", "..", "..", "vendor/github.com/presslabs/wordpress-operator/config/crds"),
+			filepath.Join("..", "..", "..", "config/crds"),
 		},
 	}
 	Expect(wordpressv1alpha1.SchemeBuilder.AddToScheme(scheme.Scheme)).To(Succeed())
