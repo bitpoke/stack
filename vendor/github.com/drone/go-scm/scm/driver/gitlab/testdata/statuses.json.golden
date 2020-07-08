@@ -1,8 +1,0 @@
-[
-    {
-        "State": 1,
-        "Label": "default",
-        "Desc": "the dude abides",
-        "Target": "https://gitlab.example.com/thedude/gitlab-ce/builds/91"
-    }
-]

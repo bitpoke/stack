@@ -1,1 +1,0 @@
-WordPress Operator installed in {{ .Release.Namespace }}
