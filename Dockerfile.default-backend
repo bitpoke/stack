@@ -1,13 +1,16 @@
 # Build the default-backend binary
 FROM golang:1.11.5 as builder
 
+ENV PACKR_VERSION="v2.8.0"
+
 # Copy in the go src
 WORKDIR /go/src/github.com/presslabs/stack
 COPY default-backend/ default-backend/
-COPY vendor/ vendor/
 
 # Pack templates
-RUN cd default-backend && go run ../vendor/github.com/gobuffalo/packr/v2/packr2
+RUN go get -u github.com/gobuffalo/packr/v2/packr2@${PACKR_VERSION} && packr2
+
+
 
 # Build
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -o /default-backend github.com/presslabs/stack/default-backend
