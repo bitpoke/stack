@@ -13,7 +13,7 @@ require (
 	github.com/onsi/gomega v1.10.1
 	github.com/pkg/errors v0.9.1
 	github.com/presslabs/controller-util v0.2.4
-	github.com/presslabs/wordpress-operator v0.9.0
+	github.com/presslabs/wordpress-operator v0.10.0
 	github.com/prometheus/client_golang v1.7.1
 	golang.org/x/sys v0.0.0-20200625212154-ddb9806d33ae // indirect
 	k8s.io/apimachinery v0.18.3
