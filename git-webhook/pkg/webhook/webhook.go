@@ -29,8 +29,8 @@ import (
 	"k8s.io/apimachinery/pkg/fields"
 	"k8s.io/apimachinery/pkg/runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
+	logf "sigs.k8s.io/controller-runtime/pkg/log"
 	"sigs.k8s.io/controller-runtime/pkg/manager"
-	logf "sigs.k8s.io/controller-runtime/pkg/runtime/log"
 
 	"github.com/presslabs/stack/git-webhook/pkg/webhook/git"
 )
@@ -71,7 +71,10 @@ func NewServer(mgr manager.Manager, addr string) (*Server, error) {
 	s.Mux.HandleFunc("/github", s.githubWebhook)
 
 	err := s.IndexField(
-		&wordpressv1alpha1.Wordpress{}, "git.followed_ref", func(in runtime.Object) []string {
+		context.TODO(),
+		&wordpressv1alpha1.Wordpress{},
+		"git.followed_ref",
+		func(in runtime.Object) []string {
 			wp := in.(*wordpressv1alpha1.Wordpress)
 
 			if wp.Spec.CodeVolumeSpec == nil || wp.Spec.CodeVolumeSpec.GitDir == nil {
@@ -158,7 +161,7 @@ func (s *Server) updateRef(repo, branch, ref string) error {
 	}
 
 	listsOptions := &client.ListOptions{FieldSelector: fields.OneTermEqualSelector("git.followed_ref", cachedRef)}
-	err = s.Client.List(context.TODO(), listsOptions, &wpList)
+	err = s.Client.List(context.TODO(), &wpList, listsOptions)
 	if err != nil {
 		s.Log.Error(err, "couldn't fetch wordpress resources")
 		return err

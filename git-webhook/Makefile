@@ -5,7 +5,7 @@ test:
 	$(BINDIR)/ginkgo \
 		--randomizeAllSpecs --randomizeSuites --failOnPending \
 		--cover --coverprofile cover.out --trace --race \
-		./pkg/... ./cmd/...
+		./pkg/...
 
 # Build git-webhook binary
 build: fmt vet
