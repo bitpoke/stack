@@ -97,31 +97,31 @@ steps:
     tags: true
 
 - name: dependencies
-  image: quay.io/presslabs/bfc
+  image: quay.io/presslabs/bfc:0.2
   commands:
   - make dependencies
 
 - name: check manifests
-  image: quay.io/presslabs/bfc
+  image: quay.io/presslabs/bfc:0.2
   commands:
   - make collect-crds
   - git diff --exit-code
 
 - name: lint
-  image: quay.io/presslabs/bfc
+  image: quay.io/presslabs/bfc:0.2
   commands:
   - helm repo add jetstack https://charts.jetstack.io
   - make lint
   - helm dep build charts/stack
 
 - name: build
-  image: quay.io/presslabs/bfc
+  image: quay.io/presslabs/bfc:0.2
   commands:
   - make charts
 
 
 - name: publish stack chart
-  image: quay.io/presslabs/bfc
+  image: quay.io/presslabs/bfc:0.2
   commands:
   - cd charts
   - helm package stack
@@ -138,7 +138,7 @@ steps:
     - tag
 
 - name: publish wordpress chart
-  image: quay.io/presslabs/bfc
+  image: quay.io/presslabs/bfc:0.2
   commands:
   - cd charts
   - helm package wordpress-site
