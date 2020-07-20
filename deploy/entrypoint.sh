@@ -12,6 +12,7 @@ trap stop_tiller EXIT
 NAMESPACE=${NAMESPACE:-presslabs-system}
 
 # replace namespace in CRDs manifests
+# TODO: drop kustomize from CRDs generation
 sed -ri "s/(namespace:) .*$/\1 ${NAMESPACE}/" /manifests/kustomization.yaml
 
 # install manfiests and wait to be ready (e.g. crds)
@@ -22,7 +23,16 @@ kustomize build /manifests/ | kubectl wait --for condition=established --timeout
 
 # create namespace if does not exists
 kubectl create namespace ${NAMESPACE} || true
-kubectl label namespace --overwrite=true ${NAMESPACE} cert-manager.io/disable-validation=true
+
+
+# install cert-manager (helm v2)
+$ helm install \
+  --name stack \
+  --namespace ${NAMESPACE} \
+  --version v0.15.2 \
+  jetstack/cert-manager \
+  --set installCRDs=true
+
 
 # create mysql-operator orchestrator topology secret
 orc_secret_name=stack-mysql-operator-topology-credentials
