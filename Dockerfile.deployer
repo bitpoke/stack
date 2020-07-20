@@ -34,7 +34,9 @@ RUN mkdir -p /config && touch /config/values.yaml
 
 # init helm and update the dep charts
 RUN helm init --client-only && \
-    helm dependency update /charts/stack
+    helm dependency update /charts/stack && \
+    helm repo add jetstack https://charts.jetstack.io && \
+    helm repo update
 
 ADD deploy/entrypoint.sh /
 ADD deploy/docker/etc/supervisor.conf /etc/
