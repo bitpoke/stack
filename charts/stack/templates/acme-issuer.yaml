@@ -71,8 +71,6 @@ metadata:
 spec:
   secretName: {{ template "stack.fullname" . }}-ca
   commonName: "Presslabs Stack - Root CA ({{ .Release.Name }})"
-  organization:
-  - Presslabs Stack
   dnsNames:
     - stack.presslabs.org
   duration: "87600h"

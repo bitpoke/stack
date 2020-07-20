@@ -1,13 +1,13 @@
-apiVersion: skaffold/v1beta11
+apiVersion: skaffold/v2beta5
 kind: Config
 build:
   artifacts:
-    - image: quay.io/presslabs/default-backend
-      docker:
-        dockerfile: Dockerfile.default-backend
-    - image: quay.io/presslabs/git-webhook
-      docker:
-        dockerfile: Dockerfile.git-webhook
+  - image: quay.io/presslabs/default-backend
+    docker:
+      dockerfile: Dockerfile.default-backend
+  - image: quay.io/presslabs/git-webhook
+    docker:
+      dockerfile: Dockerfile.git-webhook
   tagPolicy:
     sha256: {}
 deploy:
@@ -15,14 +15,13 @@ deploy:
     releases:
     - name: stack
       chartPath: charts/stack
-      values:
-        nginx-ingress.defaultBackend.image: quay.io/presslabs/default-backend
+      artifactOverrides:
         git-webhook.image: quay.io/presslabs/git-webhook
+        nginx-ingress.defaultBackend.image: quay.io/presslabs/default-backend
       namespace: presslabs-system
       setValues:
-        cert-manager.enabled: true
-        mysql-operator.enabled: true
-        prometheus-operator.enabled: true
-        wordpress-operator.enabled: false
+        mysql-operator.enabled: "true"
+        prometheus-operator.enabled: "true"
+        wordpress-operator.enabled: "true"
       imageStrategy:
         helm: {}

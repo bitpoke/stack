@@ -46,14 +46,12 @@ endef
 MANIFESTS_DIR ?= deploy/manifests
 CRDS_DIR ?= $(MANIFESTS_DIR)/crds
 
-CERT_MANAGER_TAG ?= $(call getVersion,cert-manager)
 MYSQL_OPERATOR_TAG ?= v$(call getVersion,mysql-operator)
 WORDPRESS_OPERATOR_TAG ?= v$(call getVersion,wordpress-operator)
 PROMETHEUS_TAG ?= $(call getVersion,prometheus-operator)
 
 .PHONY: collect-crds
 collect-crds:
-	$(info ---- CERT_MANAGER_TAG = $(CERT_MANAGER_TAG))
 	$(info ---- WORDPRESS_OPERATOR_TAG = $(WORDPRESS_OPERATOR_TAG))
 	$(info ---- MYSQL_OPERATOR_TAG = $(MYSQL_OPERATOR_TAG))
 	$(info ---- PROMETHEUS_TAG = $(PROMETHEUS_TAG))
@@ -66,11 +64,6 @@ collect-crds:
 	@# mysql operator
 	wget https://raw.githubusercontent.com/presslabs/mysql-operator/$(MYSQL_OPERATOR_TAG)/config/crds/mysql_v1alpha1_mysqlcluster.yaml -O $(CRDS_DIR)/mysql_mysqlcluster.yaml
 	wget https://raw.githubusercontent.com/presslabs/mysql-operator/$(MYSQL_OPERATOR_TAG)/config/crds/mysql_v1alpha1_mysqlbackup.yaml -O $(CRDS_DIR)/mysql_mysqlbackup.yaml
-
-	@# cert manager
-	wget https://github.com/jetstack/cert-manager/releases/download/$(CERT_MANAGER_TAG)/cert-manager.crds.yaml -O $(CRDS_DIR)/cert-manager.yaml
-	@# patch crds with the presslabs-system namespace to be able to apply the CRDs using kubectl -f
-	sed -ri 's/^(\s*namespace:) .*$$/\1 presslabs-system/' $(CRDS_DIR)/cert-manager.yaml
 
 	@# Prometheus
 	@$(HELM) repo add presslabs https://presslabs.github.io/charts
