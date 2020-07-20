@@ -2,36 +2,41 @@
 
 set -e
 
-# stop the tiller if running
-function stop_tiller {
-    supervisord ctl shutdown
-}
-trap stop_tiller EXIT
-
 # set default namespace if not set
 NAMESPACE=${NAMESPACE:-presslabs-system}
+# cert-manager version and release-name
+CM_VERSION=v0.15.2
+CM_RELEASE=stack-cm
 
-# replace namespace in CRDs manifests
-# TODO: drop kustomize from CRDs generation
-sed -ri "s/(namespace:) .*$/\1 ${NAMESPACE}/" /manifests/kustomization.yaml
+
+mkdir -p /tmp/manifests
+
+# build cert-manager CRDs
+helm template ${CM_RELEASE} jetstack/cert-manager \
+      --set installCRDs=true \
+      --show-only templates/crds.yaml \
+      --version ${CM_VERSION} > /tmp/manifests/cert-maanger.crds.yaml
+
+# build stack manifets
+kustomize build /manifests/ > /tmp/manifests/stack.yaml
+
 
 # install manfiests and wait to be ready (e.g. crds)
-kustomize build /manifests/ | kubectl apply --validate=false -f-
+kubectl apply --validate=false -f /tmp/manifests/
 
 # wait for crds to be ready
-kustomize build /manifests/ | kubectl wait --for condition=established --timeout=${TIMEOUT:-60s} -f-
+kubectl wait --for condition=established --timeout=${TIMEOUT:-60s} -f /tmp/manifests/
 
 # create namespace if does not exists
 kubectl create namespace ${NAMESPACE} || true
 
 
-# install cert-manager (helm v2)
-$ helm install \
-  --name stack \
+# install or upgrade cert-manager and wait to be Ready
+helm upgrade -i ${CM_RELEASE} jetstack/cert-manager \
   --namespace ${NAMESPACE} \
-  --version v0.15.2 \
-  jetstack/cert-manager \
-  --set installCRDs=true
+  --set installCRDs=false \
+  --wait \
+  --version ${CM_VERSION}
 
 
 # create mysql-operator orchestrator topology secret
