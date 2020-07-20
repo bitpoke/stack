@@ -36,10 +36,6 @@ nginx-ingress:
       tag: latest
       pullPolicy: Always
 
-cert-manager:
-  enabled: true
-  installCRDs: false
-
 prometheus-operator:
   enabled: true
   prometheusOperator:

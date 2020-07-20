@@ -9,7 +9,8 @@ For a more thorough documentation check [the hosted docs](https://www.presslabs.
 * [WordPress Operator](http://github.com/presslabs/wordpress-operator) & [WordPress Runtime](http://github.com/presslabs/wordpress-runtime)
 * [MySQL Operator](http://github.com/presslabs/mysql-operator)
 * [Prometheus Operator](https://github.com/coreos/prometheus-operator)
-* [Nginx Controller](https://github.com/kubernetes/ingress-nginx) & [Cert Manager](https://github.com/jetstack/cert-manager)
+* [Nginx Controller](https://github.com/kubernetes/ingress-nginx)
+* [Cert Manager](https://github.com/jetstack/cert-manager)
 
 ## Project status
 The project is actively maintained and developed and has reached stable beta state. Check the complete list of releases [here](https://github.com/presslabs/stack/releases). The Presslabs Stack currently runs on Google Cloud Kubernetes Engine and we also have a documented viable deployment flow for Minikube/Docker on Mac/Docker on Windows.
@@ -23,6 +24,33 @@ Add the Presslabs helm charts repo:
 ```
 helm repo add presslabs https://presslabs.github.io/charts
 helm repo update
+```
+
+### Install cert-manager
+[Cert Manager](https://github.com/jetstack/cert-manager) should be installed first. This is a
+prerequisite for Stack because it depends on certificates in order to setup the environment. The
+installation official documentation can be found
+[here](https://cert-manager.io/docs/installation/kubernetes/#installing-with-helm).
+
+```bash
+$ kubectl create namespace cert-manager
+$ helm repo add jetstack https://charts.jetstack.io
+$ helm repo update
+
+# Helm v3+
+$ helm install \
+  cert-manager jetstack/cert-manager \
+  --namespace cert-manager \
+  --version v0.15.2 \
+  --set installCRDs=true
+
+# Helm v2
+$ helm install \
+  --name cert-manager \
+  --namespace cert-manager \
+  --version v0.15.2 \
+  jetstack/cert-manager \
+  --set installCRDs=true
 ```
 
 ### Install CRDs
@@ -44,19 +72,26 @@ recommend to use the first method:
 kubectl apply -f https://raw.githubusercontent.com/presslabs/stack/master/deploy/manifests/00-crds.yaml
 ```
 
-### Minikube/Docker for Mac
-Ensure a larger Minikube with eg, `minikube start --cpus 4 --memory 8192` to provide a working local environment.
-```
-helm upgrade -i stack presslabs/stack --namespace presslabs-system -f https://raw.githubusercontent.com/presslabs/stack/master/presets/minikube.yaml
-```
 
-### GKE
+### Install Stack
+
+The rest of the Stack can be installed using helm (version 2 or 3). There are many possible
+platforms where it can be installed. We provide presets for production and development environments.
+
+#### GKE
 
 For GKE is required to have at least three nodes for running components and also have some room for
 deploying a site. For testing out and playground `g1-small` should suffice.
 
 ```
 helm upgrade -i stack presslabs/stack --namespace presslabs-system -f https://raw.githubusercontent.com/presslabs/stack/master/presets/gke.yaml
+```
+
+
+#### Minikube/Docker for Mac
+Ensure a larger Minikube with eg, `minikube start --cpus 4 --memory 8192` to provide a working local environment.
+```
+helm upgrade -i stack presslabs/stack --namespace presslabs-system -f https://raw.githubusercontent.com/presslabs/stack/master/presets/minikube.yaml
 ```
 
 ## Usage

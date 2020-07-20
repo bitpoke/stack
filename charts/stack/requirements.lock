@@ -8,14 +8,11 @@ dependencies:
 - name: nginx-ingress
   repository: https://kubernetes-charts.storage.googleapis.com/
   version: 1.40.3
-- name: cert-manager
-  repository: https://charts.jetstack.io
-  version: v0.15.2
 - name: prometheus-operator
   repository: https://kubernetes-charts.storage.googleapis.com/
   version: 8.15.14
 - name: git-webhook
   repository: file://../git-webhook
   version: 0.0.1+master
-digest: sha256:ba4b7a385cc3f4d7a86ccc25a9b2232ffb11087a5a7fdab75910aac31b5ea339
-generated: "2020-07-14T10:44:51.828149075+03:00"
+digest: sha256:e7789b0cc31d2a7d916c78d5f0bce2c5c77a5827de0ba8f9c9c276fdef77f9a3
+generated: "2020-07-20T23:03:21.485179294+03:00"

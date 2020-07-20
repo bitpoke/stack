@@ -14,11 +14,6 @@ dependencies:
     version: ~1.40.0
     condition: nginx-ingress.enabled
 
-  - name: cert-manager
-    repository: https://charts.jetstack.io
-    version: ~0.15.1
-    condition: cert-manager.enabled
-
   - name: prometheus-operator
     repository: https://kubernetes-charts.storage.googleapis.com/
     version: ~8.15.4
