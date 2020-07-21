@@ -16,7 +16,7 @@ dependencies:
 
   - name: prometheus-operator
     repository: https://kubernetes-charts.storage.googleapis.com/
-    version: ~8.15.4
+    version: 9.1.0
     condition: prometheus-operator.enabled
 
   - name: git-webhook
