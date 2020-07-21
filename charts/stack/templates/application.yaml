@@ -1,3 +1,4 @@
+{{- if (.Capabilities.APIVersions.Has "app.k8s.io/v1beta1") }}
 {{ $grafana := index .Values "prometheus-operator" "grafana" }}
 apiVersion: app.k8s.io/v1beta1
 kind: Application
@@ -107,3 +108,5 @@ spec:
       secretKeyRef:
         name: {{ .Release.Name }}-grafana
         key: admin-password
+
+{{- end }}

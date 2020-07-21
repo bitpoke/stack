@@ -72,6 +72,15 @@ recommend to use the first method:
 kubectl apply -f https://raw.githubusercontent.com/presslabs/stack/master/deploy/manifests/00-crds.yaml
 ```
 
+The Stack also depends on the [Kubernetes
+Application](https://github.com/kubernetes-sigs/application) CRD. The following command will install
+the application CRD. You may also want (this is optional) to install the Application Controller, see
+the install [guide](https://github.com/kubernetes-sigs/application/blob/master/docs/quickstart.md).
+
+```
+kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/application/v0.8.3/config/crd/bases/app.k8s.io_applications.yaml
+```
+
 
 ### Install Stack
 
