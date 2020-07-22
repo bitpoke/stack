@@ -8,6 +8,7 @@ NAMESPACE=${NAMESPACE:-presslabs-system}
 CM_VERSION=v0.15.2
 CM_RELEASE=stack-cm
 
+STACK_RELEASE=stack
 
 
 echo "Build manifests (crds) ..."
@@ -58,7 +59,7 @@ echo
 
 # create mysql-operator orchestrator topology secret
 echo "Create mysql-operator topology credentials ..."
-orc_secret_name=stack-mysql-operator-topology-credentials
+orc_secret_name=${STACK_RELEASE}-mysql-operator-topology-credentials
 if ! kubectl -n ${NAMESPACE} get secret $orc_secret_name; then
     cat <<EOF | kubectl create --save-config=false -f-
 apiVersion: v1
@@ -73,9 +74,42 @@ data:
 EOF
 fi
 
+
+# check if there is a helm v2 release if so convert it to helm v3
+if [ "$(kubectl -n ${NAMESPACE} get secrets -l OWNER=TILLER,NAME=${STACK_RELEASE} | wc -l)" -gt "0" ] ; then
+    echo "Convert installed release to helm v3 ..."
+    helm 2to3 convert ${STACK_RELEASE} --tiller-out-cluster --tiller-ns ${NAMESPACE} --delete-v2-releases || true
+
+    # annotate resources with helm3 labels
+    kparams=( -n ${NAMESPACE} -l app=${STACK_RELEASE} --overwrite )
+
+    kubectl label issuer ${kparams[@]} app.kubernetes.io/managed-by=Helm
+    kubectl label clusterissuer ${kparams[@]} app.kubernetes.io/managed-by=Helm
+    kubectl label certificate ${kparams[@]} app.kubernetes.io/managed-by=Helm
+
+    kubectl annotate certificate ${kparams[@]} meta.helm.sh/release-name=${STACK_RELEASE} meta.helm.sh/release-namespace=${NAMESPACE}
+    kubectl annotate issuer ${kparams[@]} meta.helm.sh/release-name=${STACK_RELEASE} meta.helm.sh/release-namespace=${NAMESPACE}
+    kubectl annotate clusterissuer ${kparams[@]} meta.helm.sh/release-name=${STACK_RELEASE} meta.helm.sh/release-namespace=${NAMESPACE}
+
+    # do an upgrade with --reuse-values
+    helm upgrade -i ${STACK_RELEASE} /charts/stack --namespace ${NAMESPACE} --reuse-values
+
+fi
+
+function helm_f_args {
+    files=
+    for file in /config/$1; do
+        if [ -e $file ]; then
+            files+="-f $file"
+        fi
+    done
+
+    echo $files
+}
+
 # run helm to install the stack
 echo "Install Stack ..."
-helm upgrade -i stack /charts/stack --namespace ${NAMESPACE} -f /config/*.yaml \
+helm upgrade -i ${STACK_RELEASE} /charts/stack --namespace ${NAMESPACE} $(helm_f_args 'stack_*.yaml') \
      --set mysql-operator.orchestrator.secretName=${orc_secret_name} --wait
 
 echo "Finished!"

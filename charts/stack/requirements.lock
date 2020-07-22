@@ -14,5 +14,5 @@ dependencies:
 - name: git-webhook
   repository: file://../git-webhook
   version: 0.0.1+master
-digest: sha256:5c0841e77a46d3f472f8083d7cfc4add0e9ccd5f6593618a0f0613c6ae473008
-generated: "2020-07-21T12:50:08.6704302+03:00"
+digest: sha256:6d4b33712534c547a13810fb365acaa3f25c7030dee3905bb33967e17708eda7
+generated: "2020-07-21T18:07:18.659120059+03:00"
