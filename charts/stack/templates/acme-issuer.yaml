@@ -1,5 +1,5 @@
 {{- $nginxIngress := index .Values "nginx-ingress" -}}
-apiVersion: cert-manager.io/v1alpha3
+apiVersion: cert-manager.io/v1alpha2
 kind: ClusterIssuer
 metadata:
   name: {{ template "stack.fullname" . }}-default-certificate-issuer
@@ -29,7 +29,7 @@ spec:
     secretName: {{ template "stack.fullname" . }}-ca
 {{- end }}
 ---
-apiVersion: cert-manager.io/v1alpha3
+apiVersion: cert-manager.io/v1alpha2
 kind: Certificate
 metadata:
   name: {{ template "stack.fullname" . }}-ingress-default
@@ -47,7 +47,7 @@ spec:
 
 {{- if not .Values.letsencrypt.enabled }}
 ---
-apiVersion: cert-manager.io/v1alpha3
+apiVersion: cert-manager.io/v1alpha2
 kind: Issuer
 metadata:
   name: {{ template "stack.fullname" . }}-ca-issuer
@@ -59,7 +59,7 @@ metadata:
 spec:
   selfSigned: {}
 ---
-apiVersion: cert-manager.io/v1alpha3
+apiVersion: cert-manager.io/v1alpha2
 kind: Certificate
 metadata:
   name: {{ template "stack.fullname" . }}-ca

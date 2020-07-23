@@ -79,21 +79,6 @@ fi
 if [ "$(kubectl -n ${NAMESPACE} get secrets -l OWNER=TILLER,NAME=${STACK_RELEASE} | wc -l)" -gt "0" ] ; then
     echo "Convert installed release to helm v3 ..."
     helm 2to3 convert ${STACK_RELEASE} --tiller-out-cluster --tiller-ns ${NAMESPACE} --delete-v2-releases || true
-
-    # annotate resources with helm3 labels
-    kparams=( -n ${NAMESPACE} -l app=${STACK_RELEASE} --overwrite )
-
-    kubectl label issuer ${kparams[@]} app.kubernetes.io/managed-by=Helm
-    kubectl label clusterissuer ${kparams[@]} app.kubernetes.io/managed-by=Helm
-    kubectl label certificate ${kparams[@]} app.kubernetes.io/managed-by=Helm
-
-    kubectl annotate certificate ${kparams[@]} meta.helm.sh/release-name=${STACK_RELEASE} meta.helm.sh/release-namespace=${NAMESPACE}
-    kubectl annotate issuer ${kparams[@]} meta.helm.sh/release-name=${STACK_RELEASE} meta.helm.sh/release-namespace=${NAMESPACE}
-    kubectl annotate clusterissuer ${kparams[@]} meta.helm.sh/release-name=${STACK_RELEASE} meta.helm.sh/release-namespace=${NAMESPACE}
-
-    # do an upgrade with --reuse-values
-    helm upgrade -i ${STACK_RELEASE} /charts/stack --namespace ${NAMESPACE} --reuse-values
-
 fi
 
 function helm_f_args {
