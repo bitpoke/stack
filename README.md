@@ -26,10 +26,10 @@ helm repo add presslabs https://presslabs.github.io/charts
 helm repo update
 ```
 
-### Install cert-manager
-[Cert Manager](https://github.com/jetstack/cert-manager) should be installed first. This is a
-prerequisite for Stack because it depends on certificates in order to setup the environment. The
-installation official documentation can be found
+## Requirements
+### cert-manager
+[Cert Manager](https://github.com/jetstack/cert-manager) is a
+requirement for Stack because it depends on certificates in order to setup it's the environment. The official installation documentation can be found
 [here](https://cert-manager.io/docs/installation/kubernetes/#installing-with-helm).
 
 ```bash
