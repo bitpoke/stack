@@ -29,11 +29,14 @@ dependencies:
 	test -d $(BINDIR) || mkdir $(BINDIR)
 #	install ginkgo
 	GOBIN=$(BINDIR) go get -u github.com/onsi/ginkgo/ginkgo@v1.13.0
-	# install golangci-lint
+	@# install golangci-lint
 	curl -sfL https://install.goreleaser.com/github.com/golangci/golangci-lint.sh | BINARY=golangci-lint bash -s -- -b $(BINDIR) v1.27.0
-	# install yq
+	@# install yq
 	curl -sfL https://github.com/mikefarah/yq/releases/download/2.1.1/yq_$(OS)_$(ARCH) -o $(BINDIR)/yq
 	chmod +x $(BINDIR)/yq
+
+	@# just ignore the go.mod
+	git checkout go.mod go.sum
 
 test:
 	make -C git-webhook test
