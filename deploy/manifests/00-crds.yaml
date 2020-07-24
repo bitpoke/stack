@@ -460,16 +460,11 @@ status:
   conditions: []
   storedVersions: []
 ---
----
-# Source: stack/charts/prometheus-operator/templates/prometheus-operator/crds.yaml
-
-# https://raw.githubusercontent.com/coreos/prometheus-operator/release-0.38/example/prometheus-operator-crd/monitoring.coreos.com_alertmanagers.yaml
 apiVersion: apiextensions.k8s.io/v1beta1
 kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.2.4
-    helm.sh/hook: crd-install
   creationTimestamp: null
   name: alertmanagers.monitoring.coreos.com
 spec:
@@ -3251,6 +3246,13 @@ spec:
                     selectors of replication controllers and services. More info:
                     http://kubernetes.io/docs/user-guide/labels'
                   type: object
+                name:
+                  description: 'Name must be unique within a namespace. Is required
+                    when creating resources, although some resources may allow a client
+                    to request the generation of an appropriate name automatically.
+                    Name is primarily intended for creation idempotence and configuration
+                    definition. Cannot be updated. More info: http://kubernetes.io/docs/user-guide/identifiers#names'
+                  type: string
               type: object
             portName:
               description: Port name used for the pods and governing service. This
@@ -3470,7 +3472,34 @@ spec:
                         More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
                       type: string
                     metadata:
-                      description: 'Standard object''s metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata'
+                      description: EmbeddedMetadata contains metadata relevant to
+                        an EmbeddedResource.
+                      properties:
+                        annotations:
+                          additionalProperties:
+                            type: string
+                          description: 'Annotations is an unstructured key value map
+                            stored with a resource that may be set by external tools
+                            to store and retrieve arbitrary metadata. They are not
+                            queryable and should be preserved when modifying objects.
+                            More info: http://kubernetes.io/docs/user-guide/annotations'
+                          type: object
+                        labels:
+                          additionalProperties:
+                            type: string
+                          description: 'Map of string keys and values that can be
+                            used to organize and categorize (scope and select) objects.
+                            May match selectors of replication controllers and services.
+                            More info: http://kubernetes.io/docs/user-guide/labels'
+                          type: object
+                        name:
+                          description: 'Name must be unique within a namespace. Is
+                            required when creating resources, although some resources
+                            may allow a client to request the generation of an appropriate
+                            name automatically. Name is primarily intended for creation
+                            idempotence and configuration definition. Cannot be updated.
+                            More info: http://kubernetes.io/docs/user-guide/identifiers#names'
+                          type: string
                       type: object
                     spec:
                       description: 'Spec defines the desired characteristics of a
@@ -4964,15 +4993,12 @@ spec:
   - name: v1
     served: true
     storage: true
-
 ---
-# https://raw.githubusercontent.com/coreos/prometheus-operator/release-0.38/example/prometheus-operator-crd/monitoring.coreos.com_podmonitors.yaml
 apiVersion: apiextensions.k8s.io/v1beta1
 kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.2.4
-    helm.sh/hook: crd-install
   creationTimestamp: null
   name: podmonitors.monitoring.coreos.com
 spec:
@@ -5227,15 +5253,12 @@ spec:
   - name: v1
     served: true
     storage: true
-
 ---
-# https://raw.githubusercontent.com/coreos/prometheus-operator/release-0.38/example/prometheus-operator-crd/monitoring.coreos.com_prometheuses.yaml
 apiVersion: apiextensions.k8s.io/v1beta1
 kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.2.4
-    helm.sh/hook: crd-install
   creationTimestamp: null
   name: prometheuses.monitoring.coreos.com
 spec:
@@ -8500,6 +8523,13 @@ spec:
                     selectors of replication controllers and services. More info:
                     http://kubernetes.io/docs/user-guide/labels'
                   type: object
+                name:
+                  description: 'Name must be unique within a namespace. Is required
+                    when creating resources, although some resources may allow a client
+                    to request the generation of an appropriate name automatically.
+                    Name is primarily intended for creation idempotence and configuration
+                    definition. Cannot be updated. More info: http://kubernetes.io/docs/user-guide/identifiers#names'
+                  type: string
               type: object
             podMonitorNamespaceSelector:
               description: Namespaces to be selected for PodMonitor discovery. If
@@ -9435,7 +9465,9 @@ spec:
                   type: object
               type: object
             serviceMonitorSelector:
-              description: ServiceMonitors to be selected for target discovery.
+              description: ServiceMonitors to be selected for target discovery. *Deprecated:*
+                if neither this nor podMonitorSelector are specified, configuration
+                is unmanaged.
               properties:
                 matchExpressions:
                   description: matchExpressions is a list of label selector requirements.
@@ -9522,7 +9554,34 @@ spec:
                         More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
                       type: string
                     metadata:
-                      description: 'Standard object''s metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata'
+                      description: EmbeddedMetadata contains metadata relevant to
+                        an EmbeddedResource.
+                      properties:
+                        annotations:
+                          additionalProperties:
+                            type: string
+                          description: 'Annotations is an unstructured key value map
+                            stored with a resource that may be set by external tools
+                            to store and retrieve arbitrary metadata. They are not
+                            queryable and should be preserved when modifying objects.
+                            More info: http://kubernetes.io/docs/user-guide/annotations'
+                          type: object
+                        labels:
+                          additionalProperties:
+                            type: string
+                          description: 'Map of string keys and values that can be
+                            used to organize and categorize (scope and select) objects.
+                            May match selectors of replication controllers and services.
+                            More info: http://kubernetes.io/docs/user-guide/labels'
+                          type: object
+                        name:
+                          description: 'Name must be unique within a namespace. Is
+                            required when creating resources, although some resources
+                            may allow a client to request the generation of an appropriate
+                            name automatically. Name is primarily intended for creation
+                            idempotence and configuration definition. Cannot be updated.
+                            More info: http://kubernetes.io/docs/user-guide/identifiers#names'
+                          type: string
                       type: object
                     spec:
                       description: 'Spec defines the desired characteristics of a
@@ -11232,15 +11291,12 @@ spec:
   - name: v1
     served: true
     storage: true
-
 ---
-# https://raw.githubusercontent.com/coreos/prometheus-operator/release-0.38/example/prometheus-operator-crd/monitoring.coreos.com_prometheusrules.yaml
 apiVersion: apiextensions.k8s.io/v1beta1
 kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.2.4
-    helm.sh/hook: crd-install
   creationTimestamp: null
   name: prometheusrules.monitoring.coreos.com
 spec:
@@ -11326,15 +11382,12 @@ spec:
   - name: v1
     served: true
     storage: true
-
 ---
-# https://raw.githubusercontent.com/coreos/prometheus-operator/release-0.38/example/prometheus-operator-crd/monitoring.coreos.com_servicemonitors.yaml
 apiVersion: apiextensions.k8s.io/v1beta1
 kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.2.4
-    helm.sh/hook: crd-install
   creationTimestamp: null
   name: servicemonitors.monitoring.coreos.com
 spec:
@@ -11788,15 +11841,12 @@ spec:
   - name: v1
     served: true
     storage: true
-
 ---
-# https://raw.githubusercontent.com/coreos/prometheus-operator/release-0.38/example/prometheus-operator-crd/monitoring.coreos.com_thanosrulers.yaml
 apiVersion: apiextensions.k8s.io/v1beta1
 kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.2.4
-    helm.sh/hook: crd-install
   creationTimestamp: null
   name: thanosrulers.monitoring.coreos.com
 spec:
@@ -14736,6 +14786,13 @@ spec:
                     selectors of replication controllers and services. More info:
                     http://kubernetes.io/docs/user-guide/labels'
                   type: object
+                name:
+                  description: 'Name must be unique within a namespace. Is required
+                    when creating resources, although some resources may allow a client
+                    to request the generation of an appropriate name automatically.
+                    Name is primarily intended for creation idempotence and configuration
+                    definition. Cannot be updated. More info: http://kubernetes.io/docs/user-guide/identifiers#names'
+                  type: string
               type: object
             portName:
               description: Port name used for the pods and governing service. This
@@ -15051,7 +15108,34 @@ spec:
                         More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
                       type: string
                     metadata:
-                      description: 'Standard object''s metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata'
+                      description: EmbeddedMetadata contains metadata relevant to
+                        an EmbeddedResource.
+                      properties:
+                        annotations:
+                          additionalProperties:
+                            type: string
+                          description: 'Annotations is an unstructured key value map
+                            stored with a resource that may be set by external tools
+                            to store and retrieve arbitrary metadata. They are not
+                            queryable and should be preserved when modifying objects.
+                            More info: http://kubernetes.io/docs/user-guide/annotations'
+                          type: object
+                        labels:
+                          additionalProperties:
+                            type: string
+                          description: 'Map of string keys and values that can be
+                            used to organize and categorize (scope and select) objects.
+                            May match selectors of replication controllers and services.
+                            More info: http://kubernetes.io/docs/user-guide/labels'
+                          type: object
+                        name:
+                          description: 'Name must be unique within a namespace. Is
+                            required when creating resources, although some resources
+                            may allow a client to request the generation of an appropriate
+                            name automatically. Name is primarily intended for creation
+                            idempotence and configuration definition. Cannot be updated.
+                            More info: http://kubernetes.io/docs/user-guide/identifiers#names'
+                          type: string
                       type: object
                     spec:
                       description: 'Spec defines the desired characteristics of a
@@ -16516,9 +16600,6 @@ spec:
   - name: v1
     served: true
     storage: true
-
----
-
 ---
 apiVersion: apiextensions.k8s.io/v1beta1
 kind: CustomResourceDefinition

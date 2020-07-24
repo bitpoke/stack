@@ -48,13 +48,12 @@ CRDS_DIR ?= $(MANIFESTS_DIR)/crds
 
 MYSQL_OPERATOR_TAG ?= v$(call getVersion,mysql-operator)
 WORDPRESS_OPERATOR_TAG ?= v$(call getVersion,wordpress-operator)
-PROMETHEUS_TAG ?= $(call getVersion,prometheus-operator)
+PROM_VERSION ?= 0.38
 
 .PHONY: collect-crds
 collect-crds:
 	$(info ---- WORDPRESS_OPERATOR_TAG = $(WORDPRESS_OPERATOR_TAG))
 	$(info ---- MYSQL_OPERATOR_TAG = $(MYSQL_OPERATOR_TAG))
-	$(info ---- PROMETHEUS_TAG = $(PROMETHEUS_TAG))
 
 	@rm -rf $(CRDS_DIR)/*
 
@@ -66,12 +65,14 @@ collect-crds:
 	wget https://raw.githubusercontent.com/presslabs/mysql-operator/$(MYSQL_OPERATOR_TAG)/config/crds/mysql_v1alpha1_mysqlbackup.yaml -O $(CRDS_DIR)/mysql_mysqlbackup.yaml
 
 	@# Prometheus
-	@$(HELM) repo add presslabs https://presslabs.github.io/charts
-	@$(HELM) repo add jetstack https://charts.jetstack.io
-	@$(HELM) dependency update ./charts/stack
+	wget https://raw.githubusercontent.com/coreos/prometheus-operator/release-${PROM_VERSION}/example/prometheus-operator-crd/monitoring.coreos.com_alertmanagers.yaml -O- > $(CRDS_DIR)/prometheus.yaml
+	wget https://raw.githubusercontent.com/coreos/prometheus-operator/release-${PROM_VERSION}/example/prometheus-operator-crd/monitoring.coreos.com_podmonitors.yaml -O- >> $(CRDS_DIR)/prometheus.yaml
+	wget https://raw.githubusercontent.com/coreos/prometheus-operator/release-${PROM_VERSION}/example/prometheus-operator-crd/monitoring.coreos.com_prometheuses.yaml  -O- >> $(CRDS_DIR)/prometheus.yaml
+	wget https://raw.githubusercontent.com/coreos/prometheus-operator/release-${PROM_VERSION}/example/prometheus-operator-crd/monitoring.coreos.com_prometheusrules.yaml -O- >> $(CRDS_DIR)/prometheus.yaml
+	wget https://raw.githubusercontent.com/coreos/prometheus-operator/release-${PROM_VERSION}/example/prometheus-operator-crd/monitoring.coreos.com_servicemonitors.yaml -O- >> $(CRDS_DIR)/prometheus.yaml
+	wget https://raw.githubusercontent.com/coreos/prometheus-operator/release-${PROM_VERSION}/example/prometheus-operator-crd/monitoring.coreos.com_thanosrulers.yaml -O- >> $(CRDS_DIR)/prometheus.yaml
 
-	$(HELM) template ./charts/stack --set prometheus-operator.prometheusOperator.createCustomResource=true \
-	              -x charts/prometheus-operator/templates/prometheus-operator/crds.yaml > $(CRDS_DIR)/prometheus.yaml
+	yq d -d'*' -i $(CRDS_DIR)/prometheus.yaml status
 
 	@# keep 00-crds.yaml for backward compatibility reasons
 	rm -f $(MANIFESTS_DIR)/00-crds.yaml
