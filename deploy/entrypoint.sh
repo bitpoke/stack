@@ -41,7 +41,7 @@ kubectl create namespace ${NAMESPACE} || true
 # install or upgrade cert-manager and wait to be Ready
 echo "Install cert-manager ..."
 helm upgrade -i ${CM_RELEASE} jetstack/cert-manager --namespace ${NAMESPACE} \
-     --version ${CM_VERSION} --wait \
+     --version ${CM_VERSION} --wait --skip-crds \
      --set installCRDs=false
 
 
@@ -95,6 +95,6 @@ function helm_f_args {
 # run helm to install the stack
 echo "Install Stack ..."
 helm upgrade -i ${STACK_RELEASE} /charts/stack --namespace ${NAMESPACE} $(helm_f_args 'stack_*.yaml') \
-     --set mysql-operator.orchestrator.secretName=${orc_secret_name} --wait
+     --set mysql-operator.orchestrator.secretName=${orc_secret_name} --wait --skip-crds
 
 echo "Finished!"
