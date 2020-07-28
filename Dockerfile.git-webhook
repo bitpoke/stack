@@ -1,9 +1,11 @@
 # Build the git-webhook binary
-FROM golang:1.11.5 as builder
+FROM golang:1.13.14 as builder
 
 # Copy in the go src
 WORKDIR /go/src/github.com/presslabs/stack
 COPY git-webhook/ git-webhook/
+COPY go.mod go.mod
+COPY go.sum go.sum
 
 # Build
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -o /git-webhook github.com/presslabs/stack/git-webhook
