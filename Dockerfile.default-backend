@@ -1,11 +1,13 @@
 # Build the default-backend binary
-FROM golang:1.11.5 as builder
+FROM golang:1.13.14 as builder
 
 ENV PACKR_VERSION="v2.8.0"
 
 # Copy in the go src
 WORKDIR /go/src/github.com/presslabs/stack
 COPY default-backend/ default-backend/
+COPY go.mod go.mod
+COPY go.sum go.sum
 
 # Pack templates
 RUN go get -u github.com/gobuffalo/packr/v2/packr2@${PACKR_VERSION} && packr2
