@@ -10,6 +10,21 @@ CM_RELEASE=stack-cm
 
 STACK_RELEASE=stack
 
+# Some help functions
+
+function helm_f_args {
+    files=
+    for file in /config/$1; do
+        if [ -e $file ]; then
+            files+="-f $file"
+        fi
+    done
+
+    echo $files
+}
+
+
+# Starting the script
 
 echo "Build manifests (crds) ..."
 mkdir -p /tmp/manifests
@@ -42,7 +57,7 @@ kubectl create namespace ${NAMESPACE} || true
 echo "Install cert-manager ..."
 helm upgrade -i ${CM_RELEASE} jetstack/cert-manager --namespace ${NAMESPACE} \
      --version ${CM_VERSION} --wait --skip-crds \
-     --set installCRDs=false
+     --set installCRDs=false $(helm_f_args 'cm_*.yaml')
 
 
 # wait (30s) for hook to be ready and caBundle to be inserted by ca-injector
@@ -81,16 +96,6 @@ if [ "$(kubectl -n ${NAMESPACE} get secrets -l OWNER=TILLER,NAME=${STACK_RELEASE
     helm 2to3 convert ${STACK_RELEASE} --tiller-out-cluster --tiller-ns ${NAMESPACE} --delete-v2-releases || true
 fi
 
-function helm_f_args {
-    files=
-    for file in /config/$1; do
-        if [ -e $file ]; then
-            files+="-f $file"
-        fi
-    done
-
-    echo $files
-}
 
 # run helm to install the stack
 echo "Install Stack ..."
