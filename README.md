@@ -21,35 +21,32 @@ Tiller needs to be initialized in your Kubernetes cluster, eg run `helm init`
 
 Add the Presslabs helm charts repo:
 
-```
+```bash
 helm repo add presslabs https://presslabs.github.io/charts
 helm repo update
 ```
 
+Create target namespace we encourage to install all stack related components in `presslabs-system`
+namespace:
+
+```bash
+kubectl create namespace presslabs-system
+```
+
 ## Requirements
 ### cert-manager
-[Cert Manager](https://github.com/jetstack/cert-manager) is a
-requirement for Stack because it depends on certificates in order to setup it's the environment. The official installation documentation can be found
+[Cert Manager](https://github.com/jetstack/cert-manager) is a requirement for Stack because it
+depends on certificates in order to setup it's the environment. The official installation
+documentation can be found
 [here](https://cert-manager.io/docs/installation/kubernetes/#installing-with-helm).
 
 ```bash
-$ kubectl create namespace cert-manager
-$ helm repo add jetstack https://charts.jetstack.io
-$ helm repo update
+helm repo add jetstack https://charts.jetstack.io
+helm repo update
 
-# Helm v3+
-$ helm install \
-  cert-manager jetstack/cert-manager \
-  --namespace cert-manager \
+helm upgrade -i stack-cm jetstack/cert-manager \
+  --namespace presslabs-system \
   --version v0.15.2 \
-  --set installCRDs=true
-
-# Helm v2
-$ helm install \
-  --name cert-manager \
-  --namespace cert-manager \
-  --version v0.15.2 \
-  jetstack/cert-manager \
   --set installCRDs=true
 ```
 
