@@ -31,7 +31,7 @@ spec:
     status: {}
   validation:
     openAPIV3Schema:
-      description: Wordpress is the Schema for the wordpresses API
+      description: Wordpress is the Schema for the wordpresses API.
       properties:
         apiVersion:
           description: 'APIVersion defines the versioned schema of this representation
@@ -46,7 +46,7 @@ spec:
         metadata:
           type: object
         spec:
-          description: WordpressSpec defines the desired state of Wordpress
+          description: WordpressSpec defines the desired state of Wordpress.
           properties:
             affinity:
               description: If specified, the pod's scheduling constraints
@@ -668,7 +668,7 @@ spec:
                             type: object
                           fieldRef:
                             description: 'Selects a field of the pod: supports metadata.name,
-                              metadata.namespace, metadata.labels, metadata.annotations,
+                              metadata.namespace, `metadata.labels[''<KEY>'']`, `metadata.annotations[''<KEY>'']`,
                               spec.nodeName, spec.serviceAccountName, status.hostIP,
                               status.podIP, status.podIPs.'
                             properties:
@@ -875,9 +875,10 @@ spec:
                                 type: object
                               fieldRef:
                                 description: 'Selects a field of the pod: supports
-                                  metadata.name, metadata.namespace, metadata.labels,
-                                  metadata.annotations, spec.nodeName, spec.serviceAccountName,
-                                  status.hostIP, status.podIP, status.podIPs.'
+                                  metadata.name, metadata.namespace, `metadata.labels[''<KEY>'']`,
+                                  `metadata.annotations[''<KEY>'']`, spec.nodeName,
+                                  spec.serviceAccountName, status.hostIP, status.podIP,
+                                  status.podIPs.'
                                 properties:
                                   apiVersion:
                                     description: Version of the schema the FieldPath
@@ -1197,7 +1198,7 @@ spec:
                 DEPRECATED: use Routes instead. This field will be dropped in next
                 release.'
               items:
-                description: Domain represents a valid domain name
+                description: Domain represents a valid domain name.
                 type: string
               type: array
             env:
@@ -1242,7 +1243,7 @@ spec:
                         type: object
                       fieldRef:
                         description: 'Selects a field of the pod: supports metadata.name,
-                          metadata.namespace, metadata.labels, metadata.annotations,
+                          metadata.namespace, `metadata.labels[''<KEY>'']`, `metadata.annotations[''<KEY>'']`,
                           spec.nodeName, spec.serviceAccountName, status.hostIP, status.podIP,
                           status.podIPs.'
                         properties:
@@ -1442,9 +1443,10 @@ spec:
                               type: object
                             fieldRef:
                               description: 'Selects a field of the pod: supports metadata.name,
-                                metadata.namespace, metadata.labels, metadata.annotations,
-                                spec.nodeName, spec.serviceAccountName, status.hostIP,
-                                status.podIP, status.podIPs.'
+                                metadata.namespace, `metadata.labels[''<KEY>'']`,
+                                `metadata.annotations[''<KEY>'']`, spec.nodeName,
+                                spec.serviceAccountName, status.hostIP, status.podIP,
+                                status.podIPs.'
                               properties:
                                 apiVersion:
                                   description: Version of the schema the FieldPath
@@ -2109,6 +2111,28 @@ spec:
                             description: User is a SELinux user label that applies
                               to the container.
                             type: string
+                        type: object
+                      seccompProfile:
+                        description: The seccomp options to use by this container.
+                          If seccomp options are provided at both the pod & container
+                          level, the container options override the pod options.
+                        properties:
+                          localhostProfile:
+                            description: localhostProfile indicates a profile defined
+                              in a file on the node should be used. The profile must
+                              be preconfigured on the node to work. Must be a descending
+                              path, relative to the kubelet's configured seccomp profile
+                              location. Must only be set if type is "Localhost".
+                            type: string
+                          type:
+                            description: "type indicates which kind of seccomp profile
+                              will be applied. Valid options are: \n Localhost - a
+                              profile defined in a file on the node should be used.
+                              RuntimeDefault - the container runtime default profile
+                              should be used. Unconfined - no profile should be applied."
+                            type: string
+                        required:
+                        - type
                         type: object
                       windowsOptions:
                         description: The Windows specific settings applied to all
@@ -2563,9 +2587,10 @@ spec:
                                 type: object
                               fieldRef:
                                 description: 'Selects a field of the pod: supports
-                                  metadata.name, metadata.namespace, metadata.labels,
-                                  metadata.annotations, spec.nodeName, spec.serviceAccountName,
-                                  status.hostIP, status.podIP, status.podIPs.'
+                                  metadata.name, metadata.namespace, `metadata.labels[''<KEY>'']`,
+                                  `metadata.annotations[''<KEY>'']`, spec.nodeName,
+                                  spec.serviceAccountName, status.hostIP, status.podIP,
+                                  status.podIPs.'
                                 properties:
                                   apiVersion:
                                     description: Version of the schema the FieldPath
@@ -2844,9 +2869,10 @@ spec:
                                 type: object
                               fieldRef:
                                 description: 'Selects a field of the pod: supports
-                                  metadata.name, metadata.namespace, metadata.labels,
-                                  metadata.annotations, spec.nodeName, spec.serviceAccountName,
-                                  status.hostIP, status.podIP, status.podIPs.'
+                                  metadata.name, metadata.namespace, `metadata.labels[''<KEY>'']`,
+                                  `metadata.annotations[''<KEY>'']`, spec.nodeName,
+                                  spec.serviceAccountName, status.hostIP, status.podIP,
+                                  status.podIPs.'
                                 properties:
                                   apiVersion:
                                     description: Version of the schema the FieldPath
@@ -3076,7 +3102,7 @@ spec:
                 is set the WP_HOME and WP_SITEURL constants. If no routes are specified,
                 ingress syncing is disabled and WP_HOME de defaults to NAME.NAMESPACE.svc.
               items:
-                description: RouteSpec defines a desired state for a route
+                description: RouteSpec defines a desired state for a route.
                 properties:
                   domain:
                     description: Domain for the route
@@ -3169,9 +3195,10 @@ spec:
                               type: object
                             fieldRef:
                               description: 'Selects a field of the pod: supports metadata.name,
-                                metadata.namespace, metadata.labels, metadata.annotations,
-                                spec.nodeName, spec.serviceAccountName, status.hostIP,
-                                status.podIP, status.podIPs.'
+                                metadata.namespace, `metadata.labels[''<KEY>'']`,
+                                `metadata.annotations[''<KEY>'']`, spec.nodeName,
+                                spec.serviceAccountName, status.hostIP, status.podIP,
+                                status.podIPs.'
                               properties:
                                 apiVersion:
                                   description: Version of the schema the FieldPath
@@ -3837,6 +3864,28 @@ spec:
                               to the container.
                             type: string
                         type: object
+                      seccompProfile:
+                        description: The seccomp options to use by this container.
+                          If seccomp options are provided at both the pod & container
+                          level, the container options override the pod options.
+                        properties:
+                          localhostProfile:
+                            description: localhostProfile indicates a profile defined
+                              in a file on the node should be used. The profile must
+                              be preconfigured on the node to work. Must be a descending
+                              path, relative to the kubelet's configured seccomp profile
+                              location. Must only be set if type is "Localhost".
+                            type: string
+                          type:
+                            description: "type indicates which kind of seccomp profile
+                              will be applied. Valid options are: \n Localhost - a
+                              profile defined in a file on the node should be used.
+                              RuntimeDefault - the container runtime default profile
+                              should be used. Unconfined - no profile should be applied."
+                            type: string
+                        required:
+                        - type
+                        type: object
                       windowsOptions:
                         description: The Windows specific settings applied to all
                           containers. If unspecified, the options from the PodSecurityContext
@@ -4189,14 +4238,14 @@ spec:
               type: string
           type: object
         status:
-          description: WordpressStatus defines the observed state of Wordpress
+          description: WordpressStatus defines the observed state of Wordpress.
           properties:
             conditions:
               description: Conditions represents the Wordpress resource conditions
                 list.
               items:
                 description: WordpressCondition defines condition struct for backup
-                  resource
+                  resource.
                 properties:
                   lastTransitionTime:
                     description: Last time the condition transitioned from one status
