@@ -27,12 +27,12 @@ lint:
 
 dependencies:
 	test -d $(BINDIR) || mkdir $(BINDIR)
-#	install ginkgo
-	GOBIN=$(BINDIR) go get -u github.com/onsi/ginkgo/ginkgo@v1.13.0
+	# install ginkgo
+	GOBIN=$(BINDIR) go get -u github.com/onsi/ginkgo/ginkgo@v1.14.0
 	@# install golangci-lint
-	curl -sfL https://install.goreleaser.com/github.com/golangci/golangci-lint.sh | BINARY=golangci-lint bash -s -- -b $(BINDIR) v1.27.0
+	curl -sfL https://install.goreleaser.com/github.com/golangci/golangci-lint.sh | BINARY=golangci-lint bash -s -- -b $(BINDIR) v1.30.0
 	@# install yq
-	curl -sfL https://github.com/mikefarah/yq/releases/download/2.1.1/yq_$(OS)_$(ARCH) -o $(BINDIR)/yq
+	curl -sfL https://github.com/mikefarah/yq/releases/download/3.3.2/yq_$(OS)_$(ARCH) -o $(BINDIR)/yq
 	chmod +x $(BINDIR)/yq
 
 	@# just ignore the go.mod
