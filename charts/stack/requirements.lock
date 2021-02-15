@@ -6,13 +6,13 @@ dependencies:
   repository: https://presslabs.github.io/charts/
   version: 0.10.5
 - name: nginx-ingress
-  repository: https://kubernetes-charts.storage.googleapis.com/
-  version: 1.40.3
+  repository: https://charts.helm.sh/stable
+  version: 1.40.0
 - name: prometheus-operator
-  repository: https://kubernetes-charts.storage.googleapis.com/
+  repository: https://charts.helm.sh/stable
   version: 9.1.0
 - name: git-webhook
   repository: file://../git-webhook
   version: 0.0.1+master
-digest: sha256:578e4e2f2e3be8ae7cc2b55bf232e9592241f73794fe467ed787ed50c0c4cbef
-generated: "2020-09-07T09:33:01.038340593+03:00"
+digest: sha256:5f52d99c56543322da64b309e0031a0ebd2e534a0c320d80b1f5a416b5acaf44
+generated: "2021-02-16T08:40:54.466884345+02:00"

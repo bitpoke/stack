@@ -19,8 +19,10 @@ spec:
     kind: ConfigMap
   - group: v1
     kind: PersistentVolumeClaim
-  - group: v1
-    kind: Service
+  # temporarily remove Service from component kinds list
+  # due to: https://github.com/kubernetes-sigs/application/issues/209
+  # - group: v1
+  #   kind: Service
   - group: apps
     kind: Deployment
   - group: apps
