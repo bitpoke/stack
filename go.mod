@@ -8,8 +8,8 @@ require (
 	github.com/gobuffalo/packr/v2 v2.8.0
 	github.com/karrick/godirwalk v1.15.6 // indirect
 	github.com/nbio/st v0.0.0-20140626010706-e9e8d9816f32 // indirect
-	github.com/onsi/ginkgo v1.14.0
-	github.com/onsi/gomega v1.10.1
+	github.com/onsi/ginkgo v1.14.2
+	github.com/onsi/gomega v1.10.3
 	github.com/pkg/errors v0.9.1
 	github.com/presslabs/controller-util v0.2.6
 	github.com/presslabs/wordpress-operator v0.10.5
@@ -17,11 +17,10 @@ require (
 	github.com/rogpeppe/go-internal v1.6.0 // indirect
 	github.com/sirupsen/logrus v1.6.0 // indirect
 	golang.org/x/crypto v0.0.0-20200709230013-948cd5f35899 // indirect
-	golang.org/x/sys v0.0.0-20200905004654-be1d3432aa8f // indirect
 	golang.org/x/tools v0.0.0-20200713235242-6acd2ab80ede // indirect
-	k8s.io/apimachinery v0.19.0
-	k8s.io/client-go v0.19.0
-	sigs.k8s.io/controller-runtime v0.6.2
+	k8s.io/apimachinery v0.19.3
+	k8s.io/client-go v0.19.3
+	sigs.k8s.io/controller-runtime v0.6.3
 )
 
 replace (
