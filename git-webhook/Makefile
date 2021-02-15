@@ -2,6 +2,7 @@ BINDIR           ?= $(CURDIR)/../bin
 
 # Run tests
 test:
+	$(BINDIR)/ginkgo version
 	$(BINDIR)/ginkgo \
 		--randomizeAllSpecs --randomizeSuites --failOnPending \
 		--cover --coverprofile cover.out --trace --race \
@@ -24,4 +25,5 @@ vet:
 	go vet ./pkg/...
 
 lint:
+	$(BINDIR)/golangci-lint version
 	GOGC=off $(BINDIR)/golangci-lint run ./pkg/... 
