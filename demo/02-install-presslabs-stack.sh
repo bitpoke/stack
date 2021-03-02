@@ -1,22 +1,32 @@
 #!/bin/bash
-: ${CHART:="presslabs/stack"}
-: ${PRESET:="gke"}
-: ${PRESETS_LOCATION:="https://raw.githubusercontent.com/presslabs/stack/master/presets"}
+
+# NOTE: Only for helm 3!
+
 : ${HELM:=helm}
+: ${CERT_MANAGER_VERSION:=v0.15.2}
 
 set -x
 
 kubectl create ns presslabs-system
-
-# apply the CRDs
-kustomize build ../deploy/manifests/ | kubectl apply --validate=false -f-
-
-# label the namespace because of cert manager
-kubectl label namespace presslabs-system cert-manager.io/disable-validation=true
+kubectl create namespace cert-manager
 
 "${HELM}" repo add presslabs https://presslabs.github.io/charts
-
+"${HELM}" repo add jetstack https://charts.jetstack.io
 "${HELM}" repo update
 
-"${HELM}" upgrade -i stack $CHART --namespace presslabs-system \
-    -f "${PRESETS_LOCATION}/${PRESET}.yaml"
+# apply the CRDs
+kustomize build github.com/presslabs/stack/deploy/manifests | kubectl apply -f-
+
+# application CRDs
+kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/application/v0.8.3/config/crd/bases/app.k8s.io_applications.yaml
+
+# install stack
+"${HELM}" upgrade -i $(K8S_STACK_RELEASE) presslabs/stack \
+	--namespace $(K8S_STACK_NAMESPACE) -f hack/values-stack.yaml
+
+# install cert-manager
+"${HELM}" install \
+	cert-manager jetstack/cert-manager \
+	--namespace cert-manager \
+	--version "${CERT_MANAGER_VERSION}" \
+	--set installCRDs=true
