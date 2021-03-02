@@ -33,19 +33,19 @@ requirement for Stack because it depends on certificates in order to setup it's 
 [here](https://cert-manager.io/docs/installation/kubernetes/#installing-with-helm).
 
 ```bash
-$ kubectl create namespace cert-manager
-$ helm repo add jetstack https://charts.jetstack.io
-$ helm repo update
+kubectl create namespace cert-manager
+helm repo add jetstack https://charts.jetstack.io
+helm repo update
 
 # Helm v3+
-$ helm install \
+helm install \
   cert-manager jetstack/cert-manager \
   --namespace cert-manager \
   --version v0.15.2 \
   --set installCRDs=true
 
 # Helm v2
-$ helm install \
+helm install \
   --name cert-manager \
   --namespace cert-manager \
   --version v0.15.2 \
