@@ -83,3 +83,5 @@ collect-crds:
 		echo "---" >> $(MANIFESTS_DIR)/00-crds.yaml; \
 		cat $${file} >> $(MANIFESTS_DIR)/00-crds.yaml; \
 	done;
+
+before-push: collect-crds lint
