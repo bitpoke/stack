@@ -20,8 +20,18 @@ charts:
 	yq w -i $(CHARTDIR)/wordpress-site/Chart.yaml appVersion "$(APP_VERSION)"
 
 lint:
+	$(HELM) version
+	$(HELM) repo add mysql-operator https://presslabs.github.io/charts
+	$(HELM) repo add wordpress-operator https://presslabs.github.io/charts
+	$(HELM) repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+	$(HELM) repo add kube-prometheus-stack https://prometheus-community.github.io/helm-charts
+	$(HELM) repo add jetstack https://charts.jetstack.io
+	$(HELM) repo add kubernetes-charts https://charts.helm.sh/stable
+	$(HELM) repo update
+	$(HELM) repo list
 	$(HELM) lint charts/stack
 	$(HELM) lint charts/wordpress-site --set 'site.domains[0]=example.com'
+	$(HELM) dep build charts/stack
 	$(HELM) dep build charts/wordpress-site
 	make -C git-webhook lint
 
@@ -51,7 +61,7 @@ CRDS_DIR ?= $(MANIFESTS_DIR)/crds
 
 MYSQL_OPERATOR_TAG ?= v$(call getVersion,mysql-operator)
 WORDPRESS_OPERATOR_TAG ?= v$(call getVersion,wordpress-operator)
-PROM_VERSION ?= 0.38
+PROM_VERSION ?= v0.45.0
 
 .PHONY: collect-crds
 collect-crds:
@@ -68,12 +78,12 @@ collect-crds:
 	wget https://raw.githubusercontent.com/presslabs/mysql-operator/$(MYSQL_OPERATOR_TAG)/config/crds/mysql_v1alpha1_mysqlbackup.yaml -O $(CRDS_DIR)/mysql_mysqlbackup.yaml
 
 	@# Prometheus
-	wget https://raw.githubusercontent.com/coreos/prometheus-operator/release-${PROM_VERSION}/example/prometheus-operator-crd/monitoring.coreos.com_alertmanagers.yaml -O- > $(CRDS_DIR)/prometheus.yaml
-	wget https://raw.githubusercontent.com/coreos/prometheus-operator/release-${PROM_VERSION}/example/prometheus-operator-crd/monitoring.coreos.com_podmonitors.yaml -O- >> $(CRDS_DIR)/prometheus.yaml
-	wget https://raw.githubusercontent.com/coreos/prometheus-operator/release-${PROM_VERSION}/example/prometheus-operator-crd/monitoring.coreos.com_prometheuses.yaml  -O- >> $(CRDS_DIR)/prometheus.yaml
-	wget https://raw.githubusercontent.com/coreos/prometheus-operator/release-${PROM_VERSION}/example/prometheus-operator-crd/monitoring.coreos.com_prometheusrules.yaml -O- >> $(CRDS_DIR)/prometheus.yaml
-	wget https://raw.githubusercontent.com/coreos/prometheus-operator/release-${PROM_VERSION}/example/prometheus-operator-crd/monitoring.coreos.com_servicemonitors.yaml -O- >> $(CRDS_DIR)/prometheus.yaml
-	wget https://raw.githubusercontent.com/coreos/prometheus-operator/release-${PROM_VERSION}/example/prometheus-operator-crd/monitoring.coreos.com_thanosrulers.yaml -O- >> $(CRDS_DIR)/prometheus.yaml
+	wget https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/${PROM_VERSION}/example/prometheus-operator-crd/monitoring.coreos.com_alertmanagerconfigs.yaml -O- > $(CRDS_DIR)/prometheus.yaml
+	wget https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/${PROM_VERSION}/example/prometheus-operator-crd/monitoring.coreos.com_podmonitors.yaml -O- >> $(CRDS_DIR)/prometheus.yaml
+	wget https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/${PROM_VERSION}/example/prometheus-operator-crd/monitoring.coreos.com_prometheuses.yaml  -O- >> $(CRDS_DIR)/prometheus.yaml
+	wget https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/${PROM_VERSION}/example/prometheus-operator-crd/monitoring.coreos.com_prometheusrules.yaml -O- >> $(CRDS_DIR)/prometheus.yaml
+	wget https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/${PROM_VERSION}/example/prometheus-operator-crd/monitoring.coreos.com_servicemonitors.yaml -O- >> $(CRDS_DIR)/prometheus.yaml
+	wget https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/${PROM_VERSION}/example/prometheus-operator-crd/monitoring.coreos.com_thanosrulers.yaml -O- >> $(CRDS_DIR)/prometheus.yaml
 
 	yq d -d'*' -i $(CRDS_DIR)/prometheus.yaml status
 
@@ -85,3 +95,4 @@ collect-crds:
 	done;
 
 before-push: collect-crds lint
+	helm dep update charts/stack/
