@@ -4,15 +4,15 @@ dependencies:
   version: 0.4.0
 - name: wordpress-operator
   repository: https://presslabs.github.io/charts/
-  version: 0.10.5
-- name: nginx-ingress
-  repository: https://charts.helm.sh/stable
-  version: 1.40.0
-- name: prometheus-operator
-  repository: https://charts.helm.sh/stable
-  version: 9.1.0
+  version: 0.11.0-alpha.0
+- name: ingress-nginx
+  repository: https://kubernetes.github.io/ingress-nginx
+  version: 3.23.0
+- name: kube-prometheus-stack
+  repository: https://prometheus-community.github.io/helm-charts
+  version: 13.13.1
 - name: git-webhook
   repository: file://../git-webhook
   version: 0.0.1+master
-digest: sha256:5f52d99c56543322da64b309e0031a0ebd2e534a0c320d80b1f5a416b5acaf44
-generated: "2021-02-16T08:40:54.466884345+02:00"
+digest: sha256:4ac735da06540deda1dcdee8684100dbe181a5762218192084ac42062d43355f
+generated: "2021-03-03T14:44:08.64926462+02:00"
