@@ -29,6 +29,13 @@ steps:
   environment:
     DOCKER_PASSWORD:
       from_secret: QUAY_TOKEN
+
+trigger:
+  ref:
+    - refs/pull/**
+    - refs/heads/master
+    - refs/tags/**
+
 ---
 kind: pipeline
 name: default backend
@@ -55,6 +62,13 @@ steps:
   environment:
     DOCKER_PASSWORD:
       from_secret: QUAY_TOKEN
+
+trigger:
+  ref:
+    - refs/pull/**
+    - refs/heads/master
+    - refs/tags/**
+
 ---
 kind: pipeline
 name: docs
@@ -73,11 +87,11 @@ steps:
   environment:
     DRONE_TOKEN:
       from_secret: DRONE_TOKEN
+
 trigger:
-  branch:
-    - master
-  event:
-    - push
+  ref:
+    - refs/heads/master
+
 ---
 kind: pipeline
 name: helm charts
@@ -171,3 +185,9 @@ steps:
 depends_on:
   - git webhook
   - default backend
+
+trigger:
+  ref:
+    - refs/pull/**
+    - refs/heads/master
+    - refs/tags/**
