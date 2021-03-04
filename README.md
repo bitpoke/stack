@@ -40,14 +40,14 @@ helm repo update
 # Helm v3+
 helm install \
   cert-manager jetstack/cert-manager \
-  --namespace cert-manager \
+  --namespace presslabs-system \
   --version v0.15.2 \
   --set installCRDs=true
 
 # Helm v2
 helm install \
   --name cert-manager \
-  --namespace cert-manager \
+  --namespace presslabs-system \
   --version v0.15.2 \
   jetstack/cert-manager \
   --set installCRDs=true

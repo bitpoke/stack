@@ -10,7 +10,6 @@
 set -x
 
 kubectl create ns presslabs-system
-kubectl create namespace cert-manager
 
 "${HELM}" repo add presslabs https://presslabs.github.io/charts
 "${HELM}" repo add jetstack https://charts.jetstack.io
@@ -28,6 +27,6 @@ kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/application/v
 
 # install cert-manager
 "${HELM}" upgrade -i cert-manager "${CERT_MANAGER_CHART}" \
-	--namespace cert-manager \
+	--namespace presslabs-system \
 	--version "${CERT_MANAGER_VERSION}" \
 	--set installCRDs=true
