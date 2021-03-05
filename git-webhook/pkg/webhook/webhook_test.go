@@ -43,7 +43,8 @@ import (
 var _ = Describe("Git repo Webhook", func() {
 	var (
 		// stop channel for controller manager
-		stop chan struct{}
+		stop context.CancelFunc
+
 		// webhook server
 		s *Server
 
@@ -68,7 +69,7 @@ var _ = Describe("Git repo Webhook", func() {
 	})
 
 	AfterEach(func() {
-		close(stop)
+		stop()
 	})
 
 	When("receiving a GitHub push event", func() {

@@ -27,7 +27,6 @@ import (
 	"github.com/go-logr/logr"
 	wordpressv1alpha1 "github.com/presslabs/wordpress-operator/pkg/apis/wordpress/v1alpha1"
 	"k8s.io/apimachinery/pkg/fields"
-	"k8s.io/apimachinery/pkg/runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	logf "sigs.k8s.io/controller-runtime/pkg/log"
 	"sigs.k8s.io/controller-runtime/pkg/manager"
@@ -74,7 +73,7 @@ func NewServer(mgr manager.Manager, addr string) (*Server, error) {
 		context.TODO(),
 		&wordpressv1alpha1.Wordpress{},
 		"git.followed_ref",
-		func(in runtime.Object) []string {
+		func(in client.Object) []string {
 			wp := in.(*wordpressv1alpha1.Wordpress)
 
 			if wp.Spec.CodeVolumeSpec == nil || wp.Spec.CodeVolumeSpec.GitDir == nil {
@@ -104,14 +103,14 @@ func NewServer(mgr manager.Manager, addr string) (*Server, error) {
 	return s, nil
 }
 
-func (s *Server) Start(stop <-chan struct{}) error {
+func (s *Server) Start(ctx context.Context) error {
 	s.Log.Info("webhook server is listening", "address", s.Addr)
 
 	if err := s.ListenAndServe(); err != http.ErrServerClosed {
 		return err
 	}
 
-	<-stop
+	ctx.Done()
 	return nil
 }
 
