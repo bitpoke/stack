@@ -92,6 +92,10 @@ trigger:
   ref:
     - refs/heads/master
 
+depends_on:
+  - git webhook
+  - default backend
+
 ---
 kind: pipeline
 name: helm charts
