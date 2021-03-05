@@ -17,12 +17,14 @@ limitations under the License.
 package webhook
 
 import (
+	"context"
 	"path/filepath"
 	"testing"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 
+	"github.com/go-logr/zapr"
 	logf "github.com/presslabs/controller-util/log"
 	wordpressv1alpha1 "github.com/presslabs/wordpress-operator/pkg/apis/wordpress/v1alpha1"
 	"k8s.io/client-go/kubernetes/scheme"
@@ -43,7 +45,8 @@ func TestWebhook(t *testing.T) {
 var _ = BeforeSuite(func() {
 	var err error
 
-	logf.SetLogger(logf.ZapLoggerTo(GinkgoWriter, true))
+	zapLogger := logf.RawStackdriverZapLoggerTo(GinkgoWriter, true)
+	logf.SetLogger(zapr.NewLogger(zapLogger))
 
 	t = &envtest.Environment{
 		CRDDirectoryPaths: []string{
@@ -61,11 +64,13 @@ var _ = AfterSuite(func() {
 })
 
 // StartTestManager adds recFn
-func StartTestManager(mgr manager.Manager) chan struct{} {
-	stop := make(chan struct{})
+func StartTestManager(mgr manager.Manager) context.CancelFunc {
+	ctx, stop := context.WithCancel(context.Background())
+
 	go func() {
 		defer GinkgoRecover()
-		Expect(mgr.Start(stop)).To(Succeed())
+		Expect(mgr.Start(ctx)).To(Succeed())
 	}()
+
 	return stop
 }

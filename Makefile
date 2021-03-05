@@ -38,9 +38,9 @@ lint:
 dependencies:
 	test -d $(BINDIR) || mkdir $(BINDIR)
 	# install ginkgo
-	GOBIN=$(BINDIR) go get -u github.com/onsi/ginkgo/ginkgo@v1.14.2
+	GOBIN=$(BINDIR) go get -u github.com/onsi/ginkgo/ginkgo@v1.15.0
 	@# install golangci-lint
-	curl -sfL https://install.goreleaser.com/github.com/golangci/golangci-lint.sh | BINARY=golangci-lint bash -s -- -b $(BINDIR) v1.30.0
+	curl -sfL https://install.goreleaser.com/github.com/golangci/golangci-lint.sh | BINARY=golangci-lint bash -s -- -b $(BINDIR) v1.37.1
 	@# install yq
 	curl -sfL https://github.com/mikefarah/yq/releases/download/3.3.2/yq_$(OS)_$(ARCH) -o $(BINDIR)/yq
 	chmod +x $(BINDIR)/yq
