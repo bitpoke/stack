@@ -96,3 +96,4 @@ collect-crds:
 
 before-push: collect-crds lint
 	helm dep update charts/stack/
+	go mod tidy
