@@ -1,6 +1,6 @@
 module github.com/presslabs/stack
 
-go 1.15
+go 1.16
 
 require (
 	github.com/drone/go-scm v0.0.0
@@ -8,7 +8,6 @@ require (
 	github.com/go-logr/zapr v0.4.0
 	github.com/gobuffalo/packr/v2 v2.8.0
 	github.com/karrick/godirwalk v1.15.6 // indirect
-	github.com/nbio/st v0.0.0-20140626010706-e9e8d9816f32 // indirect
 	github.com/onsi/ginkgo v1.15.0
 	github.com/onsi/gomega v1.10.5
 	github.com/pkg/errors v0.9.1
