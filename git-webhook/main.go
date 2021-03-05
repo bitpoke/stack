@@ -20,10 +20,11 @@ import (
 	"flag"
 	"os"
 
+	"github.com/go-logr/zapr"
+	logf "github.com/presslabs/controller-util/log"
 	wordpressv1alpha1 "github.com/presslabs/wordpress-operator/pkg/apis/wordpress/v1alpha1"
 	_ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
 	"sigs.k8s.io/controller-runtime/pkg/client/config"
-	logf "sigs.k8s.io/controller-runtime/pkg/log"
 	"sigs.k8s.io/controller-runtime/pkg/manager"
 	"sigs.k8s.io/controller-runtime/pkg/manager/signals"
 
@@ -35,7 +36,8 @@ var log = logf.Log.WithName("git-webhook")
 func main() {
 	devMode := os.Getenv("DEVELOPMENT") == "true"
 	flag.Parse()
-	logf.SetLogger(logf.ZapLogger(devMode))
+	zapLogger := logf.RawStackdriverZapLoggerTo(os.Stderr, devMode)
+	logf.SetLogger(zapr.NewLogger(zapLogger))
 	entryLog := log.WithName("entrypoint")
 
 	// Setup a Manager
