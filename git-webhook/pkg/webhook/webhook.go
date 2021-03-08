@@ -110,7 +110,7 @@ func (s *Server) Start(ctx context.Context) error {
 		return err
 	}
 
-	ctx.Done()
+	<-ctx.Done()
 	return nil
 }
 
