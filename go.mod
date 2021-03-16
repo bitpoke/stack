@@ -17,7 +17,7 @@ require (
 	github.com/rogpeppe/go-internal v1.6.0 // indirect
 	k8s.io/apimachinery v0.20.4
 	k8s.io/client-go v0.20.4
-	sigs.k8s.io/controller-runtime v0.8.2
+	sigs.k8s.io/controller-runtime v0.8.3
 )
 
 replace (
