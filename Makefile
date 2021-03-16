@@ -74,8 +74,10 @@ collect-crds:
 	kustomize build "github.com/presslabs/wordpress-operator/config?ref=$(WORDPRESS_OPERATOR_TAG)" > $(CRDS_DIR)/wordpress.yaml
 
 	@# mysql operator
-	wget https://raw.githubusercontent.com/presslabs/mysql-operator/$(MYSQL_OPERATOR_TAG)/config/crds/mysql_v1alpha1_mysqlcluster.yaml -O $(CRDS_DIR)/mysql_mysqlcluster.yaml
-	wget https://raw.githubusercontent.com/presslabs/mysql-operator/$(MYSQL_OPERATOR_TAG)/config/crds/mysql_v1alpha1_mysqlbackup.yaml -O $(CRDS_DIR)/mysql_mysqlbackup.yaml
+	wget https://raw.githubusercontent.com/presslabs/mysql-operator/$(MYSQL_OPERATOR_TAG)/config/crds/mysql.presslabs.org_mysqlclusters.yaml -O $(CRDS_DIR)/mysql_mysqlcluster.yaml
+	wget https://raw.githubusercontent.com/presslabs/mysql-operator/$(MYSQL_OPERATOR_TAG)/config/crds/mysql.presslabs.org_mysqlbackups.yaml -O $(CRDS_DIR)/mysql_mysqlbackup.yaml
+	wget https://raw.githubusercontent.com/presslabs/mysql-operator/$(MYSQL_OPERATOR_TAG)/config/crds/mysql.presslabs.org_mysqldatabases.yaml -O $(CRDS_DIR)/mysql_database.yaml
+	wget https://raw.githubusercontent.com/presslabs/mysql-operator/$(MYSQL_OPERATOR_TAG)/config/crds/mysql.presslabs.org_mysqlusers.yaml -O $(CRDS_DIR)/mysql_user.yaml
 
 	@# Prometheus
 	wget https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/${PROM_VERSION}/example/prometheus-operator-crd/monitoring.coreos.com_alertmanagerconfigs.yaml -O- > $(CRDS_DIR)/prometheus.yaml
