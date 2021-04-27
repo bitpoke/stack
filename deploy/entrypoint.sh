@@ -5,7 +5,7 @@ set -e
 # set default namespace if not set
 NAMESPACE=${NAMESPACE:-presslabs-system}
 # cert-manager version and release-name
-CM_VERSION=v0.15.2
+CM_VERSION=v1.3.1
 CM_RELEASE=stack-cm
 
 STACK_RELEASE=stack

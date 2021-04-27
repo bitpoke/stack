@@ -5,7 +5,7 @@
 : ${HELM:=helm}
 : ${STACK_CHART:="presslabs/stack"}
 : ${CERT_MANAGER_CHART:="jetstack/cert-manager"}
-: ${CERT_MANAGER_VERSION:=v0.15.2}
+: ${CERT_MANAGER_VERSION:=v1.3.1}
 
 set -x
 
