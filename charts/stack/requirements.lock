@@ -1,7 +1,7 @@
 dependencies:
 - name: mysql-operator
   repository: https://presslabs.github.io/charts/
-  version: 0.5.0-rc.2
+  version: 0.4.0
 - name: wordpress-operator
   repository: https://presslabs.github.io/charts/
   version: 0.11.0-alpha.1
@@ -14,5 +14,5 @@ dependencies:
 - name: git-webhook
   repository: file://../git-webhook
   version: 0.0.1+master
-digest: sha256:4b60bd9302d2f87a902818b7a73b482722f2baddee8924b71b1f221b3e1d9c90
-generated: "2021-03-16T12:58:08.693349363+02:00"
+digest: sha256:befbb26977c07c7b5d271dc7c813f9219a8a7d473092ee1c8353074770476464
+generated: "2021-06-24T12:28:57.426176219+03:00"
