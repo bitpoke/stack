@@ -1,5 +1,0 @@
-resources:
-  - ./crds/mysql_mysqlbackup.yaml
-  - ./crds/mysql_mysqlcluster.yaml
-  - ./crds/wordpress.yaml
-  - ./crds/prometheus.yaml

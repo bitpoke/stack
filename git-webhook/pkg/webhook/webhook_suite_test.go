@@ -24,9 +24,9 @@ import (
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 
+	wordpressv1alpha1 "github.com/bitpoke/wordpress-operator/pkg/apis/wordpress/v1alpha1"
 	"github.com/go-logr/zapr"
 	logf "github.com/presslabs/controller-util/log"
-	wordpressv1alpha1 "github.com/presslabs/wordpress-operator/pkg/apis/wordpress/v1alpha1"
 	"k8s.io/client-go/kubernetes/scheme"
 	"k8s.io/client-go/rest"
 	"sigs.k8s.io/controller-runtime/pkg/envtest"
@@ -50,7 +50,7 @@ var _ = BeforeSuite(func() {
 
 	t = &envtest.Environment{
 		CRDDirectoryPaths: []string{
-			filepath.Join("..", "..", "..", "config/crds"),
+			filepath.Join("..", "..", "..", "deploy"),
 		},
 	}
 	Expect(wordpressv1alpha1.SchemeBuilder.AddToScheme(scheme.Scheme)).To(Succeed())

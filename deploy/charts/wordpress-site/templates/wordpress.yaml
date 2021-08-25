@@ -102,7 +102,7 @@ spec:
       - weight: 1
         preference:
           matchExpressions:
-          - key: node-role.stack.presslabs.org/wordpress
+          - key: node-role.stack.bitpoke.org/wordpress
             operator: Exists
     podAntiAffinity:
       preferredDuringSchedulingIgnoredDuringExecution:

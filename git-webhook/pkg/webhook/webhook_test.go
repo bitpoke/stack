@@ -34,10 +34,11 @@ import (
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 
-	wordpressv1alpha1 "github.com/presslabs/wordpress-operator/pkg/apis/wordpress/v1alpha1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/manager"
+
+	wordpressv1alpha1 "github.com/bitpoke/wordpress-operator/pkg/apis/wordpress/v1alpha1"
 )
 
 var _ = Describe("Git repo Webhook", func() {
@@ -52,7 +53,7 @@ var _ = Describe("Git repo Webhook", func() {
 	)
 
 	BeforeEach(func() {
-		mgr, err := manager.New(cfg, manager.Options{})
+		mgr, err := manager.New(cfg, manager.Options{MetricsBindAddress: ":0", HealthProbeBindAddress: ":0"})
 		Expect(err).NotTo(HaveOccurred())
 
 		Expect(err).To(Succeed())

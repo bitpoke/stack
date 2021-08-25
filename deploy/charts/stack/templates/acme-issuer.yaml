@@ -1,13 +1,10 @@
 {{- $nginxIngress := index .Values "nginx-ingress" -}}
-apiVersion: cert-manager.io/v1alpha2
+apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
   name: {{ template "stack.fullname" . }}-default-certificate-issuer
   labels:
-    app: {{ include "stack.name" . }}
-    chart: {{ include "stack.chart" . }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
+    {{- include "stack.labels" . | nindent 4 }}
 spec:
 {{- if .Values.letsencrypt.enabled }}
   acme:
@@ -29,15 +26,12 @@ spec:
     secretName: {{ template "stack.fullname" . }}-ca
 {{- end }}
 ---
-apiVersion: cert-manager.io/v1alpha2
+apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: {{ template "stack.fullname" . }}-ingress-default
   labels:
-    app: {{ include "stack.name" . }}
-    chart: {{ include "stack.chart" . }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
+    {{- include "stack.labels" . | nindent 4 }}
 spec:
   secretName: {{ template "stack.fullname" . }}-ingress-default
   commonName: "ingress.local"
@@ -46,34 +40,28 @@ spec:
     kind: Issuer
 
 ---
-apiVersion: cert-manager.io/v1alpha2
+apiVersion: cert-manager.io/v1
 kind: Issuer
 metadata:
   name: {{ template "stack.fullname" . }}-ca-issuer
   labels:
-    app: {{ include "stack.name" . }}
-    chart: {{ include "stack.chart" . }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
+    {{- include "stack.labels" . | nindent 4 }}
 spec:
   selfSigned: {}
 
 {{- if not .Values.letsencrypt.enabled }}
 ---
-apiVersion: cert-manager.io/v1alpha2
+apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: {{ template "stack.fullname" . }}-ca
   labels:
-    app: {{ include "stack.name" . }}
-    chart: {{ include "stack.chart" . }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
+    {{- include "stack.labels" . | nindent 4 }}
 spec:
   secretName: {{ template "stack.fullname" . }}-ca
-  commonName: "Presslabs Stack - Root CA ({{ .Release.Name }})"
+  commonName: "Bitpoke Stack - Root CA ({{ .Release.Name }})"
   dnsNames:
-    - stack.presslabs.org
+    - stack.bitpoke.io
   duration: "87600h"
   isCA: true
   issuerRef:

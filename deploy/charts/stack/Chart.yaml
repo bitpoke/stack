@@ -1,0 +1,41 @@
+apiVersion: v2
+name: stack
+description: Your Open-Source, Cloud-Native WordPress Infrastructure
+appVersion: "master"
+kubeVersion: ">= 1.16.0-0"
+keywords:
+  - wordpress
+  - bitpoke
+  - Integration and Delivery
+version: 0.0.1+master
+home: https://www.bitpoke.io/stack/
+sources:
+  - https://github.com/bitpoke/stack
+maintainers:
+- name: Bitpoke
+  email: hello@bitpoke.io
+  url: https://www.bitpoke.io
+annotations:
+  artifacthub.io/license: "Apache-2.0"
+  artifacthub.io/operator: "true"
+dependencies:
+  - name: mysql-operator
+    version: 0.5.2
+    repository: https://helm-charts.bitpoke.io
+    condition: mysql-operator.enabled
+
+  - name: wordpress-operator
+    version: 0.11.1
+    repository: https://helm-charts.bitpoke.io
+    condition: wordpress-operator.enabled
+
+  - name: ingress-nginx
+    alias: nginx-ingress
+    version: 4.0.8
+    repository: https://kubernetes.github.io/ingress-nginx
+    condition: nginx-ingress.enabled
+
+  - name: git-webhook
+    version: 0.0.1+master
+    repository: "file://../git-webhook"
+    condition: git-webhook.enabled

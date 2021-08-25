@@ -1,6 +1,7 @@
 package main
 
 import (
+	"embed"
 	"encoding/json"
 	"flag"
 	"fmt"
@@ -14,8 +15,6 @@ import (
 	"strings"
 	"time"
 
-	packr "github.com/gobuffalo/packr/v2"
-	"github.com/gobuffalo/packr/v2/file"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
@@ -48,14 +47,15 @@ const (
 	defaultHTMLTemplate = "<html><head></head><body><h1>{{ .StatusCode }}</h1><p>{{ .Message }}<p></body></html>"
 )
 
-var box = packr.New("templates", "./templates")
+//go:embed templates
+var box embed.FS
 
 var (
 	logdest = flag.String("logdest", "/dev/null", "log messages destination")
 	addr    = flag.String("addr", ":8080", "default listening address")
 )
 
-var T = template.Must(template.New("_").Parse("{{ template \"html\" }}"))
+var T *template.Template
 
 type Error struct {
 	StatusCode  int    `json:"statusCode"`
@@ -68,6 +68,7 @@ type Error struct {
 }
 
 func main() {
+	var err error
 	flag.Parse()
 
 	log.Printf("Starting default-backend server on %s...", *addr)
@@ -83,17 +84,15 @@ func main() {
 		log.SetOutput(ioutil.Discard)
 	}
 
-	box.Walk(func(path string, f file.File) error {
-		if strings.HasSuffix(path, ".tmpl") {
-			name := path[0 : len(path)-5]
-			if _, err := T.New(name).Parse(f.String()); err != nil {
-				panic(err)
-			}
+	T, err = template.ParseFS(box, "templates/*.tmpl")
+	if err != nil {
+		panic(err)
+	}
+
+	if t := T.Lookup("html.tmpl"); t == nil {
+		if _, err := T.New("html.tmpl").Parse(defaultHTMLTemplate); err != nil {
+			panic(err)
 		}
-		return nil
-	})
-	if t := T.Lookup("html"); t == nil {
-		T.New("html").Parse(defaultHTMLTemplate)
 	}
 
 	http.HandleFunc("/", errorHandler())
@@ -104,7 +103,9 @@ func main() {
 		w.WriteHeader(http.StatusOK)
 	})
 
-	http.ListenAndServe(*addr, nil)
+	if err := http.ListenAndServe(*addr, nil); err != nil {
+		panic(err)
+	}
 }
 
 func NewError(r *http.Request) *Error {
@@ -151,20 +152,21 @@ func errorHandler() func(http.ResponseWriter, *http.Request) {
 		} else {
 			ext = cext[0]
 		}
-		if strings.HasPrefix(ext, ".") {
-			ext = ext[1:]
-		}
+		ext = strings.TrimPrefix(ext, ".")
+
 		w.Header().Set(ContentType, "text/html")
 		w.WriteHeader(e.StatusCode)
 
 		if ext == "json" {
 			w.Header().Set(ContentType, "application/json")
 			resp, _ := json.Marshal(e)
-			w.Write(resp)
+			if _, err := w.Write(resp); err != nil {
+				panic(err)
+			}
 		} else {
-			t := T.Lookup(ext)
+			t := T.Lookup(ext + ".tmpl")
 			if t == nil {
-				t = T.Lookup("html")
+				t = T.Lookup("html.tmpl")
 			}
 
 			if err := t.Execute(w, e); err != nil {
@@ -172,7 +174,7 @@ func errorHandler() func(http.ResponseWriter, *http.Request) {
 			}
 		}
 
-		duration := time.Now().Sub(start).Seconds()
+		duration := time.Since(start).Seconds()
 
 		proto := strconv.Itoa(r.ProtoMajor)
 		proto = fmt.Sprintf("%s.%s", proto, strconv.Itoa(r.ProtoMinor))

@@ -1,0 +1,23 @@
+apiVersion: v2
+name: stack
+description: Helm chart for deploying a WordPress site on Bitpoke Stack
+appVersion: "master"
+kubeVersion: ">= 1.16.0-0"
+keywords:
+  - wordpress
+  - bitpoke
+  - CMS
+  - Web Application
+  - application
+  - web
+  - http
+  - php
+version: 0.0.1+master
+sources:
+  - https://github.com/bitpoke/stack
+maintainers:
+- name: Bitpoke
+  email: hello@bitpoke.io
+  url: https://www.bitpoke.io
+annotations:
+  artifacthub.io/license: "Apache-2.0"

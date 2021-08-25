@@ -1,197 +1,105 @@
 ---
 kind: pipeline
-name: git webhook
-
-workspace:
-  base: /root/go
-  path: src/github.com/presslabs/stack
-
-steps:
-- name: dependencies
-  image: quay.io/presslabs/bfc:0.10
-  commands:
-  - make dependencies
-
-- name: test
-  image: quay.io/presslabs/bfc:0.10
-  commands:
-  - make -C git-webhook test
-
-- name: publish docker image
-  image: plugins/docker
-  settings:
-    dockerfile: Dockerfile.git-webhook
-    group: publish
-    registry: quay.io
-    repo: quay.io/presslabs/git-webhook
-    auto_tag: true
-    username: presslabs+drone
-  environment:
-    DOCKER_PASSWORD:
-      from_secret: QUAY_TOKEN
-
-trigger:
-  ref:
-    - refs/pull/**
-    - refs/heads/master
-    - refs/tags/**
-
----
-kind: pipeline
-name: default backend
-
-workspace:
-  base: /root/go
-  path: src/github.com/presslabs/stack
-
-steps:
-- name: dependencies
-  image: quay.io/presslabs/bfc:0.10
-  commands:
-  - make dependencies
-
-- name: publish docker image
-  image: plugins/docker
-  settings:
-    dockerfile: Dockerfile.default-backend
-    group: publish
-    registry: quay.io
-    repo: quay.io/presslabs/default-backend
-    auto_tag: true
-    username: presslabs+drone
-  environment:
-    DOCKER_PASSWORD:
-      from_secret: QUAY_TOKEN
-
-trigger:
-  ref:
-    - refs/pull/**
-    - refs/heads/master
-    - refs/tags/**
-
----
-kind: pipeline
-name: docs
+name: default
 
 clone:
   disable: true
 
-steps:
-- name: trigger docs rebuild
-  image: plugins/downstream
-  settings:
-    fork: true
-    repositories:
-    - presslabs/docs
-    server: https://drone.presslabs.net
-  environment:
-    DRONE_TOKEN:
-      from_secret: DRONE_TOKEN
-
-trigger:
-  ref:
-    - refs/heads/master
-
-depends_on:
-  - git webhook
-  - default backend
-
----
-kind: pipeline
-name: helm charts
-
 workspace:
-  base: /root/go
-  path: src/github.com/presslabs/stack
-
-clone:
-  disable: true
+  base: /workspace
+  path: src/github.com/bitpoke/stack
 
 steps:
-- name: clone
+- name: git
   image: plugins/git
   settings:
     depth: 0
     tags: true
 
-- name: dependencies
-  image: quay.io/presslabs/bfc:0.10
+- name: install dependencies
+  image: docker.io/bitpoke/build:v0.7.0
   commands:
-  - make dependencies
+  - make -j4 build.tools
 
-- name: check manifests
-  image: quay.io/presslabs/bfc:0.10
+- name: verify generated code
+  image: docker.io/bitpoke/build:v0.7.0
   commands:
-  - make collect-crds
+  - make -j4 generate
   - git diff --exit-code
 
 - name: lint
-  image: quay.io/presslabs/bfc:0.10
+  image: docker.io/bitpoke/build:v0.7.0
   commands:
-  - make lint
+  - make -j4 lint
+
+- name: test
+  image: docker.io/bitpoke/build:v0.7.0
+  environment:
+    ACK_GINKGO_DEPRECATIONS: "1.16.4"
+  commands:
+  - make test
 
 - name: build
-  image: quay.io/presslabs/bfc:0.10
+  image: docker.io/bitpoke/build:v0.7.0
   commands:
-  - make charts
+  - make -j4 build
 
-
-- name: publish stack chart
-  image: quay.io/presslabs/bfc:0.10
-  commands:
-  - cd charts
-  - helm package stack
-  - CHART="$(basename stack*.tgz)" ; MESSAGE="Publish $(basename $CHART .tgz)"
-  - /usr/local/bin/gh put --skip-existing -m "$MESSAGE" "$CHART" "presslabs/charts/docs/"
-  settings:
-    group: publish
+services:
+- name: docker
+  image: docker:20.10.8-dind-rootless
   environment:
-    GH_PASSWORD:
-      from_secret: GH_PASSWORD
-    GH_USER: presslabs-bot
-  when:
-    event:
-    - tag
-
-- name: publish wordpress chart
-  image: quay.io/presslabs/bfc:0.10
-  commands:
-  - cd charts
-  - helm package wordpress-site
-  - CHART="$(basename wordpress-site*.tgz)" ; MESSAGE="Publish $(basename $CHART .tgz)"
-  - /usr/local/bin/gh put --skip-existing -m "$MESSAGE" "$CHART" "presslabs/charts/docs/"
-  settings:
-    group: publish
-  environment:
-    GH_PASSWORD:
-      from_secret: GH_PASSWORD
-    GH_USER: presslabs-bot
-  when:
-    event:
-    - tag
-
-- name: publish docker image
-  image: plugins/docker
-  settings:
-    dockerfile: Dockerfile.deployer
-    group: publish
-    registry: quay.io
-    repo: quay.io/presslabs/stack-installer
-    auto_tag: true
-    username: presslabs+drone
-  environment:
-    DOCKER_PASSWORD:
-      from_secret: QUAY_TOKEN
-  when:
-    event:
-    - tag
-
-depends_on:
-  - git webhook
-  - default backend
+    DOCKER_TLS_CERTDIR: ""
 
 trigger:
   ref:
     - refs/pull/**
     - refs/heads/master
+    - refs/heads/release-*
+    # CI related changes SHOULD be prefixed with drone-
+    - refs/heads/drone-*
+
+---
+kind: pipeline
+name: publish
+
+trigger:
+  ref:
     - refs/tags/**
+
+clone:
+  disable: true
+
+workspace:
+  base: /workspace
+  path: src/github.com/bitpoke/mysql-operator
+
+steps:
+- name: git
+  image: plugins/git
+  settings:
+    depth: 0
+    tags: true
+
+- name: build
+  image: docker.io/bitpoke/build:v0.7.0
+  commands:
+  - make -j4 build
+
+- name: publish
+  image: docker.io/bitpoke/build:v0.7.0
+  environment:
+    DOCKER_USERNAME: bitpokebot
+    DOCKER_PASSWORD:
+      from_secret: DOCKER_PASSWORD
+    SSH_KEY:
+      from_secret: SSH_KEY
+  commands:
+  - /usr/local/bin/setup-credentials-helper.sh
+  - ssh-keyscan -H github.com > /etc/ssh/ssh_known_hosts
+  - make publish
+
+services:
+- name: docker
+  image: docker:20.10.8-dind-rootless
+  environment:
+    DOCKER_TLS_CERTDIR: ""

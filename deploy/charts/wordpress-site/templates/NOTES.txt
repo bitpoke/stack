@@ -1,3 +1,4 @@
+{{- if len .Values.site.domains -}}
 1. Change your DNS records to point {{ index .Values.site.domains 0 }} at the ingress
 controller endpoints
 
@@ -5,3 +6,4 @@ controller endpoints
     http://{{ index .Values.site.domains 0 }}
 
 3. That's it!
+{{- end -}}

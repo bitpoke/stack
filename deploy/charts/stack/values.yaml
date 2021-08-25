@@ -5,23 +5,21 @@ letsencrypt:
 
 wordpress-operator:
   enabled: true
-  crd:
-    install: false
   extraArgs:
-    - --ingress-class=presslabs-stack
+    - --ingress-class=bitpoke.io/stack
 
 mysql-operator:
   enabled: true
-  installCRDs: false
   orchestrator:
     topologyPassword: this-must-be-set-in-stone-because-of-mysql-operator-bug-75
-    image: quay.io/presslabs/orchestrator:v3.0.14-r37
     replicas: 1
 
 nginx-ingress:
   enabled: true
   controller:
-    ingressClass: presslabs-stack
+    ingressClassResource:
+      name: bitpoke-stack
+      controllerValue: "bitpoke.io/stack"
     config:
       proxy-buffer-size: 64k
       custom-http-errors: 502,503,504
@@ -30,16 +28,16 @@ nginx-ingress:
       server: "nginx"
     publishService:
       enabled: true
+    extraArgs:
+      ingress-class: bitpoke.io/stack
+      default-ssl-certificate: bitpoke-stack/stack-ingress-default
   defaultBackend:
+    enabled: true
     image:
-      repository: quay.io/presslabs/default-backend
+      registry: docker.io
+      image: bitpoke/stack-default-backend
       tag: latest
       pullPolicy: Always
-
-prometheus-operator:
-  enabled: true
-  prometheusOperator:
-    createCustomResource: false
 
 git-webhook:
   enabled: false
