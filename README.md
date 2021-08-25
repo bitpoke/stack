@@ -1,19 +1,19 @@
 # Presslabs Stack
 **Open-Source WordPress Infrastructure on Kubernetes**
 
-For a more thorough documentation check [the hosted docs](https://www.presslabs.com/docs/stack/).
+For a more thorough documentation check [the hosted docs](https://www.bitpoke.io/docs/stack/).
 
 
 ## Components
 
-* [WordPress Operator](http://github.com/presslabs/wordpress-operator) & [WordPress Runtime](http://github.com/presslabs/wordpress-runtime)
-* [MySQL Operator](http://github.com/presslabs/mysql-operator)
+* [WordPress Operator](http://github.com/bitpoke/wordpress-operator)
+* [MySQL Operator](http://github.com/bitpoke/mysql-operator)
 * [Prometheus Operator](https://github.com/coreos/prometheus-operator)
 * [Nginx Controller](https://github.com/kubernetes/ingress-nginx)
 * [Cert Manager](https://github.com/jetstack/cert-manager)
 
 ## Project status
-The project is actively maintained and developed and has reached stable beta state. Check the complete list of releases [here](https://github.com/presslabs/stack/releases). The Presslabs Stack currently runs on Google Cloud Kubernetes Engine and we also have a documented viable deployment flow for Minikube/Docker on Mac/Docker on Windows.
+The project is actively maintained and developed and has reached stable beta state. Check the complete list of releases [here](https://github.com/bitpoke/stack/releases). The Presslabs Stack currently runs on Google Cloud Kubernetes Engine and we also have a documented viable deployment flow for Minikube/Docker on Mac/Docker on Windows.
 
 ## Installation
 
@@ -50,7 +50,7 @@ We collect all necessary CRDs in one place so you can install them.
 
 If you are installing Stack in a different namespace than `presslabs-system` then you have to
 download those manifests and change the namespace [from this
-location](https://github.com/presslabs/stack/blob/master/deploy/manifests/kustomization.yaml#L1)
+location](https://github.com/bitpoke/stack/blob/master/deploy/manifests/kustomization.yaml#L1)
 with the new target namespace.
 
 ```
@@ -103,7 +103,7 @@ helm upgrade -i mysite presslabs/wordpress-site --set 'site.domains[0]=www.examp
 ```
 
 ## Contributing
-Issues are being tracked [here](https://github.com/presslabs/stack/issues).  
-We will also gladly accept [pull requests](https://github.com/presslabs/stack/pulls).
+Issues are being tracked [here](https://github.com/bitpoke/stack/issues).  
+We will also gladly accept [pull requests](https://github.com/bitpoke/stack/pulls).
 
-You can find more detailed information about the contributing process on the [docs page](https://www.presslabs.com/docs/stack/contributing/).
+You can find more detailed information about the contributing process on the [docs page](https://www.bitpoke.io/docs/stack/contributing/).
