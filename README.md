@@ -1,4 +1,4 @@
-# Presslabs Stack
+# Bitpoke Stack
 **Open-Source WordPress Infrastructure on Kubernetes**
 
 For a more thorough documentation check [the hosted docs](https://www.bitpoke.io/docs/stack/).
@@ -13,97 +13,112 @@ For a more thorough documentation check [the hosted docs](https://www.bitpoke.io
 * [Cert Manager](https://github.com/jetstack/cert-manager)
 
 ## Project status
-The project is actively maintained and developed and has reached stable beta state. Check the complete list of releases [here](https://github.com/bitpoke/stack/releases). The Presslabs Stack currently runs on Google Cloud Kubernetes Engine and we also have a documented viable deployment flow for Minikube/Docker on Mac/Docker on Windows.
+The project is actively maintained and developed and has reached stable beta
+state. Check the complete list of releases
+[here](https://github.com/bitpoke/stack/releases). The Bitpoke Stack currently
+runs on Google Cloud Kubernetes Engine and we also have a documented viable
+deployment flow for Minikube/Docker on Mac/Docker on Windows.
 
 ## Installation
 
-Tiller needs to be initialized in your Kubernetes cluster, eg run `helm init`
-
-Add the Presslabs helm charts repo:
+Add the Bitpoke helm charts repo:
 
 ```
-helm repo add presslabs https://presslabs.github.io/charts
+helm repo add bitpoke https://helm-charts.bitpoke.io
 helm repo update
 ```
 
 ## Requirements
+
 ### cert-manager
-[Cert Manager](https://github.com/jetstack/cert-manager) is a
-requirement for Stack because it depends on certificates in order to setup it's the environment. The official installation documentation can be found
-[here](https://cert-manager.io/docs/installation/kubernetes/#installing-with-helm).
+[Cert Manager](https://github.com/jetstack/cert-manager) is a requirement for
+Stack because it depends on certificates in order to setup it's the environment.
+The official installation documentation can be found
+[here](https://cert-manager.io/docs/installation/helm/).
 
 ```bash
-kubectl create namespace cert-manager
+export CERT_MANAGER_VERSION=1.6.1
+
 helm repo add jetstack https://charts.jetstack.io
 helm repo update
 
-# Helm v3+
+kubectl create namespace cert-manager
+kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v${CERT_MANAGER_VERSION}/cert-manager.crds.yaml
+
 helm install \
   cert-manager jetstack/cert-manager \
-  --namespace presslabs-system \
-  --version v1.3.1 \
-  --set installCRDs=true
+  --namespace cert-manager \
+  --version v${CERT_MANAGER_VERSION}
 ```
 
-### Install CRDs
-We collect all necessary CRDs in one place so you can install them.
-
-If you are installing Stack in a different namespace than `presslabs-system` then you have to
-download those manifests and change the namespace [from this
-location](https://github.com/bitpoke/stack/blob/master/deploy/manifests/kustomization.yaml#L1)
-with the new target namespace.
-
-```
-kustomize build github.com/presslabs/stack/deploy/manifests | kubectl apply -f-
-```
-
-Or, you can use old manifests file `deploy/manifests/00-crds.yaml`, which, BTW, is deprecated and we
-recommend to use the first method:
-
-```
-kubectl apply -f https://raw.githubusercontent.com/presslabs/stack/master/deploy/manifests/00-crds.yaml
-```
+### Kubernetes Application CRD
 
 The Stack also depends on the [Kubernetes
-Application](https://github.com/kubernetes-sigs/application) CRD. The following command will install
-the application CRD. You may also want (this is optional) to install the Application Controller, see
-the install [guide](https://github.com/kubernetes-sigs/application/blob/master/docs/quickstart.md).
+Application](https://github.com/kubernetes-sigs/application) CRD. The following
+command will install the application CRD. You may also want (this is optional)
+to install the Application Controller, see the install
+[guide](https://github.com/kubernetes-sigs/application/blob/master/docs/quickstart.md).
 
 ```
 kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/application/v0.8.3/config/crd/bases/app.k8s.io_applications.yaml
 ```
 
+### Install CRDs
+For convenience we collect all necessary CRDs in one place so you can simply install them.
+
+```
+kustomize build github.com/bitpoke/stack/deploy/manifests | kubectl apply -f-
+```
 
 ### Install Stack
 
-The rest of the Stack can be installed using helm (version 2 or 3). There are many possible
-platforms where it can be installed. We provide presets for production and development environments.
+The rest of the Stack can be installed using helm 3. There are many possible
+platforms where it can be installed. We provide presets for production and
+development environments.
 
 #### GKE
 
-For GKE is required to have at least three nodes for running components and also have some room for
-deploying a site. For testing out and playground `g1-small` should suffice.
+For GKE is required to have at least three nodes for running components and also
+have some room for deploying a site. For testing out and playground `e1-small`
+should suffice.
 
-```
-helm upgrade -i stack presslabs/stack --namespace presslabs-system -f https://raw.githubusercontent.com/presslabs/stack/master/presets/gke.yaml
+```bash
+export STACK_VERSION=0.11.0
+helm install \
+    stack bitpoke/stack \
+    --namespace bitpoke-stack \
+    --version v${STACK_VERSION}
+    -f https://raw.githubusercontent.com/bitpoke/stack/v${STACK_VERSION}/presets/gke.yaml
 ```
 
 
 #### Minikube/Docker for Mac
-Ensure a larger Minikube with eg, `minikube start --cpus 4 --memory 8192` to provide a working local environment.
+Ensure a larger Minikube with eg, `minikube start --cpus 4 --memory 8192` to
+provide a working local environment.
+
 ```
-helm upgrade -i stack presslabs/stack --namespace presslabs-system -f https://raw.githubusercontent.com/presslabs/stack/master/presets/minikube.yaml
+export STACK_VERSION=0.11.0
+helm install \
+    stack bitpoke/stack \
+    --namespace bitpoke-stack \
+    --version v${STACK_VERSION}
+    -f https://raw.githubusercontent.com/bitpoke/stack/v${STACK_VERSION}/presets/minikube.yaml
 ```
 
 ## Usage
 
 ### Deploying a site
 ```
-helm upgrade -i mysite presslabs/wordpress-site --set 'site.domains[0]=www.example.com'
+export STACK_VERSION=0.11.0
+helm install \
+    mysite bitpoke/wordpress-site \
+    --version v${STACK_VERSION}
+    --set 'site.domains[0]=www.example.com'
 ```
 
 ## Contributing
-Issues are being tracked [here](https://github.com/bitpoke/stack/issues).  
-We will also gladly accept [pull requests](https://github.com/bitpoke/stack/pulls).
+Issues are being tracked [here](https://github.com/bitpoke/stack/issues).
+We also gladly accept [pull requests](https://github.com/bitpoke/stack/pulls).
 
-You can find more detailed information about the contributing process on the [docs page](https://www.bitpoke.io/docs/stack/contributing/).
+You can find more detailed information about the contributing process on the
+[docs page](https://www.bitpoke.io/docs/stack/contributing/).
