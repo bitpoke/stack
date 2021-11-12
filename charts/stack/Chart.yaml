@@ -1,5 +1,0 @@
-apiVersion: v1
-appVersion: "master"
-description: Open-Source WordPress Infrastructure on Kubernetes
-name: stack
-version: 0.0.1+master

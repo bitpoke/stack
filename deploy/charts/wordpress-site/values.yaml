@@ -6,7 +6,7 @@ replicaCount: 1
 
 # Uncomment to use a custom image
 image: {}
-  # repository: quay.io/presslabs/wordpress-runtime
+  # repository: docker.io/bitpoke/wordpress-runtime
   # tag: latest
   # pullPolicy: IfNotPresent
   # imagePullSecrets: ImagePullSecretName
@@ -37,7 +37,7 @@ code:
   contentSubPath: wp-content/
 
   #  git:
-  #    repository: git@github.com/presslabs/wordpress-basic-demo
+  #    repository: git@github.com/bitpoke/wordpress-basic-demo
   #    reference: "3df6701bd06d97a3954b18625926753f6246c266"
   #    # it is not recommended to use a 'moving' target for deployment like a
   #    # branch name. You should use a specific commit or a git tag.

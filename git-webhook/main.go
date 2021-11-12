@@ -22,13 +22,14 @@ import (
 
 	"github.com/go-logr/zapr"
 	logf "github.com/presslabs/controller-util/log"
-	wordpressv1alpha1 "github.com/presslabs/wordpress-operator/pkg/apis/wordpress/v1alpha1"
 	_ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
 	"sigs.k8s.io/controller-runtime/pkg/client/config"
 	"sigs.k8s.io/controller-runtime/pkg/manager"
 	"sigs.k8s.io/controller-runtime/pkg/manager/signals"
 
-	"github.com/presslabs/stack/git-webhook/pkg/webhook"
+	wordpressv1alpha1 "github.com/bitpoke/wordpress-operator/pkg/apis/wordpress/v1alpha1"
+
+	"github.com/bitpoke/stack/git-webhook/pkg/webhook"
 )
 
 var log = logf.Log.WithName("git-webhook")

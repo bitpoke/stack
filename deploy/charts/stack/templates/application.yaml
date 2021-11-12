@@ -1,5 +1,4 @@
-{{- if (.Capabilities.APIVersions.Has "app.k8s.io/v1beta1") }}
-{{ $grafana := index .Values "prometheus-operator" "grafana" }}
+{{- if (.Capabilities.APIVersions.Has "app.k8s.io") }}
 apiVersion: app.k8s.io/v1beta1
 kind: Application
 metadata:
@@ -7,10 +6,7 @@ metadata:
   annotations:
     kubernetes-engine.cloud.google.com/icon: data:image/png;base64,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
   labels:
-    app: {{ include "stack.name" . }}
-    chart: {{ include "stack.chart" . }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
+    {{- include "stack.labels" . | nindent 4 }}
 spec:
   componentKinds:
   - group: v1
@@ -48,24 +44,25 @@ spec:
   - group: monitoring.coreos.com
     kind: AlertManager
   # ingress operator
-  - group: networking.k8s.io/v1beta1
+  - group: networking.k8s.io/v1
     kind: Ingress
 
   selector:
     matchLabels:
-      release: {{ .Release.Name }}
+      {{- include "stack.selectorLabels" . | nindent 6 }}
   descriptor:
-    type: Presslabs Stack
+    type: Bitpoke Stack
     version: {{ .Chart.Version }}
     description: {{ .Chart.Description }}
     maintainers:
-    - name: Presslabs
-      url: https://presslabs.com/stack
+    - name: Bitpoke
+      url: https://www.bitpoke.io/stack
+      email: hello@bitpoke.io
     links:
-    - description: Presslabs Stack
-      url: https://presslabs.com/stack
-    - description: Presslabs Stack Github
-      url: https://github.com/presslabs/stack
+    - description: Bitpoke Stack
+      url: https://www.bitpoke.io/stack
+    - description: Bitpoke Stack Github Repository
+      url: https://github.com/bitpoke/stack
     notes: {{ include "stack.docs" . | quote }}
   info:
   - name: Ingress IP
@@ -87,28 +84,4 @@ spec:
         name: {{ template "stack.fullname" . }}-ingress-default
         key: ca.crt
   {{- end }}
-  {{- if $grafana.ingress.enabled }}
-  - name: Grafana UI URL
-    value: http://{{ index $grafana.ingress.hosts 0 }}
-  {{- else }}
-  - name: Grafana Port Forward
-    value: kubectl port-forward --namespace {{ .Release.Namespace }} svc/{{ .Release.Name }}-grafana 3000:80
-  - name: Grafana UI URL
-    value: http://localhost:3000
-  {{- end }}
-  - name: Grafana Admin User
-    type: Reference
-    valueFrom:
-      type: SecretKeyRef
-      secretKeyRef:
-        name: {{ .Release.Name }}-grafana
-        key: admin-user
-  - name: Grafana Admin Password
-    type: Reference
-    valueFrom:
-      type: SecretKeyRef
-      secretKeyRef:
-        name: {{ .Release.Name }}-grafana
-        key: admin-password
-
 {{- end }}

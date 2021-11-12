@@ -1,5 +1,0 @@
-apiVersion: v1
-appVersion: "master"
-description: A Helm chart for deploying a WordPress site on Presslabs Stack
-name: wordpress-site
-version: 0.0.1+master
