@@ -89,6 +89,7 @@ spec:
           type: object
       served: true
       storage: true
+  preserveUnknownFields: false
 
 ---
 ---
@@ -4083,6 +4084,7 @@ spec:
           specReplicasPath: .spec.replicas
           statusReplicasPath: .status.readyNodes
         status: {}
+  preserveUnknownFields: false
 
 ---
 ---
@@ -4200,6 +4202,7 @@ spec:
       storage: true
       subresources:
         status: {}
+  preserveUnknownFields: false
 
 ---
 ---
@@ -4371,6 +4374,7 @@ spec:
       storage: true
       subresources:
         status: {}
+  preserveUnknownFields: false
 
 ---
 ---

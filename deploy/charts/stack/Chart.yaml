@@ -20,7 +20,7 @@ annotations:
   artifacthub.io/operator: "true"
 dependencies:
   - name: mysql-operator
-    version: 0.5.2
+    version: 0.5.3
     repository: https://helm-charts.bitpoke.io
     condition: mysql-operator.enabled
 
