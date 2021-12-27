@@ -1,13 +1,14 @@
 apiVersion: v2
 name: stack
 description: Your Open-Source, Cloud-Native WordPress Infrastructure
-appVersion: "master"
-kubeVersion: ">= 1.16.0-0"
+icon: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAMAAAC5zwKfAAAATlBMVEX///+hoaodIyfz8/StrbXQ0NRPUllvcXnb29++vsPt7e/n5+rW1tnExMm4uL6zs7qEhY1nanFfYmjc3N+srLWZmaKRkZlwcnktMjclKy/obea+AAAA60lEQVRYw+3PyQ3CQBQE0Z5vG7wv7OSfKDKX5jgj6ugK4Emlo6O9YbotUy+sMX1rBNWkZJHxLEKeRcqzCHiMaI8R7TGiPUa0x4j2GNEeI9pDxWtKrLgkWHwkWDwlWAxaDFoMWgxaDFoMWgxaDFoMWgxaDFoMWozfLhniWAK+7xliVQDG8//pKH7uSsCNBtcMsC0AXxlerQJwzfCqAvAMeKI90Z5oT7Qn2hPtifZEe6I90Z5oTxvsifY0w56qmvIsUp5FyrNIeRYpzyLlWaQ8i5RnkfUs2mNEe4xojxHtQWK3e3Mlrr5tBx0duQ8QNA2W1DHZ9QAAAABJRU5ErkJggg==
+appVersion: latest
+kubeVersion: ">= 1.19.0-0"
 keywords:
   - wordpress
   - bitpoke
   - Integration and Delivery
-version: 0.0.1+master
+version: 0.0.0
 home: https://www.bitpoke.io/stack/
 sources:
   - https://github.com/bitpoke/stack
