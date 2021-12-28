@@ -1,7 +1,7 @@
 dependencies:
 - name: mysql-operator
   repository: https://helm-charts.bitpoke.io
-  version: 0.6.1
+  version: 0.6.2
 - name: wordpress-operator
   repository: https://helm-charts.bitpoke.io
   version: 0.12.1
@@ -11,5 +11,5 @@ dependencies:
 - name: git-webhook
   repository: file://../git-webhook
   version: 0.0.1+master
-digest: sha256:fc1a0f860ffc72be5515a6bc9a677f16a94144fabbbfeb6d2b184cf3beb44206
-generated: "2021-12-27T13:32:15.041146+02:00"
+digest: sha256:477c992cbc2c8ae44f319dc92005f06b2b0b892261a0e35ef1ab9ce34b5dddbc
+generated: "2021-12-28T22:12:37.930314+02:00"
