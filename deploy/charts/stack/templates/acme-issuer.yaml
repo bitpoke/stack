@@ -20,7 +20,7 @@ spec:
     solvers:
       - http01:
           ingress:
-            class: {{ $nginxIngress.controller.ingressClass }}
+            class: {{ $nginxIngress.controller.ingressClassResource.name }}
 {{ else }}
   ca:
     secretName: {{ template "stack.fullname" . }}-ca
