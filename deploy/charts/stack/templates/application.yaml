@@ -1,4 +1,4 @@
-{{- if (.Capabilities.APIVersions.Has "app.k8s.io") }}
+{{- if (.Capabilities.APIVersions.Has "app.k8s.io/v1beta1") }}
 apiVersion: app.k8s.io/v1beta1
 kind: Application
 metadata:
@@ -15,10 +15,8 @@ spec:
     kind: ConfigMap
   - group: v1
     kind: PersistentVolumeClaim
-  # temporarily remove Service from component kinds list
-  # due to: https://github.com/kubernetes-sigs/application/issues/209
-  # - group: v1
-  #   kind: Service
+  - group: v1
+    kind: Service
   - group: apps
     kind: Deployment
   - group: apps
@@ -43,16 +41,14 @@ spec:
     kind: PrometheusRule
   - group: monitoring.coreos.com
     kind: AlertManager
-  # ingress operator
-  - group: networking.k8s.io/v1
-    kind: Ingress
 
   selector:
     matchLabels:
-      {{- include "stack.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+
   descriptor:
     type: Bitpoke Stack
-    version: {{ .Chart.Version }}
+    version: {{ .Chart.AppVersion }}
     description: {{ .Chart.Description }}
     maintainers:
     - name: Bitpoke
