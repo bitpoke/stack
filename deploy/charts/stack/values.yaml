@@ -6,7 +6,7 @@ letsencrypt:
 wordpress-operator:
   enabled: true
   extraArgs:
-    - --ingress-class=bitpoke.io/stack
+    - --ingress-class=bitpoke-stack
 
 mysql-operator:
   enabled: true
