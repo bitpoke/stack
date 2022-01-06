@@ -4,6 +4,10 @@ PROJECT_REPO := github.com/bitpoke/stack
 
 PLATFORMS := linux_amd64 darwin_amd64
 
+ifneq ($(DRONE_TAG),)
+VERSION := $(DRONE_TAG)
+endif
+
 include build/makelib/common.mk
 
 GO111MODULE = on
