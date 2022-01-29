@@ -60,8 +60,7 @@ to install the Application Controller, see the install
 [guide](https://github.com/kubernetes-sigs/application/blob/master/docs/quickstart.md).
 
 ```
-kubectl apply -f
-https://raw.githubusercontent.com/kubernetes-sigs/application/c8e2959e57a02b3877b394984a288f9178977d8b/config/crd/bases/app.k8s.io_applications.yaml
+kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/application/c8e2959e57a02b3877b394984a288f9178977d8b/config/crd/bases/app.k8s.io_applications.yaml
 ```
 
 ### Install CRDs
