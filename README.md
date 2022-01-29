@@ -88,7 +88,7 @@ export STACK_VERSION=0.12.0
 helm install \
     stack bitpoke/stack \
     --namespace bitpoke-stack \
-    --version v${STACK_VERSION}
+    --version v${STACK_VERSION} \
     -f https://raw.githubusercontent.com/bitpoke/stack/v${STACK_VERSION}/presets/gke.yaml
 ```
 
@@ -102,7 +102,7 @@ export STACK_VERSION=0.12.0
 helm install \
     stack bitpoke/stack \
     --namespace bitpoke-stack \
-    --version v${STACK_VERSION}
+    --version v${STACK_VERSION} \
     -f https://raw.githubusercontent.com/bitpoke/stack/v${STACK_VERSION}/presets/minikube.yaml
 ```
 
@@ -113,7 +113,7 @@ helm install \
 export STACK_VERSION=0.12.0
 helm install \
     mysite bitpoke/wordpress-site \
-    --version v${STACK_VERSION}
+    --version v${STACK_VERSION} \
     --set 'site.domains[0]=www.example.com'
 ```
 
