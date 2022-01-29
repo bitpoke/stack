@@ -87,6 +87,7 @@ should suffice.
 export STACK_VERSION=0.12.0
 helm install \
     stack bitpoke/stack \
+    --create-namespace \    
     --namespace bitpoke-stack \
     --version v${STACK_VERSION} \
     -f https://raw.githubusercontent.com/bitpoke/stack/v${STACK_VERSION}/presets/gke.yaml
@@ -101,6 +102,7 @@ provide a working local environment.
 export STACK_VERSION=0.12.0
 helm install \
     stack bitpoke/stack \
+    --create-namespace \
     --namespace bitpoke-stack \
     --version v${STACK_VERSION} \
     -f https://raw.githubusercontent.com/bitpoke/stack/v${STACK_VERSION}/presets/minikube.yaml
