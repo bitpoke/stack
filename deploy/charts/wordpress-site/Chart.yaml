@@ -1,5 +1,5 @@
 apiVersion: v2
-name: stack
+name: wordpress-site
 description: Helm chart for deploying a WordPress site on Bitpoke Stack
 appVersion: "master"
 kubeVersion: ">= 1.16.0-0"
