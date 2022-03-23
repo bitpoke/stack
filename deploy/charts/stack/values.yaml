@@ -29,7 +29,7 @@ nginx-ingress:
     publishService:
       enabled: true
     extraArgs:
-      ingress-class: bitpoke.io/stack
+      ingress-class: bitpoke-stack
       default-ssl-certificate: bitpoke-stack/stack-ingress-default
   defaultBackend:
     enabled: true
