@@ -21,6 +21,10 @@ spec:
       - http01:
           ingress:
             class: {{ $nginxIngress.controller.ingressClassResource.name }}
+            podTemplate:
+              metadata:
+                annotations:
+                  cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
 {{ else }}
   ca:
     secretName: {{ template "stack.fullname" . }}-ca
