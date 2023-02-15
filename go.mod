@@ -11,7 +11,7 @@ require (
 	github.com/onsi/gomega v1.15.0
 	github.com/pkg/errors v0.9.1
 	github.com/presslabs/controller-util v0.3.0
-	github.com/prometheus/client_golang v1.11.0
+	github.com/prometheus/client_golang v1.11.1
 	k8s.io/apimachinery v0.21.4
 	k8s.io/client-go v0.21.4
 	sigs.k8s.io/controller-runtime v0.9.7
