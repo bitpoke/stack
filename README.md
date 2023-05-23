@@ -67,7 +67,7 @@ kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/application/c
 For convenience we collect all necessary CRDs in one place so you can simply install them.
 
 ```
-export STACK_VERSION=0.12.1
+export STACK_VERSION=0.12.4
 kubectl apply -f https://raw.githubusercontent.com/bitpoke/stack/v${STACK_VERSION}/deploy/00-crds.yaml
 ```
 
@@ -84,7 +84,7 @@ have some room for deploying a site. For testing out and playground `e1-small`
 should suffice.
 
 ```bash
-export STACK_VERSION=0.12.1
+export STACK_VERSION=0.12.4
 helm install \
     stack bitpoke/stack \
     --create-namespace \    
@@ -99,7 +99,7 @@ Ensure a larger Minikube with eg, `minikube start --cpus 4 --memory 8192` to
 provide a working local environment.
 
 ```
-export STACK_VERSION=0.12.1
+export STACK_VERSION=0.12.4
 helm install \
     stack bitpoke/stack \
     --create-namespace \
@@ -112,7 +112,7 @@ helm install \
 
 ### Deploying a site
 ```
-export STACK_VERSION=0.12.1
+export STACK_VERSION=0.12.4
 helm install \
     mysite bitpoke/wordpress-site \
     --version v${STACK_VERSION} \
