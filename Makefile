@@ -14,6 +14,9 @@ GO111MODULE = on
 GO_PROJECT := $(PROJECT_REPO)
 GO_SUBDIRS := default-backend git-webhook
 GO_STATIC_PACKAGES := $(GO_PROJECT)/git-webhook $(GO_PROJECT)/default-backend
+GO_SUPPORTED_VERSIONS = 1.17
+GOFMT_VERSION = 1.17
+GOLANGCI_LINT_VERSION = 1.42.1
 include build/makelib/golang.mk
 include build/makelib/kubebuilder-v3.mk
 
