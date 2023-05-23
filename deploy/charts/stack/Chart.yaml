@@ -21,18 +21,18 @@ annotations:
   artifacthub.io/operator: "true"
 dependencies:
   - name: mysql-operator
-    version: 0.6.2
+    version: 0.6.3
     repository: https://helm-charts.bitpoke.io
     condition: mysql-operator.enabled
 
   - name: wordpress-operator
-    version: 0.12.1
+    version: 0.12.2
     repository: https://helm-charts.bitpoke.io
     condition: wordpress-operator.enabled
 
   - name: ingress-nginx
     alias: nginx-ingress
-    version: 4.0.8
+    version: 4.2.5
     repository: https://kubernetes.github.io/ingress-nginx
     condition: nginx-ingress.enabled
 

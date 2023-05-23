@@ -1,15 +1,15 @@
 dependencies:
 - name: mysql-operator
   repository: https://helm-charts.bitpoke.io
-  version: 0.6.2
+  version: 0.6.3
 - name: wordpress-operator
   repository: https://helm-charts.bitpoke.io
-  version: 0.12.1
+  version: 0.12.2
 - name: ingress-nginx
   repository: https://kubernetes.github.io/ingress-nginx
-  version: 4.0.8
+  version: 4.2.5
 - name: git-webhook
   repository: file://../git-webhook
   version: 0.0.1+master
-digest: sha256:477c992cbc2c8ae44f319dc92005f06b2b0b892261a0e35ef1ab9ce34b5dddbc
-generated: "2021-12-28T22:12:37.930314+02:00"
+digest: sha256:23a215179bc478512043bd5e2db21a1fdd70fbca35e1e514f5260319e95e5323
+generated: "2023-05-23T13:14:51.552009+03:00"
